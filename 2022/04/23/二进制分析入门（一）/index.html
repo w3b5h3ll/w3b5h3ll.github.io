@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>二进制分析入门（一） | 尘埃落定的空间站</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="学习内容主要来自于哔哩哔哩长亭科技，讲的真好。PS：有时间还是得补一下《程序员的自我修养》">
+<meta property="og:type" content="article">
+<meta property="og:title" content="二进制分析入门（一）">
+<meta property="og:url" content="http://example.com/2022/04/23/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E6%9E%90%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%80%EF%BC%89/index.html">
+<meta property="og:site_name" content="尘埃落定的空间站">
+<meta property="og:description" content="学习内容主要来自于哔哩哔哩长亭科技，讲的真好。PS：有时间还是得补一下《程序员的自我修养》">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2022/04/23/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E6%9E%90%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%80%EF%BC%89/image-20220423120201268.png">
+<meta property="og:image" content="http://example.com/2022/04/23/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E6%9E%90%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%80%EF%BC%89/image-20220423181227518.png">
+<meta property="og:image" content="http://example.com/2022/04/23/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E6%9E%90%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%80%EF%BC%89/image-20220424165939270.png">
+<meta property="og:image" content="http://example.com/2022/04/23/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E6%9E%90%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%80%EF%BC%89/linux_process_mem-1.png">
+<meta property="og:image" content="http://example.com/2022/04/23/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E6%9E%90%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%80%EF%BC%89/linux_process_mem-2.png">
+<meta property="og:image" content="http://example.com/2022/04/23/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E6%9E%90%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%80%EF%BC%89/linux_process_mem-3.png">
+<meta property="og:image" content="http://example.com/2022/04/23/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E6%9E%90%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%80%EF%BC%89/linux_process_mem-4.png">
+<meta property="og:image" content="http://example.com/2022/04/23/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E6%9E%90%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%80%EF%BC%89/linux_process_mem-5.png">
+<meta property="og:image" content="http://example.com/2022/04/23/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E6%9E%90%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%80%EF%BC%89/image-20220424222910406.png">
+<meta property="og:image" content="http://example.com/2022/04/23/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E6%9E%90%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%80%EF%BC%89/image-20220424230146032.png">
+<meta property="og:image" content="http://example.com/2022/04/23/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E6%9E%90%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%80%EF%BC%89/image-20220424230734877.png">
+<meta property="og:image" content="http://example.com/2022/04/23/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E6%9E%90%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%80%EF%BC%89/image-20220503131640696.png">
+<meta property="og:image" content="http://example.com/2022/04/23/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E6%9E%90%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%80%EF%BC%89/image-20220503132018632.png">
+<meta property="og:image" content="http://example.com/2022/04/23/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E6%9E%90%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%80%EF%BC%89/image-20220503144817432.png">
+<meta property="article:published_time" content="2022-04-23T03:39:41.000Z">
+<meta property="article:modified_time" content="2022-11-26T13:20:02.901Z">
+<meta property="article:author" content="尘埃落定">
+<meta property="article:tag" content="二进制">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2022/04/23/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E6%9E%90%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%80%EF%BC%89/image-20220423120201268.png">
+  
+    <link rel="alternate" href="/atom.xml" title="尘埃落定的空间站" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">尘埃落定的空间站</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Stay hungry, Stay foolish.</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-二进制分析入门（一）" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/04/23/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E6%9E%90%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%80%EF%BC%89/" class="article-date">
+  <time class="dt-published" datetime="2022-04-23T03:39:41.000Z" itemprop="datePublished">2022-04-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      二进制分析入门（一）
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+	
+	  <div id="toc" class="toc-article">
+	    <strong class="toc-title">Toc</strong>
+	    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%A8%8B%E5%BA%8F%E5%9F%BA%E7%A1%80%EF%BC%9A%E7%BC%96%E8%AF%91%E3%80%81%E6%B1%87%E7%BC%96%E3%80%81%E9%93%BE%E6%8E%A5"><span class="toc-number">1.</span> <span class="toc-text">二进制程序基础：编译、汇编、链接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%A8%8B%E5%BA%8F%E5%9F%BA%E7%A1%80%EF%BC%9A%E6%9C%BA%E5%99%A8%E6%8C%87%E4%BB%A4%E5%A6%82%E4%BD%95%E6%89%A7%E8%A1%8C"><span class="toc-number">2.</span> <span class="toc-text">二进制程序基础：机器指令如何执行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%A8%8B%E5%BA%8F%E5%9F%BA%E7%A1%80%EF%BC%9A%E6%A0%88"><span class="toc-number">3.</span> <span class="toc-text">二进制程序基础：栈</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%A8%8B%E5%BA%8F%E5%9F%BA%E7%A1%80%EF%BC%9A%E8%B0%83%E7%94%A8%E7%BA%A6%E5%AE%9A"><span class="toc-number">4.</span> <span class="toc-text">二进制程序基础：调用约定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%A8%8B%E5%BA%8F%E5%9F%BA%E7%A1%80%EF%BC%9AELF%E6%96%87%E4%BB%B6"><span class="toc-number">5.</span> <span class="toc-text">二进制程序基础：ELF文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%A8%8B%E5%BA%8F%E5%9F%BA%E7%A1%80%EF%BC%9A%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5"><span class="toc-number">6.</span> <span class="toc-text">二进制程序基础：动态链接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%A8%8B%E5%BA%8F%E5%9F%BA%E7%A1%80%EF%BC%9A%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%BC%8F%E6%B4%9E"><span class="toc-number">7.</span> <span class="toc-text">二进制程序基础：二进制漏洞</span></a></li></ol>
+	  </div>
+	
+        <p>学习内容主要来自于哔哩哔哩长亭科技，讲的真好。PS：有时间还是得补一下《程序员的自我修养》</p>
+<span id="more"></span>
+
+<h2 id="二进制程序基础：编译、汇编、链接"><a href="#二进制程序基础：编译、汇编、链接" class="headerlink" title="二进制程序基础：编译、汇编、链接"></a><strong>二进制程序基础：编译、汇编、链接</strong></h2><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Af4y1U7cP?t=619.1">https://www.bilibili.com/video/BV1Af4y1U7cP?t=619.1</a></p>
+<h2 id="二进制程序基础：机器指令如何执行"><a href="#二进制程序基础：机器指令如何执行" class="headerlink" title="二进制程序基础：机器指令如何执行"></a><strong>二进制程序基础：机器指令如何执行</strong></h2><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1uf4y1U7g3?t=67.2">https://www.bilibili.com/video/BV1uf4y1U7g3?t=67.2</a></p>
+<p><img src="/2022/04/23/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E6%9E%90%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%80%EF%BC%89/image-20220423120201268.png" alt="image-20220423120201268"></p>
+<h2 id="二进制程序基础：栈"><a href="#二进制程序基础：栈" class="headerlink" title="二进制程序基础：栈"></a><strong>二进制程序基础：栈</strong></h2><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Yi4y1s7y8?t=32.8">https://www.bilibili.com/video/BV1Yi4y1s7y8?t=32.8</a></p>
+<p>栈</p>
+<ul>
+<li>先进后出数据结构</li>
+<li>局部内存管理<ul>
+<li>保存局部变量</li>
+<li>保存函数调用信息（返回地址…）</li>
+</ul>
+</li>
+<li>地址向低地址方向增长</li>
+<li>esp寄存器指向栈顶</li>
+<li>栈操作：入栈、出栈</li>
+</ul>
+<p> 常见指令：</p>
+<ul>
+<li>数据转移指令<ul>
+<li>mov</li>
+<li>push</li>
+<li>pop</li>
+<li>lea <code>load effective address</code> ：lea eax,[var]，将var存入寄存器eax，<strong>取地址</strong></li>
+</ul>
+</li>
+<li>算数与逻辑指令<ul>
+<li>add&#x2F;sub</li>
+<li>inc&#x2F;dec</li>
+<li>imul&#x2F;idiv</li>
+<li>and&#x2F;or&#x2F;xor</li>
+<li>not&#x2F;neg：not，按位取反；neg，按位取反+1</li>
+<li>shl&#x2F;shr：移位指令</li>
+</ul>
+</li>
+<li>控制转移指令<ul>
+<li>jmp：无条件跳转</li>
+<li>j[condition]：条件跳转</li>
+<li>cmp：比较</li>
+<li>call&#x2F;ret：调用&#x2F;返回</li>
+</ul>
+</li>
+</ul>
+<p>寻址模式：<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F/3210621">https://baike.baidu.com/item/%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F/3210621</a></p>
+<p>操作数寻址模式：</p>
+<ul>
+<li><strong>立即数</strong>寻址：指令地址字段为操作数本身（<strong>只能作为源操作数</strong>），例如：mov al,5</li>
+<li><strong>寄存器</strong>寻址：例如：mov ax,bx</li>
+<li>直接<strong>内存</strong>寻址：例如：mov ax,[2000h] 地址在[]中</li>
+<li>寄存器间接寻址：例如：mov eax,[ebx] 操作数的地址在寄存器中</li>
+<li>索引寻址：例如：mov ax,[di+100h] 基址寄存器内容+100h作为地址</li>
+<li>相对基址索引寻址：例如：mov dh,[bx+si+10h] 基址寄存器+变址寄存器+偏移量</li>
+<li>比列寻址变址：例如：mov eax,[ebx+4*ecx]</li>
+</ul>
+<p>Intel语法与AT&amp;T语法：</p>
+<p><img src="/2022/04/23/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E6%9E%90%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%80%EF%BC%89/image-20220423181227518.png" alt="image-20220423181227518"></p>
+<h2 id="二进制程序基础：调用约定"><a href="#二进制程序基础：调用约定" class="headerlink" title="二进制程序基础：调用约定"></a><strong>二进制程序基础：调用约定</strong></h2><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Xi4y147Sv?t=915.6">https://www.bilibili.com/video/BV1Xi4y147Sv?t=915.6</a></p>
+<p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/X86%E8%B0%83%E7%94%A8%E7%BA%A6%E5%AE%9A">https://zh.wikipedia.org/wiki/X86%E8%B0%83%E7%94%A8%E7%BA%A6%E5%AE%9A</a></p>
+<p>调用约定？</p>
+<ul>
+<li>实现层面的规范</li>
+<li>约定了函数之间如何传递参数</li>
+<li>约定了函数如何传递返回值</li>
+</ul>
+<p>常见x86调用约定</p>
+<ul>
+<li>调用者负责清理栈上的参数<ul>
+<li>cdecl</li>
+<li>optlink</li>
+</ul>
+</li>
+<li>被调用者负责清理栈上的参数<ul>
+<li>stdcall</li>
+<li>fastcall</li>
+</ul>
+</li>
+</ul>
+<p>几个重点：</p>
+<ul>
+<li>栈帧</li>
+<li>内存对齐</li>
+<li>ebp：栈基 esp：栈顶</li>
+</ul>
+<p><img src="/2022/04/23/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E6%9E%90%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%80%EF%BC%89/image-20220424165939270.png" alt="image-20220424165939270"></p>
+<p>调用约定</p>
+<ul>
+<li>x86（32位）cdecl调用约定<ul>
+<li>栈传递参数</li>
+<li>使用寄存器%eax保存返回值</li>
+</ul>
+</li>
+<li>amd64（64位置）cdecl调用约定<ul>
+<li>使用寄存器%rdi，%rsi，%rdx，%rcx，%r8，%r9来传递前6个参数</li>
+<li>第七个之后的参数通过栈来传递</li>
+</ul>
+</li>
+<li>栈帧指针%ebp（%rbp）的用途<ul>
+<li>索引栈上的参数</li>
+<li>保存栈顶位置</li>
+</ul>
+</li>
+<li><input checked disabled type="checkbox"> <font color="red">关于Linux进程内存布局，这里贴几张图：</font><ul>
+<li><a target="_blank" rel="noopener" href="https://manybutfinite.com/post/anatomy-of-a-program-in-memory/">https://manybutfinite.com/post/anatomy-of-a-program-in-memory/</a> </li>
+<li><a target="_blank" rel="noopener" href="http://wangxuemin.github.io/2015/07/30/LINUX%E7%A8%8B%E5%BA%8F(%E8%BF%9B%E7%A8%8B)%E5%9C%A8%E5%86%85%E5%AD%98%E4%B8%AD%E7%9A%84%E5%B8%83%E5%B1%80/">http://wangxuemin.github.io/2015/07/30/LINUX%E7%A8%8B%E5%BA%8F(%E8%BF%9B%E7%A8%8B)%E5%9C%A8%E5%86%85%E5%AD%98%E4%B8%AD%E7%9A%84%E5%B8%83%E5%B1%80/</a></li>
+</ul>
+</li>
+</ul>
+<p><strong>32位系统进程虚拟内存布局</strong></p>
+<p><img src="/2022/04/23/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E6%9E%90%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%80%EF%BC%89/linux_process_mem-1.png" alt="img"></p>
+<p><strong>进程切换用户空间地址空间变化</strong></p>
+<p><img src="/2022/04/23/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E6%9E%90%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%80%EF%BC%89/linux_process_mem-2.png" alt="img"></p>
+<p><strong>一个标准的进程内存空间布局</strong></p>
+<p><img src="/2022/04/23/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E6%9E%90%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%80%EF%BC%89/linux_process_mem-3.png" alt="img"></p>
+<p><strong>堆内存</strong></p>
+<p><img src="/2022/04/23/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E6%9E%90%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%80%EF%BC%89/linux_process_mem-4.png" alt="img"></p>
+<p><strong>内存映射</strong></p>
+<p><img src="/2022/04/23/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E6%9E%90%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%80%EF%BC%89/linux_process_mem-5.png" alt="img"></p>
+<h2 id="二进制程序基础：ELF文件"><a href="#二进制程序基础：ELF文件" class="headerlink" title="二进制程序基础：ELF文件"></a>二进制程序基础：ELF文件</h2><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1u54y1Q7qf?t=22.2">https://www.bilibili.com/video/BV1u54y1Q7qf?t=22.2</a></p>
+<ul>
+<li>Linux可执行文件、对象、共享库文件格式<ul>
+<li>可执行文件：必须包含Segment</li>
+<li>对象文件（*.o）：需要与其他对象链接，必须包含Section</li>
+<li>动态库（*.so）：Segment与Section都必须包含</li>
+</ul>
+</li>
+<li>内核代码：fs&#x2F;binfmt_elf.c</li>
+<li>Segment和Section<ul>
+<li><strong>相同权限的Section放入同一个Segment。.text、.rodata</strong></li>
+<li><strong>一个Segment包含许多Section，一个Section可以属于多个Segment</strong></li>
+</ul>
+</li>
+<li>Segment<ul>
+<li>内核在执行ELF文件时如何映射内存</li>
+<li>Segment主要包含加载地址、文件中的范围、内存权限、对齐方式</li>
+<li>运行时必要的信息</li>
+</ul>
+</li>
+<li>Section<ul>
+<li>用于高速链接器，ELF格式、哪里是代码、哪里是只读数据、哪里是重定位信息</li>
+<li>每个Section包含Section类型、文件中的位置、大小等信息</li>
+<li>链接器依赖Section信息将不同的对象文件的代码、数据信息合并，并修复互相引用</li>
+</ul>
+</li>
+</ul>
+<p><img src="/2022/04/23/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E6%9E%90%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%80%EF%BC%89/image-20220424222910406.png" alt="image-20220424222910406"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">ELF Header:</span><br><span class="line">giantbranch@ubuntu:~/demo$ readelf -h a.out </span><br><span class="line">ELF Header:</span><br><span class="line">  Magic:   7f 45 4c 46 02 01 01 00 00 00 00 00 00 00 00 00 </span><br><span class="line">  Class:                             ELF64</span><br><span class="line">  Data:                              2&#x27;s complement, little endian</span><br><span class="line">  Version:                           1 (current)</span><br><span class="line">  OS/ABI:                            UNIX - System V</span><br><span class="line">  ABI Version:                       0</span><br><span class="line">  Type:                              EXEC (Executable file)</span><br><span class="line">  Machine:                           Advanced Micro Devices X86-64</span><br><span class="line">  Version:                           0x1</span><br><span class="line">  Entry point address:               0x4004e0</span><br><span class="line">  Start of program headers:          64 (bytes into file)</span><br><span class="line">  Start of section headers:          6736 (bytes into file)</span><br><span class="line">  Flags:                             0x0</span><br><span class="line">  Size of this header:               64 (bytes)</span><br><span class="line">  Size of program headers:           56 (bytes)</span><br><span class="line">  Number of program headers:         9</span><br><span class="line">  Size of section headers:           64 (bytes)</span><br><span class="line">  Number of section headers:         31</span><br><span class="line">  Section header string table index: 28</span><br><span class="line">  </span><br><span class="line">program headers:</span><br><span class="line">giantbranch@ubuntu:~/demo$ readelf -l a.out </span><br><span class="line"></span><br><span class="line">Elf file type is EXEC (Executable file)</span><br><span class="line">Entry point 0x4004e0</span><br><span class="line">There are 9 program headers, starting at offset 64</span><br><span class="line"></span><br><span class="line">Program Headers:</span><br><span class="line">  Type           Offset             VirtAddr           PhysAddr</span><br><span class="line">                 FileSiz            MemSiz              Flags  Align</span><br><span class="line">  PHDR           0x0000000000000040 0x0000000000400040 0x0000000000400040</span><br><span class="line">                 0x00000000000001f8 0x00000000000001f8  R E    8</span><br><span class="line">  INTERP         0x0000000000000238 0x0000000000400238 0x0000000000400238</span><br><span class="line">                 0x000000000000001c 0x000000000000001c  R      1</span><br><span class="line">      [Requesting program interpreter: /lib64/ld-linux-x86-64.so.2]</span><br><span class="line">  LOAD           0x0000000000000000 0x0000000000400000 0x0000000000400000</span><br><span class="line">                 0x000000000000082c 0x000000000000082c  R E    200000</span><br><span class="line">  LOAD           0x0000000000000e10 0x0000000000600e10 0x0000000000600e10</span><br><span class="line">                 0x0000000000000238 0x0000000000000240  RW     200000</span><br><span class="line">  DYNAMIC        0x0000000000000e28 0x0000000000600e28 0x0000000000600e28</span><br><span class="line">                 0x00000000000001d0 0x00000000000001d0  RW     8</span><br><span class="line">  NOTE           0x0000000000000254 0x0000000000400254 0x0000000000400254</span><br><span class="line">                 0x0000000000000044 0x0000000000000044  R      4</span><br><span class="line">  GNU_EH_FRAME   0x0000000000000704 0x0000000000400704 0x0000000000400704</span><br><span class="line">                 0x0000000000000034 0x0000000000000034  R      4</span><br><span class="line">  GNU_STACK      0x0000000000000000 0x0000000000000000 0x0000000000000000</span><br><span class="line">                 0x0000000000000000 0x0000000000000000  RW     10</span><br><span class="line">  GNU_RELRO      0x0000000000000e10 0x0000000000600e10 0x0000000000600e10</span><br><span class="line">                 0x00000000000001f0 0x00000000000001f0  R      1</span><br><span class="line"></span><br><span class="line"> Section to Segment mapping:</span><br><span class="line">  Segment Sections...</span><br><span class="line">   00     </span><br><span class="line">   01     .interp </span><br><span class="line">   02     .interp .note.ABI-tag .note.gnu.build-id .gnu.hash .dynsym .dynstr .gnu.version .gnu.version_r .rela.dyn .rela.plt .init .plt .plt.got .text .fini .rodata .eh_frame_hdr .eh_frame </span><br><span class="line">   03     .init_array .fini_array .jcr .dynamic .got .got.plt .data .bss </span><br><span class="line">   04     .dynamic </span><br><span class="line">   05     .note.ABI-tag .note.gnu.build-id </span><br><span class="line">   06     .eh_frame_hdr </span><br><span class="line">   07     </span><br><span class="line">   08     .init_array .fini_array .jcr .dynamic .got </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><input disabled type="checkbox"> <font color="red"><strong>程序的装载过程</strong></font></li>
+</ul>
+<p><img src="/2022/04/23/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E6%9E%90%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%80%EF%BC%89/image-20220424230146032.png" alt="image-20220424230146032"></p>
+<p><strong>&#x2F;proc&#x2F;pid&#x2F;maps 查看内存映射</strong></p>
+<p><img src="/2022/04/23/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E6%9E%90%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%80%EF%BC%89/image-20220424230734877.png" alt="image-20220424230734877"></p>
+<h2 id="二进制程序基础：动态链接"><a href="#二进制程序基础：动态链接" class="headerlink" title="二进制程序基础：动态链接"></a>二进制程序基础：动态链接</h2><ul>
+<li>一种运行时加载和链接共享库的技术</li>
+<li>Linux常见libc</li>
+</ul>
+<p>重定位（Relocations），对于二进制中待填充项</p>
+<p>动态链接中的延迟绑定</p>
+<ul>
+<li>外部函数的地址在运行时才确认</li>
+<li>外部函数的符号首次调用时才解析</li>
+<li>外部变量不使用延迟绑定</li>
+</ul>
+<p><strong>GOT表：Global Offset Table</strong></p>
+<ul>
+<li>用于存放外部函数或外部变量地址</li>
+<li>GOT表初始项指向一段<strong>PLT</strong>（过程链接表，Procedure Linkage Table）代码</li>
+<li>当库函数被首次调用，真正的函数地址被解析并填入相应的GOT表项</li>
+<li>每个外部函数均有一段PLT代码</li>
+</ul>
+<p><img src="/2022/04/23/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E6%9E%90%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%80%EF%BC%89/image-20220503131640696.png" alt="image-20220503131640696"></p>
+<p><img src="/2022/04/23/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E6%9E%90%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%80%EF%BC%89/image-20220503132018632.png" alt="image-20220503132018632"></p>
+<p>查看GOT表项</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">giantbranch@ubuntu:~/demo_me/hello$ objdump -R a.out </span><br><span class="line"></span><br><span class="line">a.out:     file format elf64-x86-64</span><br><span class="line"></span><br><span class="line">DYNAMIC RELOCATION RECORDS</span><br><span class="line">OFFSET           TYPE              VALUE </span><br><span class="line">0000000000600ff8 R_X86_64_GLOB_DAT  __gmon_start__</span><br><span class="line">0000000000601018 R_X86_64_JUMP_SLOT  puts@GLIBC_2.2.5</span><br><span class="line">0000000000601020 R_X86_64_JUMP_SLOT  __libc_start_main@GLIBC_2.2.5</span><br></pre></td></tr></table></figure>
+
+<p><strong>GOT表劫持</strong></p>
+<p>如下，一个劫持printf函数到指定的win函数</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">win</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">puts</span>(<span class="string">&quot;You Win!&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">unsigned</span> <span class="type">int</span> addr,value;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">&quot;%x=%x&quot;</span>, &amp;addr, &amp;value);</span><br><span class="line">	*(<span class="type">unsigned</span> <span class="type">int</span> *)addr = value;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;set %x=%x\n&quot;</span>, addr,value);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2022/04/23/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E6%9E%90%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%80%EF%BC%89/image-20220503144817432.png" alt="image-20220503144817432"></p>
+<p>缓解措施</p>
+<p><strong>重定位只读</strong>，gcc -z,relro，在程序进入main()前，所有外部函数都会解析，全部设置为只读。</p>
+<p>绕过</p>
+<ul>
+<li>劫持开启该功能的动态库的GOT表，例如：libc</li>
+<li>修改返回地址</li>
+</ul>
+<h2 id="二进制程序基础：二进制漏洞"><a href="#二进制程序基础：二进制漏洞" class="headerlink" title="二进制程序基础：二进制漏洞"></a>二进制程序基础：二进制漏洞</h2><ul>
+<li><input disabled type="checkbox"> 栈溢出</li>
+<li><input disabled type="checkbox"> 堆溢出</li>
+<li><input disabled type="checkbox"> 整数溢出</li>
+<li><input disabled type="checkbox"> …</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/04/23/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E6%9E%90%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%80%EF%BC%89/" data-id="clavfvcj90000nv9ydtnebas9" data-title="二进制分析入门（一）" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BA%8C%E8%BF%9B%E5%88%B6/" rel="tag">二进制</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/11/20/che%E6%99%BA%E8%B5%A2+App%E5%88%86%E6%9E%90/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          che智赢+App分析
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/10/02/%E7%81%B0%E8%A2%8D%E6%8E%A8%E9%80%81Mark/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">灰袍推送Mark</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTB/" rel="tag">HTB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IoT/" rel="tag">IoT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pentest/" rel="tag">Pentest</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8C%E8%BF%9B%E5%88%B6/" rel="tag">二进制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%B4%BB/" rel="tag">生活</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%BB%91%E6%8A%80%E8%83%BD/" rel="tag">黑技能</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/HTB/" style="font-size: 10px;">HTB</a> <a href="/tags/IoT/" style="font-size: 10px;">IoT</a> <a href="/tags/Pentest/" style="font-size: 10px;">Pentest</a> <a href="/tags/%E4%BA%8C%E8%BF%9B%E5%88%B6/" style="font-size: 10px;">二进制</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E9%BB%91%E6%8A%80%E8%83%BD/" style="font-size: 10px;">黑技能</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">十二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">四月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">十月 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/12/15/Fuzzing%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0%E6%95%B4%E7%90%86/">Fuzzing技术文章整理</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/30/%E8%BD%A6%E8%81%94%E7%BD%91%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%80%E8%A7%88/">车联网渗透测试一览</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/28/Android%E6%8A%93%E5%8C%85%E6%80%BB%E7%BB%93/">Android抓包总结</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/27/WP-HTB-Password-Cracking/">WP-HTB-Password Cracking</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/27/MyLogs/">MyLogs</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+        <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a></br>
+All website licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></br>
+      
+      &copy; 2022 尘埃落定<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

