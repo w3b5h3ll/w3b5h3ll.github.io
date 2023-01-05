@@ -1,12 +1,22 @@
+
+
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="尘埃落定">
+  <meta name="keywords" content="">
   
-  <title>Android抓包总结 | 尘埃落定的空间站</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="抓包道路千千万，总有一种可到达。">
+    <meta name="description" content="抓包道路千千万，总有一种可到达。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android抓包总结">
 <meta property="og:url" content="http://example.com/2022/11/28/Android%E6%8A%93%E5%8C%85%E6%80%BB%E7%BB%93/index.html">
@@ -25,99 +35,243 @@
 <meta property="article:modified_time" content="2022-12-15T06:07:41.301Z">
 <meta property="article:author" content="尘埃落定">
 <meta property="article:tag" content="Android">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/2022/11/28/Android%E6%8A%93%E5%8C%85%E6%80%BB%E7%BB%93/image-20221128215932542.png">
   
-    <link rel="alternate" href="/atom.xml" title="尘埃落定的空间站" type="application/atom+xml">
   
   
-    <link rel="shortcut icon" href="/favicon.png">
-  
-  
-    
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+  <title>Android抓包总结 - 尘埃落定的空间站</title>
 
-  
-  
-<link rel="stylesheet" href="/css/style.css">
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
   
-    
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
 
   
 <meta name="generator" content="Hexo 6.3.0"></head>
 
+
 <body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">尘埃落定的空间站</a>
-      </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">Stay hungry, Stay foolish.</a>
-        </h2>
-      
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>尘埃落定的空间站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
     </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Android抓包总结"></span>
+          
+        </div>
+
         
-          <a class="main-nav-link" href="/">Home</a>
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-11-28 21:31" pubdate>
+          2022年11月28日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
         
-          <a class="main-nav-link" href="/archives">Archives</a>
+          1k 字
         
-          <a class="main-nav-link" href="/about">About</a>
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
         
-      </nav>
-      <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+          9 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
       </div>
+
+      
     </div>
   </div>
-</header>
+</div>
 
-      <div class="outer">
-        <section id="main"><article id="post-Android抓包总结" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2022/11/28/Android%E6%8A%93%E5%8C%85%E6%80%BB%E7%BB%93/" class="article-date">
-  <time class="dt-published" datetime="2022-11-28T13:31:12.000Z" itemprop="datePublished">2022-11-28</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="p-name article-title" itemprop="headline name">
-      Android抓包总结
-    </h1>
-  
+</div>
 
-      </header>
+  </header>
+
+  <main>
     
-    <div class="e-content article-entry" itemprop="articleBody">
       
-	
-	  <div id="toc" class="toc-article">
-	    <strong class="toc-title">Toc</strong>
-	    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTPS%E6%8A%93%E5%8C%85%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">HTTPS抓包简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.1.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTPS%E4%B8%AD%E9%97%B4%E4%BA%BA%E6%8A%93%E5%8C%85"><span class="toc-number">2.</span> <span class="toc-text">HTTPS中间人抓包</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Android10%E4%B8%AD%E9%97%B4%E4%BA%BA%E6%8A%93%E5%8C%85"><span class="toc-number">2.1.</span> <span class="toc-text">Android10中间人抓包</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E5%8C%96%E6%8E%A8%E9%80%81%E8%AF%81%E4%B9%A6"><span class="toc-number">2.1.1.</span> <span class="toc-text">自动化推送证书</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Charles%E8%BF%9B%E8%A1%8CVPN%E6%8A%93%E5%8C%85"><span class="toc-number">2.1.2.</span> <span class="toc-text">使用Charles进行VPN抓包</span></a></li></ol></li></ol></li></ol>
-	  </div>
-	
-        <p>抓包道路千千万，总有一种可到达。</p>
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Android抓包总结</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>抓包道路千千万，总有一种可到达。</p>
 <span id="more"></span>
 
 <h2 id="HTTPS抓包简介"><a href="#HTTPS抓包简介" class="headerlink" title="HTTPS抓包简介"></a>HTTPS抓包简介</h2><p>核心原理：抓住包在明文的一切时机</p>
@@ -134,7 +288,7 @@
 <li>……</li>
 </ul>
 <p>使用<code>Charles</code>，可以发现https的包都是无法解析的，但可以抓取http</p>
-<p><img src="/2022/11/28/Android%E6%8A%93%E5%8C%85%E6%80%BB%E7%BB%93/image-20221128215932542.png" alt="image-20221128215932542"></p>
+<p><img src="/2022/11/28/Android%E6%8A%93%E5%8C%85%E6%80%BB%E7%BB%93/image-20221128215932542.png" srcset="/img/loading.gif" lazyload alt="image-20221128215932542"></p>
 <p>BurpSuite同理，使用比较方便</p>
 <p>HTTP缺陷：</p>
 <ul>
@@ -149,191 +303,386 @@
 <ul>
 <li>验证过程属于浏览器的动作，所以需要在客户端安装代理工具的证书</li>
 </ul>
-<p><img src="/2022/11/28/Android%E6%8A%93%E5%8C%85%E6%80%BB%E7%BB%93/HTTPS%E9%80%9A%E4%BF%A1%E6%B5%81%E7%A8%8B%E8%AF%A6%E8%A7%A3.png" alt="HTTPS通信流程详解"></p>
+<p><img src="/2022/11/28/Android%E6%8A%93%E5%8C%85%E6%80%BB%E7%BB%93/HTTPS%E9%80%9A%E4%BF%A1%E6%B5%81%E7%A8%8B%E8%AF%A6%E8%A7%A3.png" srcset="/img/loading.gif" lazyload alt="HTTPS通信流程详解"></p>
 <p>应用层HTTPS抓包原理</p>
-<p><img src="/2022/11/28/Android%E6%8A%93%E5%8C%85%E6%80%BB%E7%BB%93/t01c2d220dfd81d4d18.png" alt="img"></p>
+<p><img src="/2022/11/28/Android%E6%8A%93%E5%8C%85%E6%80%BB%E7%BB%93/t01c2d220dfd81d4d18.png" srcset="/img/loading.gif" lazyload alt="img"></p>
 <h3 id="Android10中间人抓包"><a href="#Android10中间人抓包" class="headerlink" title="Android10中间人抓包"></a>Android10中间人抓包</h3><blockquote>
 <p>在<a target="_blank" rel="noopener" href="https://developer.android.com/training/articles/security-config?hl=zh-cn#CustomTrust">谷歌官网中</a>，了解到在<code>Android6.0</code>之前，应用会默认信任用户添加的CA存储区，7.0以及之后则是默认信任系统预装的CA。所以才会出现有时候即使安装了证书，依然无法抓取https流量的问题。</p>
 </blockquote>
-<p><img src="/2022/11/28/Android%E6%8A%93%E5%8C%85%E6%80%BB%E7%BB%93/image-20221203150937497.png" alt="image-20221203150937497"></p>
+<p><img src="/2022/11/28/Android%E6%8A%93%E5%8C%85%E6%80%BB%E7%BB%93/image-20221203150937497.png" srcset="/img/loading.gif" lazyload alt="image-20221203150937497"></p>
 <p><strong>将证书安装至系统CA（此处以burp证书来说明）</strong></p>
 <ol>
 <li>证书格式转换</li>
 </ol>
 <p>burp导出后证书为<code>der</code>格式，将其转换为<code>pem</code>格式</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl x509 -inform DER -<span class="keyword">in</span> xxx.der -out xxx.pem</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">openssl x509 -inform DER -<span class="hljs-keyword">in</span> xxx.der -out xxx.pem<br></code></pre></td></tr></table></figure>
 
 <ol start="2">
 <li>计算hash值并重命名</li>
 </ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">openssl x509 -inform PEM -subject_hash_old -<span class="keyword">in</span> xxx.pem</span><br><span class="line"><span class="built_in">mv</span> xxx.pem 9a5ba575.0</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">openssl x509 -inform PEM -subject_hash_old -<span class="hljs-keyword">in</span> xxx.pem<br><span class="hljs-built_in">mv</span> xxx.pem 9a5ba575.0<br></code></pre></td></tr></table></figure>
 
-<p><img src="/2022/11/28/Android%E6%8A%93%E5%8C%85%E6%80%BB%E7%BB%93/image-20221203164113972.png" alt="image-20221203164113972"></p>
+<p><img src="/2022/11/28/Android%E6%8A%93%E5%8C%85%E6%80%BB%E7%BB%93/image-20221203164113972.png" srcset="/img/loading.gif" lazyload alt="image-20221203164113972"></p>
 <ol start="3">
 <li>推送至系统CA存储区域</li>
 </ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">adb push 9a5ba575.0 /sdcard/</span><br><span class="line">adb shell</span><br><span class="line">su</span><br><span class="line"><span class="built_in">mv</span> /sdcard/9a5ba575.0 /system/etc/security/cacerts</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">adb push 9a5ba575.0 /sdcard/<br>adb shell<br>su<br><span class="hljs-built_in">mv</span> /sdcard/9a5ba575.0 /system/etc/security/cacerts<br></code></pre></td></tr></table></figure>
 
 <h4 id="自动化推送证书"><a href="#自动化推送证书" class="headerlink" title="自动化推送证书"></a>自动化推送证书</h4><p>使用Magisk模块：<code>Move Certificates</code>，每次重启手机即可</p>
 <p>官方的release可能有点问题，使用：<a target="_blank" rel="noopener" href="https://github.com/Magisk-Modules-Repo/movecert/issues/12">https://github.com/Magisk-Modules-Repo/movecert/issues/12</a></p>
-<p><img src="/2022/11/28/Android%E6%8A%93%E5%8C%85%E6%80%BB%E7%BB%93/image-20221203174122097.png" alt="image-20221203174122097"></p>
+<p><img src="/2022/11/28/Android%E6%8A%93%E5%8C%85%E6%80%BB%E7%BB%93/image-20221203174122097.png" srcset="/img/loading.gif" lazyload alt="image-20221203174122097"></p>
 <h4 id="使用Charles进行VPN抓包"><a href="#使用Charles进行VPN抓包" class="headerlink" title="使用Charles进行VPN抓包"></a>使用Charles进行VPN抓包</h4><p>参考学习：<a target="_blank" rel="noopener" href="https://www.apicloud.com/blogDetails/9198">https://www.apicloud.com/blogDetails/9198</a></p>
 <p>手机端安装<code>Postern</code>，一款Android的全局代理工具，使用此种抓包主要是绕过app的<code>NO_PROXY</code>模式。原理为：<strong>使用VPN抓包的原理是，先将手机请求导到VPN，再对VPN的网络进行Charles的代理，绕过了对App的代理。</strong></p>
 <p>手机端导入证书</p>
-<p><img src="/2022/11/28/Android%E6%8A%93%E5%8C%85%E6%80%BB%E7%BB%93/image-20221203192502485.png" alt="image-20221203192502485"></p>
+<p><img src="/2022/11/28/Android%E6%8A%93%E5%8C%85%E6%80%BB%E7%BB%93/image-20221203192502485.png" srcset="/img/loading.gif" lazyload alt="image-20221203192502485"></p>
 <p>在手机上浏览器访问<a target="_blank" rel="noopener" href="http://charlesproxy.com/getssl%EF%BC%8C%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85%E8%AF%81%E4%B9%A6%EF%BC%88%E9%9C%80%E8%A6%81%E5%88%B0%E8%AE%BE%E7%BD%AE%E9%87%8C%E9%9D%A2%E5%8E%BB%E5%AE%89%E8%A3%85%EF%BC%89">http://charlesproxy.com/getssl，下载安装证书（需要到设置里面去安装）</a></p>
-<p><img src="/2022/11/28/Android%E6%8A%93%E5%8C%85%E6%80%BB%E7%BB%93/image-20221203192630183.png" alt="image-20221203192630183"></p>
+<p><img src="/2022/11/28/Android%E6%8A%93%E5%8C%85%E6%80%BB%E7%BB%93/image-20221203192630183.png" srcset="/img/loading.gif" lazyload alt="image-20221203192630183"></p>
 
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Android/">#Android</a>
       
     </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2022/11/28/Android%E6%8A%93%E5%8C%85%E6%80%BB%E7%BB%93/" data-id="clc8mkzpd0003js9yfjjb8lnq" data-title="Android抓包总结" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/" rel="tag">Android</a></li></ul>
+  
+</div>
 
-    </footer>
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Android抓包总结</div>
+      <div>http://example.com/2022/11/28/Android抓包总结/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>尘埃落定</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年11月28日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
   </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2022/11/30/%E8%BD%A6%E8%81%94%E7%BD%91%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%80%E8%A7%88/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">前一篇</strong>
-      <div class="article-nav-title">
-        
-          车联网渗透测试一览
-        
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/11/30/%E8%BD%A6%E8%81%94%E7%BD%91%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%80%E8%A7%88/" title="车联网渗透测试一览">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">车联网渗透测试一览</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/11/27/WP-HTB-Password-Cracking/" title="WP-HTB-Password Cracking">
+                        <span class="hidden-mobile">WP-HTB-Password Cracking</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
       </div>
-    </a>
-  
-  
-    <a href="/2022/11/27/WP-HTB-Password-Cracking/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">后一篇</strong>
-      <div class="article-nav-title">WP-HTB-Password Cracking</div>
-    </a>
-  
-</nav>
+    </div>
 
-  
-</article>
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
 
 
 
-</section>
-        
-          <aside id="sidebar">
-  
-    
+  </aside>
 
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">标签</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fuzz/" rel="tag">Fuzz</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTB/" rel="tag">HTB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IoT/" rel="tag">IoT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Pentest/" rel="tag">Pentest</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BA%8C%E8%BF%9B%E5%88%B6/" rel="tag">二进制</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E6%B4%BB/" rel="tag">生活</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%BB%91%E6%8A%80%E8%83%BD/" rel="tag">黑技能</a></li></ul>
+
     </div>
   </div>
+</div>
+
+
+
 
 
   
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">标签云</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Fuzz/" style="font-size: 10px;">Fuzz</a> <a href="/tags/HTB/" style="font-size: 10px;">HTB</a> <a href="/tags/IoT/" style="font-size: 10px;">IoT</a> <a href="/tags/Pentest/" style="font-size: 10px;">Pentest</a> <a href="/tags/%E4%BA%8C%E8%BF%9B%E5%88%B6/" style="font-size: 10px;">二进制</a> <a href="/tags/%E7%94%9F%E6%B4%BB/" style="font-size: 10px;">生活</a> <a href="/tags/%E9%BB%91%E6%8A%80%E8%83%BD/" style="font-size: 10px;">黑技能</a>
-    </div>
-  </div>
 
-  
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">归档</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/12/">十二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/11/">十一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">四月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">十月 2021</a></li></ul>
-    </div>
-  </div>
-
-
-  
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">最新文章</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2022/12/22/ROP%E4%B9%8Bret2csu/">ROP之ret2csu</a>
-          </li>
-        
-          <li>
-            <a href="/2022/12/19/ArmPwn%E5%88%9D%E7%BA%A7/">ArmPwn初级</a>
-          </li>
-        
-          <li>
-            <a href="/2022/12/15/Fuzzing%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0%E6%95%B4%E7%90%86/">Fuzzing技术文章整理</a>
-          </li>
-        
-          <li>
-            <a href="/2022/11/30/%E8%BD%A6%E8%81%94%E7%BD%91%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B8%80%E8%A7%88/">车联网渗透测试一览</a>
-          </li>
-        
-          <li>
-            <a href="/2022/11/28/Android%E6%8A%93%E5%8C%85%E6%80%BB%E7%BB%93/">Android抓包总结</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
 
-  
-</aside>
-        
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-        <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a></br>
-All website licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></br>
-      
-      &copy; 2023 尘埃落定<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
     </div>
   </div>
-</footer>
+</div>
 
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-    <a href="/about" class="mobile-nav-link">About</a>
-  
-</nav>
     
 
+    
+  </main>
 
-<script src="/js/jquery-3.4.1.min.js"></script>
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
 
 
 
   
-<script src="/fancybox/jquery.fancybox.min.js"></script>
+    <script  src="/js/img-lazyload.js" ></script>
+  
 
 
 
 
-<script src="/js/script.js"></script>
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
 
 
 
 
 
-  </div>
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
 </body>
 </html>
