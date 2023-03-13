@@ -1,104 +1,162 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-  <head><meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<html lang=zh>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
+
+  <head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="最近浏览了灰袍推送的tg频道，记录一些有意思的言论。灰袍推送中有些关于方法论、工程化、区块链的东西很有让人眼前一亮的感觉在此记录一下，方便以后查看。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="灰袍推送Mark">
+<meta property="og:url" content="http://example.com/2021/10/02/%E7%81%B0%E8%A2%8D%E6%8E%A8%E9%80%81Mark/index.html">
+<meta property="og:site_name" content="尘埃落定的空间站">
+<meta property="og:description" content="最近浏览了灰袍推送的tg频道，记录一些有意思的言论。灰袍推送中有些关于方法论、工程化、区块链的东西很有让人眼前一亮的感觉在此记录一下，方便以后查看。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2021/10/02/%E7%81%B0%E8%A2%8D%E6%8E%A8%E9%80%81Mark/dns.jpg">
+<meta property="article:published_time" content="2021-10-02T12:51:59.000Z">
+<meta property="article:modified_time" content="2023-03-13T17:29:42.564Z">
+<meta property="article:author" content="尘埃落定">
+<meta property="article:tag" content="黑客工程化">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2021/10/02/%E7%81%B0%E8%A2%8D%E6%8E%A8%E9%80%81Mark/dns.jpg">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>灰袍推送Mark</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="尘埃落定的空间站" type="application/atom+xml">
+</head>
 
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
+    <body class="max-width mx-auto px3 ltr">
+      
+        <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2023/02/28/WP-TryHackMe-Road/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/10/02/%E7%81%B0%E8%A2%8D%E6%8E%A8%E9%80%81Mark/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/10/02/%E7%81%B0%E8%A2%8D%E6%8E%A8%E9%80%81Mark/&text=灰袍推送Mark"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/10/02/%E7%81%B0%E8%A2%8D%E6%8E%A8%E9%80%81Mark/&title=灰袍推送Mark"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/10/02/%E7%81%B0%E8%A2%8D%E6%8E%A8%E9%80%81Mark/&is_video=false&description=灰袍推送Mark"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=灰袍推送Mark&body=Check out this article: http://example.com/2021/10/02/%E7%81%B0%E8%A2%8D%E6%8E%A8%E9%80%81Mark/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/10/02/%E7%81%B0%E8%A2%8D%E6%8E%A8%E9%80%81Mark/&title=灰袍推送Mark"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/10/02/%E7%81%B0%E8%A2%8D%E6%8E%A8%E9%80%81Mark/&title=灰袍推送Mark"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/10/02/%E7%81%B0%E8%A2%8D%E6%8E%A8%E9%80%81Mark/&title=灰袍推送Mark"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/10/02/%E7%81%B0%E8%A2%8D%E6%8E%A8%E9%80%81Mark/&title=灰袍推送Mark"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/10/02/%E7%81%B0%E8%A2%8D%E6%8E%A8%E9%80%81Mark/&name=灰袍推送Mark&description=&lt;p&gt;最近浏览了灰袍推送的tg频道，记录一些有意思的言论。灰袍推送中有些关于&lt;strong&gt;方法论&lt;/strong&gt;、&lt;strong&gt;工程化&lt;/strong&gt;、&lt;strong&gt;区块链&lt;/strong&gt;的东西很有让人眼前一亮的感觉在此记录一下，方便以后查看。&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/10/02/%E7%81%B0%E8%A2%8D%E6%8E%A8%E9%80%81Mark/&t=灰袍推送Mark"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
 
-<meta name="theme-color" content="#f8f5ec" />
-<meta name="msapplication-navbutton-color" content="#f8f5ec">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
-
-<meta name="description" content="灰袍推送Mark"/><meta name="keywords" content="黑技能, 尘埃落定的空间站" /><link rel="alternate" href="/atom.xml" title="尘埃落定的空间站" type="application/atom+xml"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.1" />
-<link rel="canonical" href="http://example.com/2021/10/02/灰袍推送Mark/"/>
-
-<link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css" />
-<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.11.1" />
-
-<script>
-  window.config = {"leancloud":{"app_id":null,"app_key":null},"toc":true,"fancybox":true,"pjax":"","latex":false};
-</script>
-
-    <title>灰袍推送Mark - 尘埃落定的空间站</title>
-  <meta name="generator" content="Hexo 6.3.0"></head>
-
-  <body><div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="/." class="logo">尘埃落定的空间站</a>
-  </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-</div>
-
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list"><a href="/">
-        <li class="mobile-menu-item">首页
-          </li>
-      </a><a href="/archives/">
-        <li class="mobile-menu-item">归档
-          </li>
-      </a><a href="/tags/">
-        <li class="mobile-menu-item">标签
-          </li>
-      </a><a href="/about/">
-        <li class="mobile-menu-item">关于
-          </li>
-      </a></ul>
-</nav>
-<div class="container" id="mobile-panel">
-      <header id="header" class="header"><div class="logo-wrapper">
-  <a href="/." class="logo">尘埃落定的空间站</a>
-</div>
-
-<nav class="site-navbar"><ul id="menu" class="menu"><li class="menu-item">
-          <a class="menu-item-link" href="/">
-            首页
-            </a>
-        </li>
-      <li class="menu-item">
-          <a class="menu-item-link" href="/archives/">
-            归档
-            </a>
-        </li>
-      <li class="menu-item">
-          <a class="menu-item-link" href="/tags/">
-            标签
-            </a>
-        </li>
-      <li class="menu-item">
-          <a class="menu-item-link" href="/about/">
-            关于
-            </a>
-        </li>
-      </ul></nav>
-</header>
-
-      <main id="main" class="main">
-        <div class="content-wrapper">
-          <div id="content" class="content"><article class="post">
-    <header class="post-header">
-      <h1 class="post-title">灰袍推送Mark
-        </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2021-10-02
-        </span></div>
-    </header>
-
-    <div class="post-toc" id="post-toc">
-    <h2 class="post-toc-title">文章目录</h2>
-    <div class="post-toc-content">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9D%A5%E8%87%AA-%E7%81%B0%E8%A2%8D%E6%8E%A8%E9%80%81"><span class="toc-text">来自@灰袍推送</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9D%A5%E8%87%AA-Ton-amp-OKEx%E4%B8%AD%E6%96%87%E9%A2%91%E9%81%93"><span class="toc-text">来自@Ton&amp;OKEx中文频道</span></a></li></ol>
     </div>
-  </div><div class="post-content"><p>最近浏览了灰袍推送的tg频道，记录一些有意思的言论。灰袍推送中有些关于<strong>方法论</strong>、<strong>工程化</strong>、<strong>区块链</strong>的东西很有让人眼前一亮的感觉在此记录一下，方便以后查看。</p>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9D%A5%E8%87%AA-%E7%81%B0%E8%A2%8D%E6%8E%A8%E9%80%81"><span class="toc-number">1.</span> <span class="toc-text">来自@灰袍推送</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9D%A5%E8%87%AA-Ton-amp-OKEx%E4%B8%AD%E6%96%87%E9%A2%91%E9%81%93"><span class="toc-number">2.</span> <span class="toc-text">来自@Ton&amp;OKEx中文频道</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+          
+            <div class="content index py4">
+              
+                    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        灰袍推送Mark
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">尘埃落定</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-10-02T12:51:59.000Z" itemprop="datePublished">2021-10-02</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/%E9%BB%91%E5%AE%A2%E5%B7%A5%E7%A8%8B%E5%8C%96/" rel="tag">黑客工程化</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>最近浏览了灰袍推送的tg频道，记录一些有意思的言论。灰袍推送中有些关于<strong>方法论</strong>、<strong>工程化</strong>、<strong>区块链</strong>的东西很有让人眼前一亮的感觉在此记录一下，方便以后查看。</p>
 <span id="more"></span>
 
 <h2 id="来自-灰袍推送"><a href="#来自-灰袍推送" class="headerlink" title="来自@灰袍推送"></a>来自@灰袍推送</h2><ol>
@@ -192,58 +250,143 @@
 <li>Ton区块链继承自Telegram，旨在为数十亿用户提供服务。它拥有超快的交易速度、低廉的费用和易于使用的原生应用程序，其中一些应用程序可以直接在Telegram中使用，如 @wallet 或 @cryptobot 。</li>
 </ol>
 
-      </div>
-      <div class="post-copyright">
-    <p class="copyright-item">
-      <span>原文作者: </span>
-      <a href="http://example.com">尘埃落定</a>
-    </p>
-    <p class="copyright-item">
-      <span>原文链接: </span>
-      <a href="http://example.com/2021/10/02/%E7%81%B0%E8%A2%8D%E6%8E%A8%E9%80%81Mark/">http://example.com/2021/10/02/%E7%81%B0%E8%A2%8D%E6%8E%A8%E9%80%81Mark/</a>
-    </p>
-    <p class="copyright-item">
-      <span>许可协议: </span><a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>
-    </p>
   </div>
-      <footer class="post-footer">
-        <div class="post-tags">
-            <a href="/tags/%E9%BB%91%E6%8A%80%E8%83%BD/">黑技能</a>
-            </div>
+</article>
+
+
+
+                      
+                        <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li>
         
-        <nav class="post-nav"><a class="prev" href="/2022/04/23/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E6%9E%90%E5%85%A5%E9%97%A8%EF%BC%88%E4%B8%80%EF%BC%89/">
-        <i class="iconfont icon-left"></i>
-        <span class="prev-text nav-default">二进制分析入门（一）</span>
-        <span class="prev-text nav-mobile">上一篇</span>
-      </a>
-    </nav></footer>
-    </article></div><div class="comments" id="comments"></div></div>
-      </main>
+      </ul>
+    </div>
 
-      <footer id="footer" class="footer"><div class="copyright">
-  <span class="power-by">
-    由 <a class="hexo-link" target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> 强力驱动
-  </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-    主题 - 
-    <a class="theme-link" target="_blank" rel="noopener" href="https://github.com/ahonn/hexo-theme-even">Even</a>
-  </span>
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9D%A5%E8%87%AA-%E7%81%B0%E8%A2%8D%E6%8E%A8%E9%80%81"><span class="toc-number">1.</span> <span class="toc-text">来自@灰袍推送</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9D%A5%E8%87%AA-Ton-amp-OKEx%E4%B8%AD%E6%96%87%E9%A2%91%E9%81%93"><span class="toc-number">2.</span> <span class="toc-text">来自@Ton&amp;OKEx中文频道</span></a></li></ol>
+    </div>
 
-  <span class="copyright-year">&copy;2021 - 2023<span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">尘埃落定</span>
-  </span>
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/10/02/%E7%81%B0%E8%A2%8D%E6%8E%A8%E9%80%81Mark/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/10/02/%E7%81%B0%E8%A2%8D%E6%8E%A8%E9%80%81Mark/&text=灰袍推送Mark"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/10/02/%E7%81%B0%E8%A2%8D%E6%8E%A8%E9%80%81Mark/&title=灰袍推送Mark"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/10/02/%E7%81%B0%E8%A2%8D%E6%8E%A8%E9%80%81Mark/&is_video=false&description=灰袍推送Mark"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=灰袍推送Mark&body=Check out this article: http://example.com/2021/10/02/%E7%81%B0%E8%A2%8D%E6%8E%A8%E9%80%81Mark/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/10/02/%E7%81%B0%E8%A2%8D%E6%8E%A8%E9%80%81Mark/&title=灰袍推送Mark"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/10/02/%E7%81%B0%E8%A2%8D%E6%8E%A8%E9%80%81Mark/&title=灰袍推送Mark"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/10/02/%E7%81%B0%E8%A2%8D%E6%8E%A8%E9%80%81Mark/&title=灰袍推送Mark"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/10/02/%E7%81%B0%E8%A2%8D%E6%8E%A8%E9%80%81Mark/&title=灰袍推送Mark"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/10/02/%E7%81%B0%E8%A2%8D%E6%8E%A8%E9%80%81Mark/&name=灰袍推送Mark&description=&lt;p&gt;最近浏览了灰袍推送的tg频道，记录一些有意思的言论。灰袍推送中有些关于&lt;strong&gt;方法论&lt;/strong&gt;、&lt;strong&gt;工程化&lt;/strong&gt;、&lt;strong&gt;区块链&lt;/strong&gt;的东西很有让人眼前一亮的感觉在此记录一下，方便以后查看。&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/10/02/%E7%81%B0%E8%A2%8D%E6%8E%A8%E9%80%81Mark/&t=灰袍推送Mark"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
 </div>
+
+                          
+                            <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2021-2023
+    尘埃落定
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/probberechts">项目</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
 </footer>
 
-      <div class="back-to-top" id="back-to-top">
-        <i class="iconfont icon-up"></i>
-      </div>
-    </div><script type="text/javascript" src="/lib/jquery/jquery.min.js"></script>
-  <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
-  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
-  <script type="text/javascript" src="/js/src/even.js?v=2.11.1"></script>
-</body>
-</html>
+            </div>
+            <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+              <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+    </body>
+
+    </html>
