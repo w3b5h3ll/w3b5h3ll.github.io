@@ -14,32 +14,32 @@ timezone:
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: Chirpy # the main title
+title: 空间站 # the main title
 
-tagline: A text-focused Jekyll theme # it will display as the subtitle
+tagline: 无限进步 # it will display as the subtitle
 
 description: >- # used by seo meta and the atom feed
   A minimal, responsive and feature-rich Jekyll theme for technical writing.
 
 # Fill in the protocol & hostname for your site.
 # E.g. 'https://username.github.io', note that it does not end with a '/'.
-url: ""
+url: "https://w3b5h3ll.github.io"
 
 github:
-  username: github_username # change to your GitHub username
+  username: w3b5h3ll # change to your GitHub username
 
 twitter:
-  username: twitter_username # change to your Twitter username
+  username: w3b5h3ll # change to your Twitter username
 
 social:
   # Change to your full name.
   # It will be displayed as the default author of the posts and the copyright owner in the Footer
-  name: your_full_name
-  email: example@domain.com # change to your email address
+  name: 尘埃落定
+  # email: example@domain.com # change to your email address
   links:
     # The first element serves as the copyright owner's link
-    - https://twitter.com/username # change to your Twitter homepage
-    - https://github.com/username # change to your GitHub homepage
+    - https://twitter.com/w3b5h3ll # change to your Twitter homepage
+    - https://github.com/w3b5h3ll # change to your GitHub homepage
     # Uncomment below to add more social links
     # - https://www.facebook.com/username
     # - https://www.linkedin.com/in/username
@@ -98,7 +98,7 @@ theme_mode: # [light | dark]
 cdn:
 
 # the avatar on sidebar, support local or CORS resources
-avatar:
+avatar: 'https://images.unsplash.com/photo-1516663713099-37eb6d60c825?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDEyfHxoZWF2ZW58ZW58MHx8MHx8fDA%3D'
 
 # The URL of the site-wide social preview image used in SEO `og:image` meta tag.
 # It can be overridden by a customized `page.image` in front matter.
@@ -136,6 +136,10 @@ assets:
     # specify the Jekyll environment, empty means both
     # only works if `assets.self_host.enabled` is 'true'
     env: # [development | production]
+
+
+future: true
+
 
 pwa:
   enabled: true # The option for PWA feature (installable)
@@ -217,10 +221,11 @@ exclude:
   - "package*.json"
 
 jekyll-archives:
-  enabled: [categories, tags]
+  # enabled: [categories, tags]
+  enabled: [tags]
   layouts:
-    category: category
+    # category: category
     tag: tag
   permalinks:
     tag: /tags/:name/
-    category: /categories/:name/
+    # category: /categories/:name/
