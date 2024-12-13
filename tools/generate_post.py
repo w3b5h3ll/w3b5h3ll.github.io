@@ -20,17 +20,23 @@ tags:
 
 """
 
-    # 创建同名文件夹
-    folder_name = f"{date_str}-{title_slug}"
-    os.makedirs(folder_name, exist_ok=True)
+    # 生成文件的路径：保存在 _posts 目录下
+    posts_dir = "./../_posts"
+    os.makedirs(posts_dir, exist_ok=True)
 
-    # 保存文件到主目录中
-    with open(filename, "w") as f:
+    # 保存文件到 _posts 目录
+    post_path = os.path.join(posts_dir, filename)
+    with open(post_path, "w") as f:
         f.write(frontmatter)
 
-    print(f"Markdown 文件已生成: {filename}")
-    print(f"同名文件夹已生成: {folder_name}")
-    return filename
+    # 创建同名文件夹：保存图片的文件夹在 ../assets/images 目录下
+    folder_name = f"{date_str}-{title_slug}"
+    images_dir = "./../assets/images"
+    os.makedirs(os.path.join(images_dir, folder_name), exist_ok=True)
+
+    print(f"Markdown 文件已生成: {post_path}")
+    print(f"同名文件夹已生成: {os.path.join(images_dir, folder_name)}")
+    return post_path
 
 # 示例使用
 title = input("请输入文章标题: ")
