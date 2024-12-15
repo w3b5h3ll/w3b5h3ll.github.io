@@ -14,7 +14,7 @@
     "editor.defaultFormatter": "Shopify.theme-check-vscode"
   },
   "[shellscript]": {
-    "editor.defaultFormatter": "mkhl.shfmt"
+    "editor.defaultFormatter": "foxundermoon.shell-format"
   },
   // Disable vscode built-in stylelint
   "css.validate": false,
