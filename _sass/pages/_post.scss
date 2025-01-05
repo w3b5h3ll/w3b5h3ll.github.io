@@ -201,7 +201,8 @@ header {
   }
 
   p {
-    font-size: 1.1rem;
+    // font-size: 1.1rem;
+    font-size: 0.875rem;
     line-height: 1.5rem;
     margin-top: 0.3rem;
     white-space: normal;
@@ -266,7 +267,7 @@ header {
 
   ul {
     list-style: none;
-    font-size: 0.85rem;
+    font-size: 0.875rem;
     line-height: 1.25;
     padding-left: 0;
 
@@ -386,7 +387,7 @@ header {
   }
 
   .label {
-    font-size: 1rem;
+    font-size: 0.875rem;
     font-family: v.$font-family-heading;
   }
 
@@ -453,7 +454,7 @@ header {
   p {
     @extend %text-ellipsis;
 
-    font-size: 0.9rem;
+    font-size: 0.875rem;
     margin-bottom: 0.5rem;
     white-space: break-spaces;
     display: -webkit-box;
