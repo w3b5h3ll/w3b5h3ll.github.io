@@ -3,10 +3,14 @@
 @use '../abstracts/mixins' as mx;
 @use '../abstracts/placeholders';
 
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&family=Noto+Sans+SC&display=swap');
+
 .highlighter-rouge {
   color: var(--highlighter-rouge-color);
   margin-top: 0.5rem;
   margin-bottom: 1.2em; /* Override BS Inline-code style */
+  // font-family: 'Fira Code', 'Noto Sans SC', sans-serif !default;
 }
 
 .highlight {
@@ -15,6 +19,7 @@
 
   overflow: auto;
   padding-bottom: 0.75rem;
+  // font-family: 'Fira Code', 'Noto Sans SC', sans-serif !default;
 
   @at-root figure#{&} {
     @extend %code-snippet-bg;
@@ -23,6 +28,7 @@
   pre {
     margin-bottom: 0;
     font-size: v.$code-font-size;
+    font-family: 'Fira Code', serif, 'Noto Sans SC', sans-serif;
     line-height: 1.4rem;
     word-wrap: normal; /* Fixed Safari overflow-x */
   }
@@ -62,9 +68,11 @@ code {
   -ms-hyphens: none;
   hyphens: none;
   color: var(--code-color);
+  // font-family: 'Fira Code', serif, 'Noto Sans SC', sans-serif !default;
 
   &.highlighter-rouge {
     font-size: v.$code-font-size;
+    font-family: 'Fira Code', serif, 'Noto Sans SC', sans-serif;
     padding: 3px 5px;
     word-break: break-word;
     border-radius: v.$radius-sm;

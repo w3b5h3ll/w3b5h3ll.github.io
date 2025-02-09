@@ -25,10 +25,11 @@ $code-dot-gap: 0.5rem !default;
 $code-icon-width: 1.75rem !default;
 
 /* fonts */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+// @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+// @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&family=Noto+Sans+SC&display=swap');
 
 // $font-family-base: 'Noto Sans', serif, 'Noto Sans SC', serif, 'Source Sans Pro', 'Microsoft Yahei', sans-serif !default;
 // $font-family-heading: 'Noto Sans', serif, 'Noto Sans SC', serif, Lato, 'Microsoft Yahei', sans-serif !default;
-$font-family-base: 'Noto Sans', sans-serif, 'Noto Sans SC', sans-serif !default;
-$font-family-heading: 'Noto Sans', sans-serif, 'Noto Sans SC', sans-serif !default;
+$font-family-base: 'Roboto', 'Noto Sans SC', sans-serif !default;
+$font-family-heading: 'Roboto', 'Noto Sans SC', sans-serif !default;
