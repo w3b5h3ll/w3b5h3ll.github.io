@@ -72,7 +72,8 @@ code {
 
   &.highlighter-rouge {
     font-size: v.$code-font-size;
-    font-family: 'Fira Code', serif, 'Noto Sans SC', sans-serif;
+    // font-family: 'Fira Code', 'Noto Sans SC', sans-serif;
+    font-family: 'Fira Code';
     padding: 3px 5px;
     word-break: break-word;
     border-radius: v.$radius-sm;
