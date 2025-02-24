@@ -36,7 +36,7 @@ pwa:
 # Navigation links
 nav:
   home: '/'
-  blog: '/blog/index.html'
+  # blog: '/blog/index.html'
   archives: '/archives.html'
   tags: '/tags.html'
   about:   
