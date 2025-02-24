@@ -1,29 +1,13 @@
-# Bundler cache
-.bundle
-vendor
-Gemfile.lock
+.DS_Store
+*/.DS_Store
 
-# Jekyll cache
-.jekyll-cache
-.jekyll-metadata
-_site
-
-# RubyGems
-*.gem
-
-# NPM dependencies
 node_modules
 package-lock.json
+Gemfile.lock
+.jekyll-cache
 
-# IDE configurations
-.idea
-.vscode/*
-!.vscode/settings.json
-!.vscode/extensions.json
-!.vscode/tasks.json
+_site
 
-# Misc
-_sass/vendors
-assets/js/dist
-tools
+*.gem
 
+dist

@@ -1,0 +1,16 @@
+{% if page.comments.artalk or site.comments.artalk and layout.type == "post" %}
+<script src="https://cdn.jsdelivr.net/npm/artalk/dist/Artalk.min.js"></script>
+<script>
+    $(document).ready(function () {
+        if ($("#artalk").length > 0) {
+            Artalk.init({
+                el: '#artalk',
+                pageKey: '{{ page.url }}',
+                server: '{{ site.comments.artalk_url }}',
+                site: '{{ site.comments.artalk_name }}',
+                uaBadge: '{% if site.comments.artalk_uaBadge %}{{ site.comments.artalk_uaBadge }}{% else %}true{% endif %}'
+            });
+        }
+    });
+</script>
+{% endif %}

@@ -1,232 +1,290 @@
-# The Site Configuration
+# jekyll-theme-h2o-ac
+version: 1.5.1
 
-# Import the theme
-theme: jekyll-theme-chirpy
+# Site settings 配置站点
+title: '空间站'
+description: '个人的一个技术博客站点，主要用于记录个人在学习过程中遇到的技术问题及解决方法、技术实验，以及一些比较有趣的事情。'
+keyword: '信息安全, 二进制, Pwn'
+# url: 'https://h2o-ac.pages.dev' # your host
+url: 'https://w3b5h3ll.github.io'
 
-# The language of the webpage › http://www.lingoes.net/en/translator/langcode.htm
-# If it has the same name as one of the files in folder `_data/locales`, the layout language will also be changed,
-# otherwise, the layout language will use the default value of 'en'.
-lang: en
+# when build blog on server, if you don't need baseurl, you should leave this value blank.
+# 在服务器上建站时，如果你不需要子域名，请将这一格留空
+# if you're using GitHub Pages, set baseurl to your blog's .
+# 如果你在使用 GitHub Pages, 请将 baseurl 设置为你的网址的子域名
+# for example, if your site is "kaeyleo.github.io", then this url should leave blank.
+# 例如，当你的域名是 "kaeyleo.github.io"  时，这个 url 需要留空
+# but if your created a repo named "myblog", and the site is "kaeyleo.github.io/myblog", change baseurl to '/myblog'
+# 但是，如果你创建了一个叫 "myblog" 的网站，此时网址会变成 "kaeyleo.github.io/myblog" ，这时再将 baseurl 设置为 '/myblog'
+baseurl: ''
 
-# Change to your timezone › https://kevinnovak.github.io/Time-Zone-Picker
-timezone:
+# Internalization 国际化
+languages: ["zh-Hans", "zh-Hant", "en", "ja"]
+default_lang: "zh-Hans"
 
-# jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
-# ↓ --------------------------
-
-title: 空间站 # the main title
-
-tagline: 无限进步 # it will display as the subtitle
-
-description: >- # used by seo meta and the atom feed
-  A minimal, responsive and feature-rich Jekyll theme for technical writing.
-
-# Fill in the protocol & hostname for your site.
-# E.g. 'https://username.github.io', note that it does not end with a '/'.
-url: "https://w3b5h3ll.github.io"
-
+# Github
 github:
-  username: w3b5h3ll # change to your GitHub username
+  enabled: true
+  owner: zhonger
+  repository: jekyll-theme-H2O-ac
 
-twitter:
-  username: w3b5h3ll # change to your Twitter username
-
-social:
-  # Change to your full name.
-  # It will be displayed as the default author of the posts and the copyright owner in the Footer
-  name: 尘埃落定
-  # email: example@domain.com # change to your email address
-  links:
-    # The first element serves as the copyright owner's link
-    - https://twitter.com/w3b5h3ll # change to your Twitter homepage
-    - https://github.com/w3b5h3ll # change to your GitHub homepage
-    # Uncomment below to add more social links
-    # - https://www.facebook.com/username
-    # - https://www.linkedin.com/in/username
-
-# Site Verification Settings
-webmaster_verifications:
-  google: # fill in your Google verification code
-  bing: # fill in your Bing verification code
-  alexa: # fill in your Alexa verification code
-  yandex: # fill in your Yandex verification code
-  baidu: # fill in your Baidu verification code
-  facebook: # fill in your Facebook verification code
-
-# ↑ --------------------------
-# The end of `jekyll-seo-tag` settings
-
-# Web Analytics Settings
-analytics:
-  google:
-    id: # fill in your Google Analytics ID
-  goatcounter:
-    id: # fill in your GoatCounter ID
-  umami:
-    id: # fill in your Umami ID
-    domain: # fill in your Umami domain
-  matomo:
-    id: # fill in your Matomo ID
-    domain: # fill in your Matomo domain
-  cloudflare:
-    id: # fill in your Cloudflare Web Analytics token
-  fathom:
-    id: # fill in your Fathom Site ID
-
-# Page views settings
-pageviews:
-  provider: # now only supports 'goatcounter'
-
-# Prefer color scheme setting.
-#
-# Note: Keep empty will follow the system prefer color by default,
-# and there will be a toggle to switch the theme between dark and light
-# on the bottom left of the sidebar.
-#
-# Available options:
-#
-#     light — Use the light color scheme
-#     dark — Use the dark color scheme
-#
-theme_mode: # [light | dark]
-
-# The CDN endpoint for media resources.
-# Notice that once it is assigned, the CDN url
-# will be added to all media resources (site avatar, posts' images, audio and video files) paths starting with '/'
-#
-# e.g. 'https://cdn.com'
-cdn:
-
-# the avatar on sidebar, support local or CORS resources
-# avatar: 'https://images.unsplash.com/photo-1516663713099-37eb6d60c825?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDEyfHxoZWF2ZW58ZW58MHx8MHx8fDA%3D'
-avatar: 'https://images.unsplash.com/photo-1690111266676-6de8f320cbac?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjc5fHx6ZW58ZW58MHx8MHx8fDA%3D'
-
-# The URL of the site-wide social preview image used in SEO `og:image` meta tag.
-# It can be overridden by a customized `page.image` in front matter.
-social_preview_image: # string, local or CORS resources
-
-# boolean type, the global switch for TOC in posts.
-toc: true
-
-comments:
-  # Global switch for the post-comment system. Keeping it empty means disabled.
-  provider: # [disqus | utterances | giscus]
-  # The provider options are as follows:
-  disqus:
-    shortname: # fill with the Disqus shortname. › https://help.disqus.com/en/articles/1717111-what-s-a-shortname
-  # utterances settings › https://utteranc.es/
-  utterances:
-    repo: # <gh-username>/<repo>
-    issue_term: # < url | pathname | title | ...>
-  # Giscus options › https://giscus.app
-  giscus:
-    repo: # <gh-username>/<repo>
-    repo_id:
-    category:
-    category_id:
-    mapping: # optional, default to 'pathname'
-    strict: # optional, default to '0'
-    input_position: # optional, default to 'bottom'
-    lang: # optional, default to the value of `site.lang`
-    reactions_enabled: # optional, default to the value of `1`
-
-# Self-hosted static assets, optional › https://github.com/cotes2020/chirpy-static-assets
-assets:
-  self_host:
-    enabled: # boolean, keep empty means false
-    # specify the Jekyll environment, empty means both
-    # only works if `assets.self_host.enabled` is 'true'
-    env: # [development | production]
-
-
-future: true
-
-
+# PWA
 pwa:
-  enabled: true # The option for PWA feature (installable)
-  cache:
-    enabled: true # The option for PWA offline cache
-    # Paths defined here will be excluded from the PWA cache.
-    # Usually its value is the `baseurl` of another website that
-    # shares the same domain name as the current website.
-    deny_paths:
-      # - "/example"  # URLs match `<SITE_URL>/example/*` will not be cached by the PWA
+  color: '#81BBFF'
+  short_name: 'lisz'
 
-paginate: 10
+# Navigation links
+nav:
+  home: '/'
+  blog: '/blog/index.html'
+  archives: '/archives.html'
+  tags: '/tags.html'
+  about:   
+    RSS: '/feed.xml'
 
-# The base URL of your site
-baseurl: ""
+# Gray for the whole site 全站灰色
+gray: false
 
-# ------------ The following options are not recommended to be modified ------------------
+# Formats
+# 时间格式（Time format）：0 -- 2022-04-29    1 -- 29 Apr 2022   2 -- 2022年4月29日
+formats:
+  time: 0   
 
+# Favicon
+favicon: "/favicon.ico"
+
+# Footer
+footer:
+  since: 2024
+
+# Author 配置博主信息
+author: 'c0r3dump'
+nickname: 'c0r3dump'
+bio: '信息安全爱好者，热爱System Hacking、IoT Hacking'
+avatar: '/assets/img/profile.webp'
+
+# Search
+search: true
+
+# Night mode
+nightMode: true
+
+# Comments 评论功能
+comments:
+  disqus: false
+  disqus_url: 'https://h2o-ac.disqus.com/embed.js'
+  waline: false
+  waline_url: 'https://h2o-ac-waline.lisz.top/'
+  waline_reaction: false
+  waline_locale: 
+  artalk: false
+  artalk_url: 'https://artalk.lisz.top'
+  artalk_name: 'h2o-ac'
+  artalk_uaBadge: false
+  utterances: false
+  utterances_url: 'https://utteranc.es/client.js'
+  # utterances_repo: 'zhonger/utterances-comments'
+  giscus: false
+  giscus_url: 'https://giscus.app/client.js'
+  # giscus_repo: 'zhonger/giscus-comments'
+  # giscus_repo_id: 'R_kgDONLt80A'
+  # giscus_category_id: 'DIC_kwDONLt80M4CkDnG'
+  giscus_lang: 'zh-CN'
+  twikoo: false
+  twikoo_url: 'https://twikoo.lisz.top'
+  # twikoo_region: 'ap-shanghai'
+  # twikoo_lang: 'zh-CN'
+
+# MathJax 公式支持 by Ray-Eldath
+mathjax: true
+
+# Share
+social-share: true
+social-share-items: ['wechat', 'weibo', 'douban', 'twitter']
+
+# theme color 主题皮肤
+theme-color: 'default'  # pink or default
+
+# Post header background patterns (when the post no cover): circuitBoard, overlappingCircles, food, glamorous, ticTacToe, seaOfClouds
+postPatterns: 'circuitBoard'
+
+# SNS settings 配置社交网站
+# url: email, weibo, zhihu, twitter, instagram, juejin, github, douban, facebook, dribble, uicn, jianshu, medium, linkedin
+sns:
+  # google-scholar: 'https://scholar.google.com/citations?user=AUupIooAAAAJ'
+  # researchgate: 'https://www.researchgate.net/profile/Shengzhou-Li'
+  # ORCID: 'https://orcid.org/0000-0001-6973-3825'
+  # github: 'https://github.com/zhonger'
+  # linkedin: 'https://www.linkedin.com/in/shengzhouli/'
+  # segmentfault: 'https://segmentfault.com/u/wuwozhonger'
+
+# Links 友情链接
+links:
+  # 'Mr Li': 'https://lisz.me'
+
+# Calendar 日历
+calendar: false
+
+# Supports 赞助商
+supports:
+  upyun: 
+  webify: 
+
+# Badges
+badges:
+  netlify: false # Netlify
+  vercel: false # Vercel
+  cloudflare: false # Cloudflare
+  foreverblog: false # Foreverblog
+  wormhole: false # Wormhole
+  travelling: false # Travelling
+  notbyAI: false # NotByAI
+
+# Alive time
+alivetime: true
+alivestart: "01/01/2024"
+
+# Beian 备案号
+# beian: '沪ICP备xxxxxxxx号'
+beian: 'NULL'
+# moe_beian: 'xxxxxxxx'
+
+# CC License
+cclicense: true
+
+# CNZZ Analytics
+# cnzz: 1234567891
+cnzz: 
+
+# Busuanzi Analytics
+busuanzi: true
+#busuanzi_url: https://busuanzi.lisz.top/js 
+
+# Umami Analytics
+umami:
+  status: 
+  id: 
+  js: 
+
+# Shynet Analytics
+shynet: false
+shynet_url: ''
+
+# Plausible Analytics
+plausible: false
+plausible_domain: 'example.com'
+plausible_url: ''
+# plausible_js: ''
+
+# Fathom Analytics
+fathom: false
+fathom_id: ''
+
+# Ackee Analytics
+ackee: false
+ackee_url: ''
+ackee_id: ''
+# ackee_js: ''
+
+# Matomo Analytics
+matomo: false
+matomo_url: ''
+matomo_id: ''
+
+# Google Analytics
+# google_analytics: UA-XXXXXXXXX-X
+google_analytics: 
+
+# Google Search
+google_search: 
+
+# ToS
+tos: /tos.html
+
+# Tags 设置标签
+recommend-tags: true # whether or not display recommend-tags on the sidebar
+recommend-condition-size: 12 # a tag will be recommended if the size of it is more than this value
+
+# Build settings
+pagination:
+  enabled: true
+  per_page: 5
+  permalink: 'page:num/'
+  title: ':title | :num of :max'
+  limit: 0
+  sort_field: 'date'
+  sort_reverse: true
+
+exclude: ['node_modules', 'dev', 'package.json', 'webpack.config.js', '.gitignore', 'README.md', '*.gemspec', '*.gem']
+
+# Markdown
+markdown: kramdown
+highlighter: rouge
 kramdown:
-  footnote_backlink: "&#8617;&#xfe0e;"
-  syntax_highlighter: rouge
-  syntax_highlighter_opts: # Rouge Options › https://github.com/jneen/rouge#full-options
-    css_class: highlight
-    # default_lang: console
-    span:
-      line_numbers: false
-    block:
-      line_numbers: true
-      start_line: 1
+  input: GFM
 
-collections:
-  tabs:
-    output: true
-    sort_by: order
+# Prism settings
+# Support all offical and extended themes
+# Please visit https://prismjs.com and https://github.com/PrismJS/prism-themes/tree/master/themes to check the supported theme names
+prism:
+  theme: one-light
+  line_numbers: true
 
-defaults:
-  - scope:
-      path: "" # An empty string here means all files in the project
-      type: posts
-    values:
-      layout: post
-      comments: true # Enable comments in posts.
-      toc: true # Display TOC column in posts.
-      # DO NOT modify the following parameter unless you are confident enough
-      # to update the code of all other post links in this project.
-      permalink: /posts/:title/
-  - scope:
-      path: _drafts
-    values:
-      comments: false
-  - scope:
-      path: ""
-      type: tabs # see `site.collections`
-    values:
-      layout: page
-      permalink: /:title/
+# RSS
+RSS: true
 
-sass:
-  style: compressed
+# Permalink
+# See: https://github.com/kaeyleo/jekyll-theme-H2O/issues/35
+permalink: /:categories/:title.html
 
-compress_html:
-  clippings: all
-  comments: all
-  endings: all
-  profile: false
-  blanklines: false
-  ignore:
-    envs: [development]
+# Extlinks
+extlinks:
+  attributes: {rel: nofollow, target: _blank, class: extlinks}
+  # rel_exclude: ['host1.com', 'host2.net']
+  # class_exclude: ['host1.com', 'host2.net']
 
-exclude:
-  - "*.gem"
-  - "*.gemspec"
-  - docs
-  - tools
-  - README.md
-  - LICENSE
-  - purgecss.js
-  - rollup.config.js
-  - "package*.json"
+# Mermaid
+mermaid: true
 
-jekyll-archives:
-  # enabled: [categories, tags]
-  enabled: [tags]
-  layouts:
-    # category: category
-    tag: tag
-  permalinks:
-    tag: /tags/:name/
-    # category: /categories/:name/
+# TOC
+toc: true
+# <div class="title">{% if title %} {{title}} {% else %} {{default_title}} {% endif %}</div>
+# premonition
+premonition:
+  default:
+    template: '<div class="premonition {{type}}">
+          <div class="header">
+            <svg class="icon {{type}}" aria-hidden="true">
+                <use xlink:href="#icon-{{type}}"></use>
+            </svg>
+            <div class="title"> {{title}} </div>
+          </div>
+          <div class="content">
+            {{content}}
+          </div>
+        </div>'
+  types:
+    citation:
+      template: '<div class="premonition {{type}}">
+          <div class="header">
+            <svg class="icon {{type}}" aria-hidden="true">
+                <use xlink:href="#icon-{{type}}"></use>
+            </svg>     
+          </div>
+          <div class="content">
+            {{content}}
+          </div>
+          {% if title %}<div class="ref"> ------ {{title}} </div>{% endif %}
+        </div>'
+      default_title: ''
+    note:
+      default_title: 'Note'
+    info:
+      default_title: 'Info'
+    warning:
+      default_title: 'Warning'
+    error:
+      default_title: 'Error'
+
+# Plugins
+plugins: [jekyll-paginate-v2, jekyll-feed, jekyll-sitemap, premonition, h2o-ac-jekyll-extlinks]

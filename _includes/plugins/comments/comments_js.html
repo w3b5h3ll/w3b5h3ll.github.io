@@ -1,0 +1,25 @@
+{% include plugins/comments/disqus.html %}
+{% include plugins/comments/waline_js.html %}
+{% include plugins/comments/artalk_js.html %}
+{% include plugins/comments/giscus_js.html %}
+{% include plugins/comments/twikoo_js.html %}
+<script>
+    $(document).ready(function () {
+        if ($(".comment").length == 3) {
+            var comment_status = $("#cmn-toggle-4")[0].checked;
+            if (comment_status) {
+                $(".comment:last > div").addClass("active");
+            } else {
+                $(".comment:nth-last-child(2) > div").addClass("active");
+            }
+            $("#cmn-toggle-4").click(function () {
+                $(".comment:nth-last-child(2) > div").toggleClass("active");
+                $(".comment:last > div").toggleClass("active");
+            })
+        } else {
+            if ($(".comment").length == 2) {
+                $(".comment:last > div").addClass("active")
+            }
+        }
+    })
+</script>
