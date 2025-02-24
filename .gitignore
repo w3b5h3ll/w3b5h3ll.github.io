@@ -1,14 +1,33 @@
+# System files
 .DS_Store
 */.DS_Store
 
-node_modules
+# NPM dependencies
+node_modules/
 package-lock.json
+
+# Ruby/Bundler files
 Gemfile.lock
-.jekyll-cache
-
-_site
-
 *.gem
+.bundle/
+vendor/
 
-dist
+# Jekyll files
+.jekyll-cache/
+.jekyll-metadata
+_site/
+
+# Build directories
+dist/
+_sass/vendors/
+assets/js/dist/
+
+# Tools directory
 tools/
+
+# IDE configurations
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/tasks.json
