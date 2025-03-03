@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&family=Noto+Sans+SC&display=swap');
+$fonts: 'Roboto', 'Noto Sans SC', sans-serif !important;
+
 :root {
     --bg-color: #f1f1f1;
     --bg-color-cv: #ffffff;
@@ -5,14 +8,16 @@
     --fg-color-dark: #023b5b;
     --fg-color-body: #5e6369;
     --fg-color-title-sm: #688293;
+
     &[data-theme='dark'] {
         --bg-color: #28343b;
         --bg-color-cv: #1b262c;
         --fg-color: #3282b8;
         --fg-color-dark: #3282b8;
-        --fg-color-body: rgba(187,225,250,0.75);
+        --fg-color-body: rgba(187, 225, 250, 0.75);
         --fg-color-title-sm: #688293
     }
+
     &[data-font='normal'] body {
         font-family: 'Times New Roman', Times, serif;
     }
@@ -20,9 +25,10 @@
 
 body {
     background-color: var(--bg-color);
-    font-family: "LXGW WenKai Screen", -apple-system, Verdana, "PingFang SC", "Helvetica Neue", "Arial", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+    // font-family: "LXGW WenKai Screen", -apple-system, Verdana, "PingFang SC", "Helvetica Neue", "Arial", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+    font-family: $fonts;
     line-height: 1.5;
-    text-align: justify;    
+    text-align: justify;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -38,34 +44,41 @@ body {
     padding: 30px;
     margin-top: 30px;
     margin-bottom: 30px;
+
     header {
         width: 90%;
         margin: 0 auto;
         display: flex;
         justify-content: space-between;
         align-items: center;
+
         .title {
             color: var(--fg-color-dark);
             font-weight: bolder;
             text-transform: uppercase;
         }
+
         .motivation {
             color: var(--fg-color-body);
             font-size: 18px;
+
             .mtitle {
                 font-weight: 700;
             }
         }
+
         .labels {
             width: 80px;
             display: flex;
             text-align: center;
             margin-bottom: -7px;
+
             input[type="checkbox"] {
                 width: 0;
                 height: 0;
                 display: none;
             }
+
             label {
                 cursor: pointer;
                 color: var(--fg-color-dark);
@@ -84,26 +97,35 @@ body {
 
     .sidebar {
         margin-top: 20px;
+
         .photo {
             img {
                 width: 121px;
             }
         }
-        .contact, .languages, .education, .skills {
+
+        .contact,
+        .languages,
+        .education,
+        .skills {
             margin-bottom: 20px;
+
             .title {
                 font-size: 16px;
                 font-weight: 700;
                 color: var(--fg-color);
-            }      
+            }
+
             .contact-item {
                 display: flex;
                 align-items: center;
+
                 svg {
                     width: 18px;
                     display: inline-block;
                     color: var(--fg-color);
                 }
+
                 a {
                     text-decoration: none;
                     padding-top: 4px;
@@ -111,35 +133,46 @@ body {
                     color: var(--fg-color-body);
                     font-size: 14px;
                 }
-            } 
+            }
+
             .idiom {
                 color: var(--fg-color-body);
                 font-size: 14px;
             }
+
             .education-item {
                 margin-bottom: 15px;
+
                 .degree {
                     color: var(--fg-color-body);
                     font-size: 14px;
                     font-weight: bold;
                 }
-                .university, .time {
+
+                .university,
+                .time {
                     color: var(--fg-color-body);
                     font-size: 14px;
                 }
             }
+
             .skill {
                 color: var(--fg-color-body);
                 font-size: 14px;
             }
         }
+
         .skills {
             .title {
                 margin-top: 20px;
             }
         }
     }
-    .experience, .honors, .publications, .introduction {
+
+    .experience,
+    .honors,
+    .publications,
+    .introduction {
         .title {
             color: var(--fg-color);
             font-size: 18px;
@@ -148,57 +181,71 @@ body {
             margin-top: 20px;
             display: flex;
             flex-direction: row;
-            &::before, &::after {
+
+            &::before,
+            &::after {
                 content: "";
                 flex: 1 1;
                 border-bottom: 1px solid;
                 margin: auto;
             }
+
             &::before {
                 margin-right: 10px;
             }
+
             &::after {
                 margin-left: 10px;
             }
         }
+
         .experience-item {
             .role {
                 font-size: 16px;
                 font-weight: 700;
                 color: var(--fg-color);
             }
+
             .company {
                 color: var(--fg-color-body);
                 font-size: 14px;
                 font-weight: bold;
+
                 .time {
                     float: right;
                     color: var(--fg-color-title-sm);
                     font-weight: 100;
                 }
             }
-            .details, .technologies {
+
+            .details,
+            .technologies {
                 color: var(--fg-color-body);
                 font-size: 14px;
             }
         }
+
         .honor-items {
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
+
             .honor {
                 color: var(--fg-color-body);
                 font-size: 14px;
             }
         }
+
         .publications-item {
             list-style: none;
             counter-reset: my-awesome-counter;
             padding-left: 0px;
             margin-top: 0px;
+
             li {
                 counter-increment: my-awesome-counter;
+
                 &::before {
                     content: counter(my-awesome-counter);
                     background-color: var(--fg-color);
@@ -213,16 +260,20 @@ body {
                     font-size: 12px;
                 }
             }
+
             .publication {
                 color: var(--fg-color-body);
                 font-size: 12px;
             }
         }
+
         .content {
             color: var(--fg-color-body);
             font-size: 14px;
+
             .ititle {
                 font-weight: 700;
+
                 &::after {
                     content: "：";
                 }
@@ -231,65 +282,82 @@ body {
     }
 }
 
-@media print{
+@media print {
     @page {
         size: A4;
     }
+
     body {
         background-color: var(--bg-color-cv);
     }
+
     .container {
-		margin: 0;
-		padding: 0;
-		box-shadow: none;
-		background-color: #ffffff;
-		width: 1000px;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+        background-color: #ffffff;
+        width: 1000px;
+
         &:first-child {
             page-break-after: always;
         }
+
         .container-block {
             padding: 0
         }
+
         header {
             .labels {
                 display: none;
             }
         }
-        
+
     }
 }
 
 @media screen and (max-width: 1024px) {
-	body {
-		background-color: var(--bg-color-cv);
-	}
-	.container {
-		box-shadow: none;
+    body {
+        background-color: var(--bg-color-cv);
+    }
+
+    .container {
+        box-shadow: none;
+
         .container-block {
             display: block;
+
             sidebar div {
                 text-align: left;
             }
         }
-        
-	}
+
+    }
 }
 
 @media screen and (max-width: 768px) {
-	.container {
+    .container {
         header {
             display: block;
+
             .title {
                 margin: 0 auto;
             }
+
             .motivation {
                 text-align: left;
             }
         }
+
         .container-block {
-            p, li, .honor, .role, .details, .content {
+
+            p,
+            li,
+            .honor,
+            .role,
+            .details,
+            .content {
                 text-align: left;
             }
         }
-	}	
+    }
 }

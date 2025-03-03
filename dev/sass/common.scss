@@ -7,6 +7,9 @@
 @import 'theme';
 @import 'night';
 
+@import url('https://fonts.googleapis.com/css2?family=Roboto&family=Noto+Sans+SC&display=swap');
+$fonts: 'Roboto', 'Noto Sans SC', sans-serif !important;
+
 .g-container {
     width: $g-container-w;
     display: flex;
@@ -149,6 +152,7 @@ a {
 }
 
 .g-sidebar-wrapper {
+    font-family: $fonts;
     width: 300px;
     position: sticky;
     top: 100px;

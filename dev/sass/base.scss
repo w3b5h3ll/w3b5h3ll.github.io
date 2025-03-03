@@ -1,10 +1,13 @@
 /*** Base ***/
+@import url('https://fonts.googleapis.com/css2?family=Roboto&family=Noto+Sans+SC&display=swap');
+$fonts: 'Roboto', 'Noto Sans SC', sans-serif !important;
 html, body {
     height: 100%;
 }
 html, body, div, span, h1, h2, h3, h4, h5, h6, p, ol, ul, li, textarea, 
 form, label, legend, table, caption, menu, nav, section, summary, 
 time, mark, audio, video, iframe, main, header, footer {
+    font-family: $fonts;
     padding: 0;
     margin: 0;
     border: 0;
@@ -12,6 +15,7 @@ time, mark, audio, video, iframe, main, header, footer {
 }
 body {
     font-family: $fonts;
+    // font-family: 'Roboto', 'Noto Sans SC', sans-serif !default;
     color: $color-f-secondary;
     -webkit-font-smoothing: antialiased;
     background-color: $color-bg;

@@ -3,6 +3,7 @@
 <html lang="{{ lang }}">
     {% include layouts/head.html %}
     {% if site.prism.line_numbers %}
+    <link rel="stylesheet" href="{{ "/assets/css/prism-line-numbers.min.css" | prepend: site.baseurl }}">
     <body class="line-numbers" ontouchstart="">
     {% else %}
     <body ontouchstart="">

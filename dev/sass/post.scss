@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&family=Noto+Sans+SC&display=swap');
+$fonts: 'Roboto', 'Noto Sans SC', sans-serif !important;
+
 .post-no-cover {
     height: 360px;
 
@@ -101,6 +104,7 @@
 }
 
 .post-wrapper {
+    font-family: $fonts;
     width: $post-content-w;
 }
 

@@ -55,7 +55,9 @@
     <link rel="bookmark" href="{{ site.favicon | prepend: site.baseurl }}" type="image/x-icon" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.min.css" async>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont/style.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css/github-markdown-light.min.css">
+    <link rel="stylesheet" href="{{ "/assets/css/app.min.css" | prepend: site.baseurl }}">
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css/github-markdown-light.min.css"> -->
+    <link rel="stylesheet" href="{{ "/assets/css/github-markdown-light.min.css" | prepend: site.baseurl }}">
     {% if layout.type == "post" %}
     {% include plugins/others/social_css.html%}
     {% include plugins/markdown/fancybox_css.html %}

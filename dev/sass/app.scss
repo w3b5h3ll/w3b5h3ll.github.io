@@ -2,8 +2,17 @@
  * Jekyll Theme Style
  * - author: liaokeyu (liaokeyu.com)
  */
+
+// @import url('https://fonts.googleapis.com/css2?family=Roboto&family=Noto+Sans+SC&display=swap');
+// $fonts: 'Roboto', 'Noto Sans SC', sans-serif !important;
 @import 'helper';
 @import 'base';
 @import 'common';
 @import 'premonition';
 @import 'layouts';
+
+// @use 'helper';
+// @use 'base';
+// @use 'common';
+// @use 'premonition';
+// @use 'layouts';

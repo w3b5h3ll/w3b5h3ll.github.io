@@ -3,7 +3,6 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
-    mode: 'development', // 或 'production'
     entry: {
         app: "./dev/app.js",
         cv: "./dev/cv.js",
@@ -30,13 +29,15 @@ module.exports = {
         }),
         new CopyPlugin({
             patterns: [
-                { from: "dist/*.min.css", to: "../assets/css/[name][ext]" },
-                { from: "dist/*.min.css.map", to: "../assets/css/[name][ext]" },
-                { from: "dist/*.min.js", to: "../assets/js/[name][ext]" },
-                { from: "dist/*.min.js.map", to: "../assets/js/[name][ext]" },
+              { from: "dist/app.min.css", to: "../assets/css/app.min.css" },
+              { from: "dist/app.min.css.map", to: "../assets/css/app.min.css.map" },
+              { from: "dist/cv.min.css", to: "../assets/css/cv.min.css" },
+              { from: "dist/cv.min.css.map", to: "../assets/css/cv.min.css.map" },
+              { from: "dist/app.min.js", to: "../assets/js/app.min.js" },
+              { from: "dist/app.min.js.map", to: "../assets/js/app.min.js.map" },
             ],
             options: {
-                concurrency: 100,
+              concurrency: 100,
             },
         }),
     ],

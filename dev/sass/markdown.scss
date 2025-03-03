@@ -1,6 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&family=Noto+Sans+SC&display=swap');
+$fonts: 'Roboto', 'Noto Sans SC', sans-serif !important;
 // Post style
 .markdown-body {
     font-family: $fonts;
+    // font-family: 'Roboto', 'Noto Sans SC', sans-serif !default;
     width: 100%;
     box-sizing: border-box;
     padding: 0 0 32px;

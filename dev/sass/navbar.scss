@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&family=Noto+Sans+SC&display=swap');
+$fonts: 'Roboto', 'Noto Sans SC', sans-serif !important;
+
 .g-header {
     position: fixed;
     top: 0;
@@ -41,16 +44,20 @@
         line-height: 44px;
         justify-content: center;
         align-items: center;
-        #search-toggle, #random-toggle {
+
+        #search-toggle,
+        #random-toggle {
             width: 44px;
             height: 44px;
             justify-content: center;
             align-items: center;
             display: none;
         }
+
         .DocSearch-Button {
-            margin: 0px!important;
+            margin: 0px !important;
         }
+
         .icon-menu {
             display: none;
             position: absolute;
@@ -59,7 +66,7 @@
             color: #fff;
             opacity: .8;
             border-radius: 3px;
-    
+
             &:active {
                 background-color: rgba(255, 255, 255, .2);
             }

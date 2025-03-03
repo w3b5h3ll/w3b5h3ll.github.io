@@ -5,12 +5,12 @@
 {% if prisms1 contains site.prism.theme %}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-{{site.prism.theme}}.min.css" />
 {% else if prisms2 contains site.prism.theme %}
-<link rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/prism-themes/themes/prism-{{site.prism.theme}}.min.css" />
+<!-- <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/prism-themes/themes/prism-{{site.prism.theme}}.min.css" /> -->
+<link rel="stylesheet" href="/assets/css/prism-one-light.min.css" />
 {% else %}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism.min.css" />
 {% endif %}
 {% if site.prism.line_numbers %}
-<link rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/prismjs/plugins/line-numbers/prism-line-numbers.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs/plugins/line-numbers/prism-line-numbers.min.css">
 {% endif %}
