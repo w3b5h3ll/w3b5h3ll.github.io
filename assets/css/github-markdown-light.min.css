@@ -261,7 +261,8 @@
 .markdown-body kbd {
     display: inline-block;
     padding: .25rem;
-    font: 11px ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+    /* font: 11px ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace; */
+    font: 11px "Fira Code", 'Noto Sans SC', sans-serif !important;
     line-height: 10px;
     color: #1f2328;
     vertical-align: middle;
@@ -350,14 +351,16 @@
 .markdown-body code,
 .markdown-body samp,
 .markdown-body tt {
-    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
-    font-size: 12px
+    /* font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace; */
+    font-size: 12px;
+    font-family: "Fira Code", 'Noto Sans SC', sans-serif !important;
 }
 
 .markdown-body pre {
     margin-top: 0;
     margin-bottom: 0;
-    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+    /* font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace; */
+    font-family: "Fira Code", 'Noto Sans SC', sans-serif !important;
     font-size: 12px;
     word-wrap: normal
 }
@@ -737,6 +740,7 @@
 
 .markdown-body .highlight {
     font-family: "Fira Code", 'Noto Sans SC', sans-serif !important;
+    /* font-family: "Fira Code" !important; */
     margin-bottom: 1rem
 }
 
@@ -748,6 +752,7 @@
 .markdown-body .highlight pre,
 .markdown-body pre {
     font-family: "Fira Code", 'Noto Sans SC', sans-serif !important;
+    /* font-family: "Fira Code" !important; */
     padding: 1rem;
     overflow: auto;
     font-size: 85%;

@@ -6,6 +6,7 @@ pre[class*=language-] {
     background: #f9f9f9;
     color: #383942;
     /* font-family: "Fira Code", "Fira Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace; */
+    /* font-family: "Fira Code" !important; */
     font-family: "Fira Code", 'Noto Sans SC', sans-serif !important;
 
     direction: ltr;
@@ -21,6 +22,13 @@ pre[class*=language-] {
     -moz-hyphens: none;
     -ms-hyphens: none;
     hyphens: none
+}
+
+/* 避免 span 覆盖样式 */
+pre[class*=language-] code[class*=language-] span {
+    /* font-family: inherit; */
+    font-family: "Fira Code", 'Noto Sans SC', sans-serif !important;
+    /* 继承父元素的字体 */
 }
 
 code[class*=language-] ::-moz-selection,
