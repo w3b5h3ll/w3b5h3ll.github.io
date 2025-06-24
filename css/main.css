@@ -766,13 +766,13 @@ sup > a::before,
   padding: 3rem 0;
 }
 html {
-  font-size: 16px;
+  font-size: 14.875px;
   letter-spacing: 0.02em;
 }
 html,
 body {
   height: 100%;
-  font-family: Roboto, "Noto Sans SC" !important;
+  font-family: Oswald, sans-serif, Noto Sans SC !important;
   overflow-wrap: break-word;
 }
 body {
@@ -1393,7 +1393,7 @@ figure.highlight td.code > pre {
 .markdown-body {
   font-size: 1rem;
   line-height: 1.6;
-  font-family: Roboto, "Noto Sans SC" !important;
+  font-family: Oswald, sans-serif, Noto Sans SC !important;
   margin-bottom: 2rem;
   color: var(--post-text-color);
 }
